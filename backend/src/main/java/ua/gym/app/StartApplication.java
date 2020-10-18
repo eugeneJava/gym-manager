@@ -13,13 +13,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan({"ua.gym.domain"})
 @SpringBootApplication
 public class StartApplication implements CommandLineRunner {
-    public StartApplication() {
-    }
+   public static void main(String[] args) {
+      (new SpringApplicationBuilder(new Class[]{StartApplication.class})).web(WebApplicationType.SERVLET).run(args);
+   }
 
-    public static void main(String[] args) {
-        (new SpringApplicationBuilder(new Class[]{StartApplication.class})).web(WebApplicationType.SERVLET).run(args);
-    }
-
-    public void run(String... args) {
-    }
+   public void run(String... args) {
+   }
 }
