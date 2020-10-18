@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-10">
+    <app-product-sales-daily-list
+      *ngFor="let product of products"
+      [product]="product"
+      [productItems]="productItems.get(product.name)"
+      (deleteProductEvent)="deleteProduct($event)"
+      (markPaidEvent)="markPaid($event)">
+    </app-product-sales-daily-list>
+  </div>
+
+  <div class="col-2">
+    <add-product-item *ngFor="let product of products"
+                      [product]="product"
+                      (addProductEvent)="addProduct($event)">
+    </add-product-item>
+  </div>
+</div>

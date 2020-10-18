@@ -1,0 +1,26 @@
+.product-card {
+  margin-top: 10px;
+  background: #fff4fb;
+}
+
+.product-item {
+  padding-left: 5px;
+}
+
+.product-sale-info {
+  padding-top: 4px;
+}
+
+.table-item {
+  text-align: center;
+}
+
+.table-number {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.creation-time {
+  font-size: 12px;
+  font-weight: bold;
+}

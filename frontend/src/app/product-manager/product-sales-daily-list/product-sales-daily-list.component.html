@@ -1,0 +1,52 @@
+<div class="product-card">
+  <!--  <div class="product-list-container">
+      <span *ngFor="let productItem of productItems" class="product-item" >
+        <product-item-sale
+          [productItem]="productItem"
+          (markPaidEvent)="markPaid(productItem)"
+          (deleteProductEvent)="deleteProduct($event)">
+        </product-item-sale>
+      </span>
+    </div>-->
+
+  <table>
+    <tbody>
+    <tr>
+      <td>Товар</td>
+      <td *ngFor="let productItem of productItems" class="product-item table-item">
+        <span >
+      <product-item-sale
+        [productItem]="productItem"
+        (markPaidEvent)="markPaid(productItem)"
+        (deleteProductEvent)="deleteProduct($event)">
+      </product-item-sale>
+    </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Стол</td>
+      <td *ngFor="let productItem of productItems" class="product-item table-item table-number">
+             <span>
+     {{productItem.tableNumber}}
+    </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Время</td>
+      <td *ngFor="let productItem of productItems" class="product-item table-item creation-time">
+             <span>
+               {{productItem.createDate | date: 'hh:mm'}}
+    </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="product-sale-info">
+    Цена: {{product.price}}  Количество: {{productItems.length}}  Общая стоимость: {{productItems.length * product.price}} грн
+  </div>
+</div>
+
+

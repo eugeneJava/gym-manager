@@ -1,0 +1,39 @@
+<!--<div>-->
+<!--<button type="button"
+        class="btn btn-outline-secondary mr-2 product-item-sale"
+        [ngbPopover]="editProductTemplate"
+        [autoClose]="false"
+        (click)="openPopover()"
+        triggers="manual"
+        [autoClose]="'outside'"
+        #popover="ngbPopover"
+        [ngClass]="{'item-paid': productItem.paid, 'item-not-paid' : !productItem.paid }">-->
+
+  <fa-icon [icon]="productItem.product.faIcon" size="lg" [ngbPopover]="editProductTemplate"
+           [autoClose]="false"
+           (click)="openPopover()"
+           triggers="manual"
+           [autoClose]="'outside'"
+           #popover="ngbPopover"
+           [ngClass]="{'item-paid': productItem.paid, 'item-not-paid' : !productItem.paid }" ></fa-icon>
+<!--</button>-->
+<!--</div>-->
+<!--<div class="table-number">
+  {{productItem.tableNumber}}
+</div>-->
+
+  <ng-template #editProductTemplate>
+    <div class="row" *ngIf="!productItem.paid">
+      <div class="col">
+            <button type="radio" class="btn btn-success" (click)="markPaid()">Оплачено</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="button" class="btn btn-link delete-button" (click)="deleteProduct(productItem.id)">
+          Удалить
+        </button>
+      </div>
+    </div>
+  </ng-template>

@@ -1,0 +1,49 @@
+<div class="panel">
+  <h2 class="pb-2">Добавить клиента </h2>
+  <form [formGroup]="form">
+    <div class="form-group">
+      <label for="comment">Телефон</label>
+      <input
+        type="text"
+        formControlName="phone" class="form-control form-control-lg"
+        [class.is-invalid]="isInvalid(phone)">
+
+      <span *ngIf="phone.dirty && hasError(phone, 'invalidFormat')" class="text-danger">Телефон должен состоять из кода +380 и 9-ти цифр</span>
+      <span *ngIf="phone.dirty && hasError(phone, 'phoneExists')"
+            class="text-danger">Клиент с таким именем уже существует</span>
+    </div>
+
+    <div class="form-group">
+      <label for="comment">Имя</label>
+      <input
+        type="text"
+        formControlName="name"
+        [ngbTypeahead]="search"
+        class="form-control form-control-lg"
+        [class.is-invalid]="isInvalid(name)">
+
+      <span *ngIf="isInvalid(name)" class="text-danger">Имя обязательно</span>
+    </div>
+
+
+    <div class="form-group">
+      <label for="comment">Комментарий</label>
+
+      <input
+        id="comment"
+        type="text"
+        formControlName="secondName" class="form-control form-control-lg">
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="button" class="btn btn-link" (click)="clear()">
+          Очистить
+        </button>
+        <button type="button" class="btn btn-success add-button" (click)="addClient()">
+          Добавить
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,19 @@
+<button type="button"
+        class="btn btn-outline-secondary mr-2 product-button"
+        (click)="openPopover()"
+        [ngbPopover]="addProductTemplate"
+        triggers="manual"
+        #popover="ngbPopover"
+        [autoClose]="'outside'"
+        ngbTooltip="AAAAAAAA"
+        popoverClass="add-product-popover-class"
+>
+  <fa-icon [icon]="product.faIcon" size="3x"></fa-icon>
+</button>
+
+<ng-template #addProductTemplate>
+   <add-product-popover
+      [product]="product"
+      (addProductEvent)="addProduct($event)">
+   </add-product-popover>
+</ng-template>

@@ -1,0 +1,20 @@
+  <div class="row panel">
+    <div class="col">
+      <input
+        type="text"
+        [(ngModel)]="client"
+        [ngbTypeahead]="search"
+        [editable]='false'
+        [resultTemplate]="clientItem"
+        [inputFormatter]="formatter"
+        class="form-control">
+    </div>
+
+    <div class="col"><pre>Model: {{ client | json }}</pre></div>
+
+  </div>
+
+  <ng-template #clientItem let-r="result" let-t="term">
+    <ngb-highlight [result]="r.name + ' ' + r.secondName" [term]="t"></ngb-highlight>
+    <div>{{r.phone}}</div>
+  </ng-template>

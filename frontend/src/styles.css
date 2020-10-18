@@ -1,0 +1,12 @@
+.panel {
+  padding: 5px;
+
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+.popover { max-width: 700px !important;}
