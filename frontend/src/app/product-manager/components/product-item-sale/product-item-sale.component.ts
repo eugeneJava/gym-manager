@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
-import {Product, ProductItem} from "../../model/app.models";
+import {ProductItem} from "../../../model/app.models";
 
 @Component({
   selector: 'product-item-sale',

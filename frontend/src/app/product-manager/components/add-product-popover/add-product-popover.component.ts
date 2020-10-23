@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Product, ProductItem} from "../../model/app.models";
+import {Product, ProductItem} from "../../../model/app.models";
 
 @Component({
   selector: 'add-product-popover',

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Product, ProductItem} from "../../model/app.models";
+import {Product, ProductItem} from "../../../model/app.models";
 import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({

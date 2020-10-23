@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Product, ProductItem} from '../model/app.models';
-import {ProductItemService} from "./services/product-item.service";
-import {ProductService} from "./services/product-service.service";
+import {ProductItemService} from "../services/product-item.service";
+import {ProductService} from "../services/product-service.service";
 import {mergeMap, tap} from "rxjs/operators";
+import {Product, ProductItem} from "../../model/app.models";
 
 @Component({
   selector: 'product-manager',

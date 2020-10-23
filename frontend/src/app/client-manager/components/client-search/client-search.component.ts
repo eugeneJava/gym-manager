@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
-import {ClientService} from "../client-add/services/client.service";
+import {ClientService} from "../services/client.service";
 import {iif, Observable, of} from "rxjs";
 import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {Client} from "../../model/app.models";
+import {Client} from "../../../model/app.models";
 
 @Component({
   selector: 'client-search',

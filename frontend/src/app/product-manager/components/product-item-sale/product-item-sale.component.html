@@ -10,7 +10,6 @@
         [ngClass]="{'item-paid': productItem.paid, 'item-not-paid' : !productItem.paid }">-->
 
   <fa-icon [icon]="productItem.product.faIcon" size="lg" [ngbPopover]="editProductTemplate"
-           [autoClose]="false"
            (click)="openPopover()"
            triggers="manual"
            [autoClose]="'outside'"

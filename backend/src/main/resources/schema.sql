@@ -40,7 +40,7 @@ INSERT INTO Product(id, `name`, `description`, price, active, faIcon, orderIndex
 CREATE TABLE IF NOT EXISTS ProductItem (
     id VARCHAR(36) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
-    tableNumber INT NULL,
+    tableNumber INT NOT NULL,
     paid BOOLEAN NOT NULL DEFAULT FALSE,
     product_id VARCHAR(36) NOT NULL,
     updateDate DATETIME NOT NULL,

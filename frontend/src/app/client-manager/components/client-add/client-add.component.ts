@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ClientService} from './services/client.service';
-import {Client} from '../../model/app.models';
-import {NameService} from './services/name.service';
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ClientService} from '../services/client.service';
+import {Client} from '../../../model/app.models';
+import {NameService} from '../services/name.service';
 import {iif, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, skipWhile, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {ToastrService} from "ngx-toastr";
 
 @Component({
