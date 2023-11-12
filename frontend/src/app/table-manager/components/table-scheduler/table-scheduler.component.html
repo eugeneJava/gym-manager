@@ -1,0 +1,30 @@
+<tr>
+  <td>
+    <button id="start" (click)="startSession()">
+      Start timer
+    </button>
+
+    <button id="stop" (click)="stop()">
+      Stop timer
+    </button>
+
+    <button id="add" (click)="addTime()">
+      Add time
+    </button>
+
+    <button id="move" (click)="moveToAnotherTable()">
+      Переместить
+    </button>
+  </td>
+  <td>{{playSession?.startTime | date:'HH:mm'}}</td>
+  <td>{{playSession?.endTime | date: 'HH:mm'}}</td>
+  <td>{{playSession?.duration | time}}</td>
+  <td>{{playSession?.elapsedTime | time}}</td>
+  <td>{{remainedTime | time}}</td>
+  <td>{{totalMoney}}</td>
+  <td>{{paidMoney}}</td>
+  <td>{{needToPay}}</td>
+  <td>{{spentMoney | money}}</td>
+  <td>{{playSession?.status}}</td>
+</tr>
+

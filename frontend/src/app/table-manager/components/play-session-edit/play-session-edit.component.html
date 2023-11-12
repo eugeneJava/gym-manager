@@ -1,0 +1,86 @@
+<div class="panel">
+  <h2 class="pb-2">Назначить время</h2>
+  <form [formGroup]="form">
+
+    <div class="row">
+      <div class="col">
+        Стол: {{table?.number}}
+      </div>
+    </div>
+
+    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="tableNumber">
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="1"> 1
+      </label>
+
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="2"> 2
+      </label>
+
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="3"> 3
+      </label>
+
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="4"> 4
+      </label>
+
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="5"> 5
+      </label>
+
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="6"> 6
+      </label>
+    </div>
+
+    <div class="row">
+      <div class="col">
+ <!--       <app-client-search
+          (clientSelected)="handleClientSelected($event)">
+        </app-client-search>-->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+          <div *ngFor="let client of clients.value">
+              {{client.name}}
+          </div>
+      </div>
+    </div>
+
+    <app-duration-picker
+      [times]="times"
+      [initialDuration]="Times.ONE_HOUR"
+      [duration]="duration">
+    </app-duration-picker>
+
+    <div class="row">
+      <div class="col-6">
+        Тариф:  <input type="number" formControlName="rate">
+      </div>
+      <div class="col-6">
+        Оплачено:  <input type="checkbox" formControlName="paid">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        К оплате:  {{getTotalPayment()}}
+        К оплате:  {{getTotalPaymentFormatted()}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="button" class="btn btn-link" (click)="cancel()">
+          Очистить
+        </button>
+        <button type="button" class="btn btn-success add-button" (click)="save()">
+          Добавить
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

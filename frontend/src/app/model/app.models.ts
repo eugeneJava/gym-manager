@@ -1,3 +1,5 @@
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
+
 export class ProductItem {
   id: string;
   price: number
@@ -13,7 +15,7 @@ export class Product {
   description: string;
   price: number;
   active: boolean;
-  faIcon: string;
+  faIcon: IconProp;
 }
 
 export class Client {

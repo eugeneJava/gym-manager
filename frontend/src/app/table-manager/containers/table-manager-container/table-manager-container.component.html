@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Начало сеанса</th>
+    <th scope="col">Конец сеанса</th>
+    <th scope="col">Длительность</th>
+    <th scope="col">Прошло времени</th>
+    <th scope="col">Oсталось времени</th>
+    <th scope="col">Общая сумма</th>
+    <th scope="col">Оплачено</th>
+    <th scope="col">Доплатить</th>
+    <th scope="col">Потраченно</th>
+    <th scope="col">Статус</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let table of tables">
+    <app-table-scheduler
+      [table]="table" class="table-row"
+      (sessionCreated)="handleTableSessionCreated($event)"
+      (timeAdded)="handleTimeAdded($event)">
+    </app-table-scheduler>
+  </ng-container>
+  </tbody>
+</table>
+
+
+

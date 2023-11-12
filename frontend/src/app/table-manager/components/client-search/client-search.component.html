@@ -1,0 +1,17 @@
+  <div class="row panel">
+    <div class="col">
+      <input
+        type="text"
+        [ngbTypeahead]="search"
+        [editable]='false'
+        [resultTemplate]="clientItem"
+        [inputFormatter]="formatter"
+        (selectItem)="handleSelectedClient($event)"
+        class="form-control">
+    </div>
+  </div>
+
+  <ng-template #clientItem let-r="result" let-t="term">
+    <ngb-highlight [result]="r.name + ' ' + r.nick" [term]="t"></ngb-highlight>
+    <div>{{r.phone}}</div>
+  </ng-template>
