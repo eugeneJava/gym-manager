@@ -8,29 +8,29 @@
       </div>
     </div>
 
-    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="tableNumber">
-      <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" [value]="1"> 1
+    <div class="btn-group btn-group-toggle" >
+      <label  class="btn-primary">
+        <input type="radio" [formControl]="tableNumber" [value]="1"> 1
       </label>
 
-      <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" [value]="2"> 2
+      <label  class="btn-primary">
+        <input type="radio" [formControl]="tableNumber" [value]="2"> 2
       </label>
 
-      <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" [value]="3"> 3
+      <label  class="btn-primary">
+        <input type="radio" [formControl]="tableNumber" [value]="3"> 3
       </label>
 
-      <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" [value]="4"> 4
+      <label  class="btn-primary">
+        <input type="radio" [formControl]="tableNumber" [value]="4"> 4
       </label>
 
-      <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" [value]="5"> 5
+      <label  class="btn-primary">
+        <input type="radio" [formControl]="tableNumber" [value]="5"> 5
       </label>
 
-      <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" [value]="6"> 6
+      <label  class="btn-primary">
+        <input type="radio" [formControl]="tableNumber" [value]="6"> 6
       </label>
     </div>
 
@@ -58,7 +58,7 @@
 
     <div class="row">
       <div class="col-6">
-        Тариф:  <input type="number" formControlName="rate">
+        Оплачено:  <input type="number" formControlName="paidAmount">
       </div>
       <div class="col-6">
         Оплачено:  <input type="checkbox" formControlName="paid">

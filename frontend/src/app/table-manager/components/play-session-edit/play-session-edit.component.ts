@@ -4,7 +4,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TableService} from '../../services/table.service';
 import {MoneyUtils} from '../../services/MoneyUtils';
 import {Times} from '../../services/Times';
-import {Client, PlaySession, Status, Table, Time} from '../../model/model';
+import {Client, TableSession, Status, Table, Time} from '../../model/model';
 import {DateUtils} from '../../services/DateUtils';
 
 @Component({
@@ -13,7 +13,7 @@ import {DateUtils} from '../../services/DateUtils';
   styleUrls: ['./play-session-edit.component.scss']
 })
 export class PlaySessionEditComponent implements OnInit {
-  @Input() public playSession: PlaySession;
+  @Input() public playSession: TableSession;
   @Input() public table: Table;
   public form: FormGroup;
   public tables: Table[];
@@ -33,6 +33,7 @@ export class PlaySessionEditComponent implements OnInit {
       duration: null,
       status: [Status.RUNNING],
       paid: false,
+      paidAmount: null,
       tableNumber: null,
       rate: null,
       clients: this.fb.array([]),
@@ -56,6 +57,7 @@ export class PlaySessionEditComponent implements OnInit {
       if (this.tables) {
         const selectedTable : Table = this.tables.find(table => table.number === tableNumber);
         this.rate.setValue(selectedTable.rate);
+        this.paidAmount.setValue(this.getTotalPayment());
       }
     });
   }
@@ -70,6 +72,10 @@ export class PlaySessionEditComponent implements OnInit {
 
   public get tableNumber(): FormControl {
     return this.form.get('tableNumber') as FormControl;
+  }
+
+  public get paidAmount(): FormControl {
+    return this.form.get('paidAmount') as FormControl;
   }
 
   public get clients(): FormArray {
@@ -89,7 +95,7 @@ export class PlaySessionEditComponent implements OnInit {
   }
 
   public save(): void {
-    const playSession : PlaySession = this.form.value as PlaySession;
+    const playSession : TableSession = this.form.value as TableSession;
     this.activeModal.close(playSession);
   }
 

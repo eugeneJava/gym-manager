@@ -4,7 +4,7 @@
       Start timer
     </button>
 
-    <button id="stop" (click)="stop()">
+    <button id="stop" (click)="closeSession()">
       Stop timer
     </button>
 
@@ -16,15 +16,15 @@
       Переместить
     </button>
   </td>
-  <td>{{playSession?.startTime | date:'HH:mm'}}</td>
-  <td>{{playSession?.endTime | date: 'HH:mm'}}</td>
-  <td>{{playSession?.duration | time}}</td>
-  <td>{{playSession?.elapsedTime | time}}</td>
+  <td>{{tableSession?.startDate}}</td>
+  <td>{{tableSession?.endDate}}</td>
+  <td>{{tableSession?.duration | time}}</td>
+  <td>{{tableSession?.elapsedTime | time}}</td>
   <td>{{remainedTime | time}}</td>
   <td>{{totalMoney}}</td>
   <td>{{paidMoney}}</td>
   <td>{{needToPay}}</td>
   <td>{{spentMoney | money}}</td>
-  <td>{{playSession?.status}}</td>
+  <td>{{tableSession?.status}}</td>
 </tr>
 

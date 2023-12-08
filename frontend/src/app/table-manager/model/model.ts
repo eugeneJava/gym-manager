@@ -5,9 +5,9 @@ export class Client {
 }
 
 export interface Time {
-  hour: number;
-  minute: number;
-  second: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
   description?: string;
 }
 
@@ -19,8 +19,8 @@ export interface AddedTime {
 
 export interface ClientSession {
   elapsedTime: Time;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   duration: Time;
   status: Status;
   paid: boolean;
@@ -30,20 +30,25 @@ export interface ClientSession {
   paidMoney: number;
   needToPay: number;
   clients: Client[];
-  playSessions: PlaySession[];
+  tableSessions: TableSession[];
 }
 
-export interface PlaySession {
+export interface TableSession {
+  id: string
   elapsedTime: Time;
-  startTime: Date;
-  endTime: Date;
+  startDate: string;
+  endDate: string;
+  closeDate: string;
   duration: Time;
   status: Status;
   paid: boolean;
-  table: Table;
+  tableNumber: number;
+  paidAmount: number;
+  totalPay: number;
+  needToPay: number;
   rate: number;
   clients: Client[];
-  clientSession: ClientSession;
+  clientSessionId: string;
 }
 
 export enum Status {

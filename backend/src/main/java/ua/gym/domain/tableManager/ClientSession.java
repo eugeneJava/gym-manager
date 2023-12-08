@@ -15,17 +15,22 @@ import java.util.Set;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
+import static ua.gym.domain.tableManager.TimeUtils.nowTruncatedtoMinutes;
 
 @Entity
-@Table
+@Table(name = "client_session")
 public class ClientSession extends Identifiable {
-    private Set<Client> clients = new HashSet<>();
+
+    //private Set<Client> clients = new HashSet<>();
 
     @OneToMany(mappedBy = "clientSession", cascade = CascadeType.ALL)
     private Set<TableSession> sessions = new HashSet<>();
 
+    public ClientSession() {
+    }
+
     public void setClients(Set<Client> clients) {
-        this.clients = clients;
+        //this.clients = clients;
     }
 
     void addTableSession(TableSession session) {
@@ -55,7 +60,7 @@ public class ClientSession extends Identifiable {
 
         TimeDto duration = TimeUtils.duration(closeDate, endDate);
 
-        new TableSession(this, rate, table, duration, true);
+        new TableSession(this, nowTruncatedtoMinutes(), rate, table, duration, BigDecimal.ZERO);
 
     }
 }

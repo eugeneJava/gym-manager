@@ -10,7 +10,7 @@ export class TimeFormatPipe implements PipeTransform {
     if (!value) {
       return '';
     }
-    return this.pad(value.hour) + ':' + this.pad(value.minute) + ':' + this.pad(value.second);
+    return this.pad(value.hours) + ':' + this.pad(value.minutes) + ':' + this.pad(value.seconds);
   }
 
   private pad(value: number): string {

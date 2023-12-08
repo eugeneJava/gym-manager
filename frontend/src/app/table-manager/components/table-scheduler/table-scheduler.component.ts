@@ -6,8 +6,11 @@ import {AddTimeDialogComponent} from '../add-time-dialog/add-time-dialog.compone
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Timer} from '../../services/timer';
-import {AddedTime, PlaySession, Status, Time} from '../../model/model';
+import {AddedTime, TableSession, Status, Time, ClientSession} from '../../model/model';
 import {DateUtils} from '../../services/DateUtils';
+import {TableService} from "../../services/table.service";
+import {ClientSessionManager} from "../../services/client.session.manager.service";
+import {TableSessionCloseDialogComponent} from "../table-session-close-dialog/table-session-close-dialog.component";
 
 @Component({
   selector: 'app-table-scheduler',
@@ -17,87 +20,93 @@ import {DateUtils} from '../../services/DateUtils';
 export class TableSchedulerComponent implements OnInit, OnDestroy {
   @Input() public table;
   private timer: Timer;
-  public playSession: PlaySession;
+  public tableSession: TableSession;
   public remainedTime: Time = {} as Time;
   public spentMoney = 0;
   public totalMoney = 0;
   public paidMoney = 0;
   public needToPay = 0;
 
-  @Output() sessionCreated: EventEmitter<PlaySession> = new EventEmitter<PlaySession>();
+  @Output() sessionCreated: EventEmitter<TableSession> = new EventEmitter<TableSession>();
   @Output() timeAdded: EventEmitter<AddedTime> = new EventEmitter<AddedTime>();
-  @Output() tableChanged: EventEmitter<PlaySession> = new EventEmitter<PlaySession>();
+  @Output() tableChanged: EventEmitter<TableSession> = new EventEmitter<TableSession>();
 
   private stopper: Subject<void> = new Subject();
 
   constructor(private fb: FormBuilder,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private clientSessionManager: ClientSessionManager,
+              private tableService: TableService) {
   }
 
   ngOnInit(): void {
   }
 
-  private start(playSession: PlaySession): void {
-    this.playSession = playSession;
-    const currentTime : Date = new Date();
-    const endTime : Date = DateUtils.addTime(new Date(currentTime), this.playSession.duration);
+  public startSession(): void {
+    this.modalService.show(PlaySessionEditComponent, {
+      table: this.table
+    }).subscribe((tableSession: TableSession) => {
+      this.tableService.startSession(tableSession)
+        .subscribe(newSession => this.start(newSession));
+    });
+  }
 
-    this.playSession.startTime = currentTime;
-    this.playSession.endTime = endTime;
-    this.playSession.elapsedTime = {} as Time;
-    this.playSession.status = Status.RUNNING;
-    this.playSession.table = this.table;
-    this.playSession.rate = this.table.rate;
-    this.recalculateMoney(this.playSession);
-
+  private start(tableSession: TableSession): void {
+    this.tableSession = tableSession;
+    this.recalculateMoney(this.tableSession);
     this.createAndStartTimer();
+    this.clientSessionManager.addTableSession(tableSession);
+    this.sessionCreated.emit(this.tableSession);
+  }
 
-    this.sessionCreated.emit(playSession);
+  public stop(): void {
+    this.tableService
+      .closeSession(this.tableSession)
+      .subscribe(tableSession => {
+        this.tableSession = tableSession;
+        this.timer.stop();
+        this.stopper.next();
+      });
   }
 
   private createAndStartTimer(): void {
-    this.timer = new Timer(this.playSession.startTime, this.playSession.endTime);
+    this.timer = new Timer(DateUtils.date(this.tableSession.startDate), DateUtils.date(this.tableSession.endDate));
     this.timer.getTimeSubject()
       .pipe(takeUntil(this.stopper))
       .subscribe((time: Time) => this.timeUpdated(time));
     this.timer.start();
   }
 
-  public stop(): void {
-    this.timer.stop();
-    this.stopper.next();
-    this.playSession.status = Status.FINISHED;
-    const remaining : Time = DateUtils.calcualateDiff(this.playSession.duration, this.playSession.elapsedTime);
-
-    this.remainedTime = remaining;
-  }
-
   public timeUpdated(time: Time): void {
-    this.playSession.elapsedTime = time;
+    this.tableSession.elapsedTime = time;
 
-    const remaining : Time = DateUtils.calcualateDiff(this.playSession.duration, this.playSession.elapsedTime);
+    const remaining: Time = DateUtils.calcualateDiff(this.tableSession.duration, this.tableSession.elapsedTime);
     this.remainedTime = remaining;
-    this.spentMoney = this.playSession.rate * DateUtils.toHours(this.playSession.elapsedTime);
-    if (this.remainedTime.second === 0 && this.remainedTime.minute === 0 && this.remainedTime.hour === 0) {
+    this.spentMoney = this.tableSession.rate * DateUtils.toHours(this.tableSession.elapsedTime);
+    if (this.remainedTime.seconds === 0 && this.remainedTime.minutes === 0 && this.remainedTime.hours === 0) {
       this.stop();
     }
   }
 
-  private recalculateMoney(playSession: PlaySession): void {
-    this.totalMoney = this.playSession.rate * DateUtils.toHours(this.playSession.duration);
+  private recalculateMoney(playSession: TableSession): void {
+    this.totalMoney = this.tableSession.rate * DateUtils.toHours(this.tableSession.duration);
     if (playSession.paid === true) {
-       this.paidMoney = this.totalMoney;
+      this.paidMoney = this.totalMoney;
     }
 
     this.needToPay = this.totalMoney - this.paidMoney;
   }
 
-  public startSession(): void {
-    this.modalService.show(PlaySessionEditComponent, {
-      table: this.table
-    })
-      .subscribe((playSession: PlaySession) => {
-        this.start(playSession);
+  public closeSession(): void {
+    this.tableService
+      .getPreCloseCalculations(this.tableSession.clientSessionId)
+      .subscribe(tableSessions => {
+            this.modalService.show(TableSessionCloseDialogComponent, {
+              tableSessions: tableSessions
+            }).subscribe((tableSession: TableSession) => {
+              this.tableService.startSession(tableSession)
+                .subscribe(newSession => this.start(newSession));
+            });
       });
   }
 
@@ -119,17 +128,17 @@ export class TableSchedulerComponent implements OnInit, OnDestroy {
   private startSessionWithAddedTime(addedTime: AddedTime): void {
     this.stop();
 
-    const newDuration : Time = DateUtils.addTimes(this.playSession.duration, addedTime.duration);
-    const newEndTime : Date = DateUtils.addTime(this.playSession.endTime, addedTime.duration);
+    const newDuration: Time = DateUtils.addTimes(this.tableSession.duration, addedTime.duration);
+    const newEndTime = DateUtils.addTime(this.tableSession.endDate, addedTime.duration);
 
-    const newSession : PlaySession = Object.assign(this.playSession);
+    const newSession: TableSession = Object.assign(this.tableSession);
     newSession.duration = newDuration;
-    newSession.endTime = newEndTime;
+    newSession.endDate = newEndTime;
     newSession.status = Status.RUNNING;
     this.remainedTime = DateUtils.calcualateDiff(newSession.duration, newSession.elapsedTime);
-    this.playSession = newSession;
+    this.tableSession = newSession;
 
-    const additionalMoney : number = this.playSession.rate * DateUtils.toHours(addedTime.duration);
+    const additionalMoney: number = this.tableSession.rate * DateUtils.toHours(addedTime.duration);
     this.totalMoney = this.totalMoney + additionalMoney;
     if (addedTime.paid === true) {
       this.paidMoney = this.paidMoney + additionalMoney;

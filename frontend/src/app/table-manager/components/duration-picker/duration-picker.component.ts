@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Times} from '../../services/Times';
-import {AbstractControl} from '@angular/forms';
+import {AbstractControl, FormGroup} from '@angular/forms';
 import {Time} from '../../model/model';
 
 @Component({
@@ -13,6 +13,8 @@ export class DurationPickerComponent implements OnInit {
   @Input() times: Time[]
   @Input() initialDuration: Time;
   @Input() duration: AbstractControl;
+
+  public form: FormGroup;
 
   public durationModel: Time = Object.assign(Times.ONE_HOUR);
 

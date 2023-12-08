@@ -1,0 +1,42 @@
+
+
+
+<div class="panel">
+<!--  <h2 class="pb-2">Добавить время</h2>
+  <form [formGroup]="form">
+
+    <app-duration-picker
+      [times]="times"
+      [initialDuration]="Times.HALF_AN_HOUR"
+      [duration]="duration">
+    </app-duration-picker>
+
+    <div class="row">
+      <div class="col-6">
+        Оплачено:  <input type="checkbox" formControlName="paid">
+      </div>
+    </div>-->
+
+   <div class="row">
+     <div class="col">
+     <ng-container *ngFor="let session of tableSessions">
+       {{session.tableNumber}}  {{session.startDate}} - {{session.closeDate}}
+       <div> К оплате:  {{session.totalPay}} </div>
+       <div> Оплачено:  {{session.paidAmount}} </div>
+       <div> Необходимо оплатить:  {{session.needToPay}} </div>
+     </ng-container>
+     </div>
+   </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="button" class="btn btn-link" (click)="cancel()">
+          Очистить
+        </button>
+<!--        <button type="button" class="btn btn-success add-button" (click)="save()">
+          Добавить
+        </button>-->
+      </div>
+    </div>
+ <!-- </form>-->
+</div>

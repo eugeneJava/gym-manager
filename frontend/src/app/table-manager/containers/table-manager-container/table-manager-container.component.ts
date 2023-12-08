@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TableService} from '../../services/table.service';
-import {AddedTime, ClientSession, PlaySession, Status, Table, Time} from '../../model/model';
+import {AddedTime, ClientSession, TableSession, Status, Table, Time} from '../../model/model';
 import {DateUtils} from '../../services/DateUtils';
 
 // TODO: when time finishes leave on the screen until manually deleted and change color
@@ -24,47 +24,46 @@ export class TableManagerContainerComponent implements OnInit {
       });
   }
 
-  public handleTableSessionCreated(playSession: PlaySession) {
-    if (this.sessions.get(playSession.table.number)) {
+  public handleTableSessionCreated(tableSession: TableSession) {
+    if (this.sessions.get(tableSession.tableNumber)) {
       throw Error('Not session not expected');
     }
 
     const session = {
-      startTime: playSession.startTime,
-      endTime: playSession.endTime,
-      duration: playSession.duration,
-      clients: playSession.clients,
-      elapsedTime: playSession.elapsedTime,
+      startTime: tableSession.startDate,
+      endTime: tableSession.endDate,
+      duration: tableSession.duration,
+      clients: tableSession.clients,
+      elapsedTime: tableSession.elapsedTime,
     } as ClientSession;
 
 
-    session.totalMoney = playSession.rate * DateUtils.toHours(playSession.duration);
+    session.totalMoney = tableSession.rate * DateUtils.toHours(tableSession.duration);
     session.spentMoney = 0;
-    if (playSession.paid === true) {
+    if (tableSession.paid === true) {
       session.paidMoney = session.totalMoney;
     }
     session.needToPay = session.totalMoney - session.paidMoney;
 
-    session.playSessions.push(playSession);
-    playSession.clientSession = session;
+    session.tableSessions.push(tableSession);
   }
 
   public handleTimeAdded(addedTime: AddedTime) {
     const session = this.sessions.get(addedTime.table.number);
-    const lastSession = session.playSessions[session.playSessions.length - 1];
+    const lastSession = session.tableSessions[session.tableSessions.length - 1];
 
     const updatedDuration : Time = DateUtils.addTimes(lastSession.duration, addedTime.duration);
-    const updatedEndTime : Date = DateUtils.addTime(lastSession.endTime, addedTime.duration);
+    const updatedEndTime  = DateUtils.addTime(lastSession.endDate, addedTime.duration);
     const newSession = {
       duration: updatedDuration,
-      startTime: lastSession.startTime,
-      endTime: updatedEndTime,
+      startDate: lastSession.startDate,
+      endDate: updatedEndTime,
       rate: addedTime.table.rate,
-      table: lastSession.table,
+      tableNumber: lastSession.tableNumber,
       clients: lastSession.clients,
-      elapsedTime: lastSession.elapsedTime,
-      clientSession: session
-    } as PlaySession;
+      elapsedTime: lastSession.elapsedTime
+     // clientSessionId: session.i
+    } as TableSession;
 
     lastSession.status = Status.FINISHED;
 
@@ -79,6 +78,6 @@ export class TableManagerContainerComponent implements OnInit {
     session.needToPay = session.totalMoney - session.paidMoney;
     // session.spentMoney = ?
 
-    session.playSessions.push(newSession);
+    session.tableSessions.push(newSession);
   }
 }

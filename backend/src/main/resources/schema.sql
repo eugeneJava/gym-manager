@@ -59,3 +59,25 @@ CREATE TABLE IF NOT EXISTS ProductDeleteLog (
     createDate DATETIME NOT NULL,
     PRIMARY KEY(id)
 );*/
+
+/*DROP TABLE IF EXISTS client_session;
+CREATE TABLE IF NOT EXISTS client_session (
+                                           id VARCHAR(36) NOT NULL,
+                                           PRIMARY KEY(id)
+);
+
+DROP TABLE IF EXISTS table_session;
+CREATE TABLE IF NOT EXISTS table_session (
+                                           id VARCHAR(36) NOT NULL,
+                                           startDate DATETIME NOT NULL,
+                                           endDate DATETIME NOT NULL,
+                                           closeDate DATETIME NULL,
+                                           rate DECIMAL(10,2) NOT NULL,
+                                           paidAmount DECIMAL(10,2) NULL,
+                                           tableNumber INT NOT NULL,
+                                           duration VARCHAR(5) NOT NULL,
+                                           clientSession_id VARCHAR(36) NOT NULL,
+                                           PRIMARY KEY(id),
+                                           FOREIGN KEY (clientSession_id) REFERENCES client_session(id)
+);
+*/

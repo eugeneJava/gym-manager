@@ -43,6 +43,7 @@ import {TableSchedulerComponent} from "./table-manager/components/table-schedule
 import {
   TableManagerContainerComponent
 } from "./table-manager/containers/table-manager-container/table-manager-container.component";
+import { TableSessionCloseDialogComponent } from './table-manager/components/table-session-close-dialog/table-session-close-dialog.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {
     TimeFormatPipe,
     MoneyFormatPipe,
     MovePlayerDialogComponent,
-    TablePickerComponent
+    TablePickerComponent,
+    TableSessionCloseDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -5,8 +5,10 @@ import java.math.MathContext;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.HALF_UP;
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 public class TimeUtils {
 
@@ -55,9 +57,13 @@ public class TimeUtils {
 
         int o = 9;*/
         ClientSession clientSession = new ClientSession();
-        new TableSession(clientSession, new BigDecimal(100), 3, new TimeDto(0, 15), true);
+        new TableSession(clientSession, nowTruncatedtoMinutes(), new BigDecimal(100), 3, new TimeDto(0, 15), ZERO);
 
         clientSession.moveToAnotherTable(2, new BigDecimal(100));
         int i = 10;
+    }
+
+    public static LocalDateTime nowTruncatedtoMinutes() {
+        return LocalDateTime.now().truncatedTo(MINUTES);
     }
 }

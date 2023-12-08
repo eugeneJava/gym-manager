@@ -12,25 +12,27 @@ export class DateUtils {
     const minutes = Math.floor((distanceInMillis / (MILLIS_IN_MINUTE))) % 60;
     const seconds = Math.floor((distanceInMillis / 1000)) % 60;
     const time : Time = {
-      hour: hours,
-      minute: minutes,
-      second: seconds
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds
     };
     return time;
   }
 
-  public static addTime(date: Date, time: Time): Date {
-    date.setHours(date.getHours() + time.hour);
-    date.setMinutes(date.getMinutes() + time.minute);
-    date.setSeconds(date.getSeconds() + time.second);
-    return new Date(date.getTime());
+  public static addTime(dateString: string, time: Time): string {
+    const date = DateUtils.date(dateString);
+
+    date.setHours(date.getHours() + time.hours);
+    date.setMinutes(date.getMinutes() + time.minutes);
+    date.setSeconds(date.getSeconds() + time.seconds);
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   }
 
   private static toSeconds(time: Time): number {
     let seconds = 0;
-    seconds = seconds + time.second;
-    seconds = seconds + (time.minute * 60);
-    seconds = seconds + (time.hour * 3600);
+    seconds = seconds + time.seconds;
+    seconds = seconds + (time.minutes * 60);
+    seconds = seconds + (time.hours * 3600);
 
     return seconds;
   }
@@ -47,27 +49,35 @@ export class DateUtils {
 
   public static secondsToTime(seconds: number): Time {
     const time : Time = {
-      hour: Math.floor(seconds / 3600) % 60,
-      minute: Math.floor(seconds / 60) % 60,
-      second: seconds % 60
+      hours: Math.floor(seconds / 3600) % 60,
+      minutes: Math.floor(seconds / 60) % 60,
+      seconds: seconds % 60
     };
     return time;
   }
 
   public static toHours(time: Time): number {
     let hours = 0;
-    hours = hours + time.hour;
-    hours = hours + time.minute / 60;
+    hours = hours + time.hours;
+    hours = hours + time.minutes / 60;
     return hours;
   }
 
   public static validateTime(time: Time): void {
-    if (time.minute > 59) {
-      throw Error('Ivalid minutes: ' + time.minute);
+    if (time.minutes > 59) {
+      throw Error('Ivalid minutes: ' + time.minutes);
     }
 
-    if (time.second > 59) {
-      throw Error('Ivalid seconds: ' + time.second);
+    if (time.seconds > 59) {
+      throw Error('Ivalid seconds: ' + time.seconds);
     }
+  }
+
+  public static date(dateString: string): Date {
+    if (!dateString) {
+      return null;
+    }
+    const date = new Date(dateString);
+    return date;
   }
 }

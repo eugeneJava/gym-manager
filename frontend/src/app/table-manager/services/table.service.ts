@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {Table} from '../model/model';
+import {ClientSession, Table, TableSession} from '../model/model';
+import {HttpClient} from "@angular/common/http";
+import {Client} from "../../model/app.models";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   public getTables(): Observable<Table[]> {
     const table1 : Table = {
@@ -41,4 +44,21 @@ export class TableService {
     };
     return of([table1, table2, table3, table4, table5, table6]);
   }
+
+  public startSession(tableSession: TableSession): Observable<TableSession> {
+    return this.http.post<TableSession>(`${environment.baseUrl}/gym-manager/tableSessions/start`, tableSession);
+  }
+
+  public closeSession(tableSession: TableSession): Observable<TableSession> {
+    return this.http.post<TableSession>(`${environment.baseUrl}/gym-manager/tableSessions/${tableSession.id}/close`, {});
+  }
+
+  public getCurrentSessions(clientSessionId: string):  Observable<TableSession[]> {
+    return this.http.get<TableSession[]>(`${environment.baseUrl}/gym-manager/clientSessions/${clientSessionId}/tableSessions`);
+  }
+
+  public getPreCloseCalculations(clientSessionId: string):  Observable<TableSession[]> {
+    return this.http.get<TableSession[]>(`${environment.baseUrl}/gym-manager/clientSessions/${clientSessionId}/preCloseCalculations`);
+  }
+
 }

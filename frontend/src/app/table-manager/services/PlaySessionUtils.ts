@@ -1,17 +1,17 @@
 import {DateUtils} from './DateUtils';
-import {PlaySession} from '../model/model';
+import {TableSession} from '../model/model';
 
 export class PlaySessionUtils {
-  public static validatePlaySession(session: PlaySession): void {
-    if (!session.startTime) {
+  public static validatePlaySession(session: TableSession): void {
+    if (!session.startDate) {
       throw Error('No start time for session');
     }
 
-    if (!session.endTime) {
+    if (!session.endDate) {
       throw Error('No end time for session');
     }
 
-    if (session.startTime >= session.endTime) {
+    if (session.startDate >= session.endDate) {
       throw Error('End time should be after start time');
     }
 
@@ -21,7 +21,7 @@ export class PlaySessionUtils {
 
     DateUtils.validateTime(session.duration);
 
-    if (!session.table) {
+    if (!session.tableNumber) {
       throw Error('No table selected for session');
     }
 

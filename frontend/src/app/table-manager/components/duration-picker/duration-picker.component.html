@@ -1,11 +1,12 @@
-<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="durationModel">
-  <label ngbButtonLabel class="btn-warning" *ngFor="let time of times">
-    <input ngbButton type="radio" [value]="time" (click)="setDuration(time)"> {{time.description}}
+<div class="btn-group btn-group-toggle" [(ngModel)]="durationModel">
+  <label class="btn-warning" *ngFor="let time of times">
+    <input type="radio" [value]="time" (click)="setDuration(time)"> {{time.description}}
   </label>
 </div>
 
 {{durationModel | json }}
 
+<!--
 <div class="row">
   <div class="col">
     <ngb-timepicker
@@ -15,3 +16,4 @@
     </ngb-timepicker>
   </div>
 </div>
+-->

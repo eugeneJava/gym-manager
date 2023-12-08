@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TableService} from '../../services/table.service';
-import {PlaySession, Table} from '../../model/model';
+import {TableSession, Table} from '../../model/model';
 
 @Component({
   selector: 'app-move-player-dialog',
@@ -47,7 +47,7 @@ export class MovePlayerDialogComponent implements OnInit {
   }
 
   public save(): void {
-    const playSession : PlaySession = this.form.value as PlaySession;
+    const playSession : TableSession = this.form.value as TableSession;
     this.activeModal.close(playSession);
   }
 
