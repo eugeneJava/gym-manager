@@ -13,7 +13,7 @@ export interface Time {
 
 export interface AddedTime {
   duration: Time;
-  paid: boolean;
+  paidAmount: boolean;
   table: Table;
 }
 

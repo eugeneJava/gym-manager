@@ -1,0 +1,5 @@
+<div class="container py-3">
+  <h2>Закупки</h2>
+  <button class="btn btn-primary" (click)="addPurchase()">Нова закупка</button>
+  <app-list [products]="products" (edit)="editPurchase($event)"></app-list>
+</div>

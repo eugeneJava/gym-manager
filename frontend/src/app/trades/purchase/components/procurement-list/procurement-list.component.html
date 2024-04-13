@@ -1,0 +1,33 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>Редагувати</th>
+    <th>Продукт</th>
+    <th>Загальна ціна (грн)</th>
+    <th>Кількість</th>
+    <th>Ціна за одиницю</th>
+    <th>Дата закупки</th>
+    <th>Поштова інформація</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of products">
+    <td>
+      <button class="btn btn-light" (click)="onEdit(product)">
+        <fa-icon [icon]="['fas', 'pencil']"></fa-icon>
+      </button>
+    </td>
+    <td>{{ product.product.name }} ({{product.amount}})</td>
+    <td>{{ product.totalBuyPriceInUah }}</td>
+    <td>{{ product.amount }}</td>
+    <td>{{ product.unitPrice }}</td>
+    <td>{{ product.purchaseDate }}</td>
+    <td>
+      <div><small>Трек: {{ product.trackId }}</small></div>
+      <div [ngClass]="{'text-success': product.parcelGroup.parcelId, 'text-info': !product.parcelGroup.parcelId}">
+        <small>Відправлено: {{ !product.parcelGroup.parcelId ? 'Ні' : 'Так' }}</small>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>

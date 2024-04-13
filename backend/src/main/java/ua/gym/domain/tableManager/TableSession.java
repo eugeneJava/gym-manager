@@ -134,7 +134,7 @@ public class TableSession extends Identifiable {
     }
 
     public BigDecimal calculateNeedToPay() {
-        return totalPay.subtract(paidAmount);
+        return roundToFive(totalPay.subtract(paidAmount));
     }
 
     public ClientSession getClientSession() {

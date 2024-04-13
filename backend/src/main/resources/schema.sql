@@ -81,3 +81,5 @@ CREATE TABLE IF NOT EXISTS table_session (
                                            FOREIGN KEY (clientSession_id) REFERENCES client_session(id)
 );
 */
+
+

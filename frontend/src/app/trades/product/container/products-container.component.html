@@ -1,0 +1,6 @@
+<div class="container">
+  <div class="toolbar">
+    <button class="btn btn-primary" (click)="addProduct()">Додати продукт</button>
+  </div>
+  <app-products-list [products]="products" (edit)="editProduct($event)"></app-products-list>
+</div>

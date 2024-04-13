@@ -1,0 +1,28 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Ціна продажу за штуку (грн)</th>
+      <th scope="col">Продукт</th>
+      <th scope="col">Кількість</th>
+      <th scope="col">Дата продажі</th>
+    <!--  <th scope="col">Редагувати</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let sale of tradesProductSales; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ sale.sellPrice }}</td>
+      <td>{{ sale.product.name }}</td> <!-- Display appropriate property -->
+      <td>{{ sale.soldAmount }}</td> <!-- Display appropriate property -->
+      <td>{{ sale.soldAt | date: 'short' }}</td>
+<!--      <td>
+        <button class="btn btn-outline-secondary btn-sm" (click)="editSale(sale)">
+          <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
+        </button>
+      </td>-->
+    </tr>
+    </tbody>
+  </table>
+</div>

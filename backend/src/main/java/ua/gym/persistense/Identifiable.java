@@ -2,6 +2,7 @@ package ua.gym.persistense;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -11,5 +12,18 @@ public class Identifiable {
 
    public String getId() {
       return this.id;
+   }
+
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Identifiable that = (Identifiable) o;
+      return Objects.equals(id, that.id);
+   }
+
+   @Override
+   public int hashCode() {
+      return Objects.hash(id);
    }
 }

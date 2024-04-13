@@ -6,7 +6,7 @@ export const MILLIS_IN_DAY = MILLIS_IN_HOUR * 24; // 1000 * 60 * 60 * 24
 
 export class DateUtils {
 
-  public static calcualateDiffForDates(greaterDate: Date, lesserDate: Date): Time {
+  public static calcualateDiffForDates(greaterDate: Date, lesserDate: Date, truncateToSeconds: boolean): Time {
     const distanceInMillis = greaterDate.getTime() - lesserDate.getTime();
     const hours = Math.floor((distanceInMillis / (MILLIS_IN_HOUR))) % 60;
     const minutes = Math.floor((distanceInMillis / (MILLIS_IN_MINUTE))) % 60;
@@ -14,7 +14,7 @@ export class DateUtils {
     const time : Time = {
       hours: hours,
       minutes: minutes,
-      seconds: seconds
+      seconds: truncateToSeconds === true ? 0 : seconds
     };
     return time;
   }
@@ -24,7 +24,7 @@ export class DateUtils {
 
     date.setHours(date.getHours() + time.hours);
     date.setMinutes(date.getMinutes() + time.minutes);
-    date.setSeconds(date.getSeconds() + time.seconds);
+    date.setSeconds(0);
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   }
 
@@ -78,6 +78,34 @@ export class DateUtils {
       return null;
     }
     const date = new Date(dateString);
+    date.setSeconds(0);
     return date;
+  }
+
+  public static currentTime(): string {
+    const now = new Date();
+    return DateUtils.formatDateToTimeString(now);
+  }
+
+  public static addTimeWithMinutesPercision(timeString: string, time: Time): string {
+    const date = DateUtils.parseTime(timeString);
+    date.setHours(date.getHours() + time.hours);
+    date.setMinutes(date.getMinutes() + time.minutes);
+    return DateUtils.formatDateToTimeString(date);
+  }
+
+  public static parseTime(timeString: string): Date {
+    const parts = timeString.split(':');
+    const date = new Date();
+    date.setHours(parseInt(parts[0]));
+    date.setMinutes(parseInt(parts[1]));
+    return date;
+  }
+
+  public static formatDateToTimeString(date: Date) {
+    const hours = String(date.getHours()).padStart(2,'0');
+    const minutes = String(date.getMinutes()).padStart(2,'0');
+
+    return hours + ':' + minutes;
   }
 }

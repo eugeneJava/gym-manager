@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ua.gym.domain.tableManager.*;
 import ua.gym.service.ClientSessionService;
+import ua.gym.ui.dtos.AddedTimeDto;
 import ua.gym.ui.dtos.TableSessionDto;
 
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public class ClientSessionWebService {
 
       List<TableSession> tableSessions = tableSessionRepository.getTableSessions(clientSessionId);
       return tableSessions.stream()
-              .map(tableSession -> clientSessionService.mapTableSession(tableSession, now))
+              .map(tableSession -> clientSessionService.mapTableSessionForClose(tableSession, now))
               .collect(toList());
    }
 
@@ -68,6 +69,22 @@ public class ClientSessionWebService {
               tableSessionDto.getDuration(),
               tableSessionDto.getPaidAmount());
       this.clientSessionRepository.save(clientSession);
+      return new TableSessionDto(tableSession);
+   }
+
+   @GetMapping("/tableSessions/{tableSessionId}")
+   @Transactional(readOnly = true)
+   public TableSessionDto getTableSession(@PathVariable String tableSessionId) {
+      //Todo add expired check
+      TableSession tableSession = tableSessionRepository.getOne(tableSessionId);
+      return new TableSessionDto(tableSession);
+   }
+
+   @PostMapping("tableSessions/{tableSessionId}/addTime")
+   @Transactional
+   public TableSessionDto addTime(@PathVariable String tableSessionId, @RequestBody AddedTimeDto addedTimeDto) {
+      TableSession tableSession = tableSessionRepository.getOne(tableSessionId);
+      tableSession.addTime(addedTimeDto.getDuration(), addedTimeDto.getPaidAmount());
       return new TableSessionDto(tableSession);
    }
 

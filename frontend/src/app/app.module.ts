@@ -44,6 +44,19 @@ import {
   TableManagerContainerComponent
 } from "./table-manager/containers/table-manager-container/table-manager-container.component";
 import { TableSessionCloseDialogComponent } from './table-manager/components/table-session-close-dialog/table-session-close-dialog.component';
+import { ProductsContainerComponent } from './trades/product/container/products-container.component';
+import { ProductsListComponent } from './trades/product/components/products-list/products-list.component';
+import { ProductsEditComponent } from './trades/product/components/products-edit/products-edit.component';
+import { ProcurementEditComponent } from './trades/purchase/components/procurement-edit/procurement-edit.component';
+import { ProcurementListComponent } from './trades/purchase/components/procurement-list/procurement-list.component';
+import { ProcurementContainerComponent } from './trades/purchase/container/procurement-container/procurement-container.component';
+import {TradesParcelEditComponent} from "./trades/parcel/components/parcel-edit/trades-parcel-edit.component";
+import {TradesParcelListComponent} from "./trades/parcel/components/parcel-list/trades-parcel-list.component";
+import {TradesParcelContainerComponent} from "./trades/parcel/container/trades-parcel-container.component";
+import {TradesProductSaleContainerComponent} from "./trades/sales/container/trades-product-sale-container.component";
+import {TradesProductSaleEditComponent} from "./trades/sales/components/sales-edit/tradesProductSale-edit.component";
+import {TradesProductSaleListComponent} from "./trades/sales/components/sales-list/tradesProductSale-list.component";
+import { TradesMainViewComponent } from './trades/main/trades-main-view/trades-main-view.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +82,22 @@ import { TableSessionCloseDialogComponent } from './table-manager/components/tab
     MoneyFormatPipe,
     MovePlayerDialogComponent,
     TablePickerComponent,
-    TableSessionCloseDialogComponent
+    TableSessionCloseDialogComponent,
+    ProductsContainerComponent,
+    ProductsListComponent,
+    ProductsEditComponent,
+    ProcurementEditComponent,
+    ProcurementListComponent,
+    ProcurementContainerComponent,
+    TradesParcelEditComponent,
+    TradesParcelListComponent,
+    TradesParcelContainerComponent,
+
+    TradesProductSaleContainerComponent,
+    TradesProductSaleEditComponent,
+    TradesProductSaleListComponent,
+    TradesMainViewComponent
+
   ],
   imports: [
     BrowserModule,

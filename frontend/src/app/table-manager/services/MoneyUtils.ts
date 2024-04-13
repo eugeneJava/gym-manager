@@ -1,4 +1,5 @@
 export class MoneyUtils {
+
   public static round(money: number): number {
     const rounded : number = Math.round(money);
     const integer = Math.floor(rounded / 10);

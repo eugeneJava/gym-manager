@@ -21,9 +21,9 @@
   <td>{{tableSession?.duration | time}}</td>
   <td>{{tableSession?.elapsedTime | time}}</td>
   <td>{{remainedTime | time}}</td>
-  <td>{{totalMoney}}</td>
-  <td>{{paidMoney}}</td>
-  <td>{{needToPay}}</td>
+  <td>{{tableSession?.totalPay}}</td>
+  <td>{{tableSession?.paidAmount}}</td>
+  <td>{{tableSession?.needToPay}}</td>
   <td>{{spentMoney | money}}</td>
   <td>{{tableSession?.status}}</td>
 </tr>

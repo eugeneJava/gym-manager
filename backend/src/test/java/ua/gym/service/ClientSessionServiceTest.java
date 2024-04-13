@@ -26,7 +26,7 @@ public class ClientSessionServiceTest {
         LocalDateTime startDate = nowTruncatedtoMinutes();
         TableSession tableSession = new TableSession(new ClientSession(), startDate, BigDecimal.valueOf(100), 1, new TimeDto(1, 0), ZERO);
 
-        TableSessionDto dto = clientSessionService.mapTableSession(tableSession, startDate.plusHours(2));
+        TableSessionDto dto = clientSessionService.mapTableSessionForClose(tableSession, startDate.plusHours(2));
 
         Assertions.assertThat(dto.getTotalPay()).isEqualTo(BigDecimal.valueOf(100));
         Assertions.assertThat(dto.getNeedToPay()).isEqualTo(BigDecimal.valueOf(100));
@@ -37,7 +37,7 @@ public class ClientSessionServiceTest {
         LocalDateTime startDate = nowTruncatedtoMinutes();
         TableSession tableSession = new TableSession(new ClientSession(), startDate, BigDecimal.valueOf(100), 1, new TimeDto(1, 30), ZERO);
 
-        TableSessionDto dto = clientSessionService.mapTableSession(tableSession, startDate.plusHours(2));
+        TableSessionDto dto = clientSessionService.mapTableSessionForClose(tableSession, startDate.plusHours(2));
 
         Assertions.assertThat(dto.getTotalPay()).isEqualTo(BigDecimal.valueOf(150));
         Assertions.assertThat(dto.getNeedToPay()).isEqualTo(BigDecimal.valueOf(150));
@@ -48,7 +48,7 @@ public class ClientSessionServiceTest {
         LocalDateTime startDate = nowTruncatedtoMinutes();
         TableSession tableSession = new TableSession(new ClientSession(), startDate, BigDecimal.valueOf(100), 1, new TimeDto(1, 20), ZERO);
 
-        TableSessionDto dto = clientSessionService.mapTableSession(tableSession, startDate.plusHours(2));
+        TableSessionDto dto = clientSessionService.mapTableSessionForClose(tableSession, startDate.plusHours(2));
 
         Assertions.assertThat(dto.getTotalPay()).isEqualTo(BigDecimal.valueOf(135)); //rounding
         Assertions.assertThat(dto.getNeedToPay()).isEqualTo(BigDecimal.valueOf(135));
@@ -59,7 +59,7 @@ public class ClientSessionServiceTest {
         LocalDateTime startDate = nowTruncatedtoMinutes();
         TableSession tableSession = new TableSession(new ClientSession(), startDate, BigDecimal.valueOf(100), 1, new TimeDto(1, 0), BigDecimal.valueOf(50));
 
-        TableSessionDto dto = clientSessionService.mapTableSession(tableSession, startDate.plusHours(2));
+        TableSessionDto dto = clientSessionService.mapTableSessionForClose(tableSession, startDate.plusHours(2));
 
         Assertions.assertThat(dto.getTotalPay()).isEqualTo(BigDecimal.valueOf(100));
         Assertions.assertThat(dto.getNeedToPay()).isEqualTo(BigDecimal.valueOf(50));
@@ -70,7 +70,7 @@ public class ClientSessionServiceTest {
         LocalDateTime startDate = nowTruncatedtoMinutes();
         TableSession tableSession = new TableSession(new ClientSession(), startDate, BigDecimal.valueOf(100), 1, new TimeDto(1, 0), BigDecimal.valueOf(10));
 
-        TableSessionDto dto = clientSessionService.mapTableSession(tableSession, tableSession.getEndDate().minusMinutes(15));
+        TableSessionDto dto = clientSessionService.mapTableSessionForClose(tableSession, tableSession.getEndDate().minusMinutes(15));
 
         Assertions.assertThat(dto.getTotalPay()).isEqualTo(BigDecimal.valueOf(75));
         Assertions.assertThat(dto.getNeedToPay()).isEqualTo(BigDecimal.valueOf(65));
@@ -81,7 +81,7 @@ public class ClientSessionServiceTest {
         LocalDateTime startDate = nowTruncatedtoMinutes();
         TableSession tableSession = new TableSession(new ClientSession(), startDate, BigDecimal.valueOf(100), 1, new TimeDto(1, 0), ZERO);
 
-        TableSessionDto dto = clientSessionService.mapTableSession(tableSession, tableSession.getEndDate().minusMinutes(59));
+        TableSessionDto dto = clientSessionService.mapTableSessionForClose(tableSession, tableSession.getEndDate().minusMinutes(59));
 
         Assertions.assertThat(dto.getTotalPay()).isEqualTo(BigDecimal.valueOf(5));
         Assertions.assertThat(dto.getNeedToPay()).isEqualTo(BigDecimal.valueOf(5));
@@ -92,7 +92,7 @@ public class ClientSessionServiceTest {
         LocalDateTime startDate = nowTruncatedtoMinutes();
         TableSession tableSession = new TableSession(new ClientSession(), startDate, BigDecimal.valueOf(100), 1, new TimeDto(1, 0), BigDecimal.valueOf(18.31));
 
-        TableSessionDto dto = clientSessionService.mapTableSession(tableSession, tableSession.getEndDate());
+        TableSessionDto dto = clientSessionService.mapTableSessionForClose(tableSession, tableSession.getEndDate());
 
         Assertions.assertThat(dto.getTotalPay()).isEqualTo(BigDecimal.valueOf(100));
         Assertions.assertThat(dto.getNeedToPay()).isEqualTo(BigDecimal.valueOf(85)); //100 - 18.31 = 81 = 81.69 - round to five up = 85
@@ -103,7 +103,7 @@ public class ClientSessionServiceTest {
         LocalDateTime startDate = nowTruncatedtoMinutes();
         TableSession tableSession = new TableSession(new ClientSession(), startDate, BigDecimal.valueOf(100), 1, new TimeDto(2, 30), BigDecimal.valueOf(81));
 
-        TableSessionDto dto = clientSessionService.mapTableSession(tableSession, tableSession.getEndDate().minusHours(1).minusMinutes(14));
+        TableSessionDto dto = clientSessionService.mapTableSessionForClose(tableSession, tableSession.getEndDate().minusHours(1).minusMinutes(14));
 
         Assertions.assertThat(dto.getTotalPay()).isEqualTo(BigDecimal.valueOf(130));
         Assertions.assertThat(dto.getNeedToPay()).isEqualTo(BigDecimal.valueOf(50));

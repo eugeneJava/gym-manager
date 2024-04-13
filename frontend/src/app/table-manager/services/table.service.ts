@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {ClientSession, Table, TableSession} from '../model/model';
+import {AddedTime, ClientSession, Table, TableSession} from '../model/model';
 import {HttpClient} from "@angular/common/http";
 import {Client} from "../../model/app.models";
 import {environment} from "../../../environments/environment";
@@ -59,6 +59,14 @@ export class TableService {
 
   public getPreCloseCalculations(clientSessionId: string):  Observable<TableSession[]> {
     return this.http.get<TableSession[]>(`${environment.baseUrl}/gym-manager/clientSessions/${clientSessionId}/preCloseCalculations`);
+  }
+
+  public addTime(tableSessionId: string, addedTime: AddedTime): Observable<TableSession> {
+    return this.http.post<TableSession>(`${environment.baseUrl}/gym-manager/tableSessions/${tableSessionId}/addTime`, addedTime);
+  }
+
+  public getTableSession(tableSessionId: string):  Observable<TableSession> {
+    return this.http.get<TableSession>(`${environment.baseUrl}/gym-manager/tableSessions/${tableSessionId}`);
   }
 
 }

@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div class="btn-group btn-group-toggle" >
+   <!-- <div class="btn-group btn-group-toggle" >
       <label  class="btn-primary">
         <input type="radio" [formControl]="tableNumber" [value]="1"> 1
       </label>
@@ -32,7 +32,7 @@
       <label  class="btn-primary">
         <input type="radio" [formControl]="tableNumber" [value]="6"> 6
       </label>
-    </div>
+    </div>-->
 
     <div class="row">
       <div class="col">
@@ -51,10 +51,28 @@
     </div>
 
     <app-duration-picker
-      [times]="times"
+      [predefinedTimeOptions]="times"
       [initialDuration]="Times.ONE_HOUR"
       [duration]="duration">
     </app-duration-picker>
+
+    <div class="row">
+      <div class="col-6">
+        Начало сеанса: {{startTime}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+       Конец сеанса: {{endTime}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        К оплате:  {{getTotalPaymentFormatted()}}
+      </div>
+    </div>
 
     <div class="row">
       <div class="col-6">
@@ -67,18 +85,11 @@
 
     <div class="row">
       <div class="col">
-        К оплате:  {{getTotalPayment()}}
-        К оплате:  {{getTotalPaymentFormatted()}}
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <button type="button" class="btn btn-link" (click)="cancel()">
-          Очистить
+        <button type="button" class="btn" (click)="cancel()">
+          Отменить
         </button>
         <button type="button" class="btn btn-success add-button" (click)="save()">
-          Добавить
+          Начать сеанс
         </button>
       </div>
     </div>

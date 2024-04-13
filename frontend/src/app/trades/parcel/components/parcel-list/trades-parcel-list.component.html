@@ -1,0 +1,42 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Закупки</th>
+      <th scope="col">Тип доставки</th>
+      <th scope="col">Вага</th>
+      <th scope="col">Ціна доставки(грн)</th>
+      <th scope="col">Відправлено</th>
+      <th scope="col">Отримано</th>
+      <th scope="col">Коментарі</th>
+      <th scope="col">Редагувати</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let parcel of parcels;">
+      <td>
+         <div *ngFor="let group of parcel.parcelGroups">
+             <div>{{group.name}}</div>
+             <div><small>{{group.trackId}}</small></div>
+             <br>
+         </div>
+      </td>
+      <td>{{ parcel.deliveryType }}</td>
+      <td>{{ parcel.weight }}</td>
+      <td>{{ parcel.deliveryPrice }}</td>
+      <td>{{ parcel.startedDeliveryAt | date }}</td>
+      <td>{{ parcel.deliveredAt | date }}</td>
+      <td>{{ parcel.comments }}</td>
+      <td>
+        <button class="btn btn-secondary btn-sm" (click)="onEdit(parcel)">
+          <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
+        </button>
+
+        <button class="btn btn-secondary btn-sm" (click)="onEdit(parcel)">
+          <fa-icon [icon]="['fas', 'money-bill-transfer']"></fa-icon>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -31,7 +31,7 @@ export class Timer {
   }
 
   private recaluculateElapsedTime(currentTime: Date): void {
-    const newTime : Time = DateUtils.calcualateDiffForDates(currentTime, this.startTime);
+    const newTime : Time = DateUtils.calcualateDiffForDates(currentTime, this.startTime, false);
     this.elapsedTime = newTime;
     this.timerUpdateSubject.next(this.elapsedTime);
   }
@@ -57,6 +57,10 @@ export class Timer {
 
   public getTimeSubject(): Subject<Time> {
     return this.timerUpdateSubject;
+  }
+
+  public updateEndTime(newEndTime: Date): void {
+    this.endTime = newEndTime;
   }
 }
 

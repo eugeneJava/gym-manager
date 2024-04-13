@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Side menu -->
+    <div class="col-md-3">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link" routerLink="/trades/products" routerLinkActive="active">Продукти</a>
+        <a class="nav-link" routerLink="/trades/purchase" routerLinkActive="active">Закупки</a>
+        <a class="nav-link" routerLink="/trades/parcel" routerLinkActive="active">Посилки</a>
+        <a class="nav-link" routerLink="/trades/sales" routerLinkActive="active">Продажі</a>
+      </div>
+    </div>
+
+    <!-- Content area -->
+    <div class="col-md-9">
+      <div class="tab-content" id="v-pills-tabContent">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

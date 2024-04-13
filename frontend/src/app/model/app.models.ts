@@ -2,7 +2,7 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 export class ProductItem {
   id: string;
-  price: number
+  price: number;
   tableNumber: number;
   paid: boolean;
   createDate: string;

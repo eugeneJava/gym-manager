@@ -1,19 +1,21 @@
-<div class="btn-group btn-group-toggle" [(ngModel)]="durationModel">
-  <label class="btn-warning" *ngFor="let time of times">
-    <input type="radio" [value]="time" (click)="setDuration(time)"> {{time.description}}
-  </label>
-</div>
+<form [formGroup]="durationPickerForm">
+  <div class="btn-group" >
+    <ng-container *ngFor="let time of predefinedTimeOptions; let i = index">
+      <input type="radio" class="btn-check" [value]="time" [formControl]="radioOptionDuration" id="timeOptions_{{i}}">
+      <label class="btn btn-outline-primary" for="timeOptions_{{i}}"> {{time.description}} </label>
+    </ng-container>
+  </div>
 
-{{durationModel | json }}
+  <div class="row">
+    <div class="col">
+      <ngb-timepicker
+        [formControl]="ngbTimePickerDuration"
+        [minuteStep]="5">
+      </ngb-timepicker>
+    </div>
+  </div>
+</form>
 
 <!--
-<div class="row">
-  <div class="col">
-    <ngb-timepicker
-      [(ngModel)]="durationModel"
-      [minuteStep]="5"
-      (ngModelChange)="setDuration($event)">
-    </ngb-timepicker>
-  </div>
-</div>
+{{duration.value | json }}
 -->

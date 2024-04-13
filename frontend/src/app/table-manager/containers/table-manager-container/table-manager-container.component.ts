@@ -72,7 +72,7 @@ export class TableManagerContainerComponent implements OnInit {
 
     const additionalPayment = addedTime.table.rate * DateUtils.toHours(addedTime.duration);
     session.totalMoney = session.totalMoney + additionalPayment;
-    if (addedTime.paid === true) {
+    if (addedTime.paidAmount === true) {
       session.paidMoney = session.paidMoney + additionalPayment;
     }
     session.needToPay = session.totalMoney - session.paidMoney;
