@@ -33,8 +33,8 @@ public class TradesProductBuyWebService {
         List<TradesProductBuy> productBuy = productBuyRepository.findAllByOrderByPurchaseDateDesc();
         return productBuy.stream()
                 .map(TradesProductBuyDto::new)
-                .sorted(comparing(TradesProductBuyDto::getTrackId, nullsFirst(String::compareTo))
-                        .thenComparing(buy -> buy.getParcelId(), nullsFirst(String::compareTo)))
+                /*  .sorted(comparing(TradesProductBuyDto::getTrackId, nullsFirst(String::compareTo))
+                          .thenComparing(buy -> buy.getParcelId(), nullsFirst(String::compareTo)))*/
                 .collect(Collectors.toList());
     }
 
@@ -56,9 +56,9 @@ public class TradesProductBuyWebService {
         //TODO: add explicit weight fraction
         int totalBought = 0;
         if (parcelGroupDto.isAllProductsSameWeight()) {
-          for(TradesProductBuyDto buy : parcelGroupDto.getProductBuys()) {
-            totalBought += buy.getAmount();
-          }
+            for (TradesProductBuyDto buy : parcelGroupDto.getProductBuys()) {
+                totalBought += buy.getAmount();
+            }
         }
 
         BigDecimal total = v(totalBought);
@@ -114,12 +114,14 @@ public class TradesProductBuyWebService {
             deliveredProductBuys.forEach(buy -> {
                 ProductBuyInParcelDto productBuyInParcel
                         = new ProductBuyInParcelDto(
-                                buy.getUnitBuyPrice(),
+                        buy.getUnitBuyPriceWithDelivery(),
+                        buy.getUnitDeliveryPrice(),
                         buy.getParcelGroup().getParcel().getStartedDeliveryAt(),
                         buy.getParcelGroup().getParcel().getDeliveryType());
                 dto.getProductsBuyInParcel().add(productBuyInParcel);
             });
 
+            dto.getProductsBuyInParcel().sort(comparing(ProductBuyInParcelDto::getParcelFormedDate, nullsFirst(reverseOrder())));
             statisticsDtos.add(dto);
         });
 

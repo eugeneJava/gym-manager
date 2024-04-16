@@ -121,4 +121,12 @@ public class TradesProductBuy extends Identifiable {
     public BigDecimal getWeightFraction() {
         return weightFraction;
     }
+
+    public BigDecimal getUnitBuyPriceWithDelivery() {
+        return unitBuyPriceWithDelivery;
+    }
+
+    public BigDecimal getUnitDeliveryPrice() {
+        return unitDeliveryPrice;
+    }
 }

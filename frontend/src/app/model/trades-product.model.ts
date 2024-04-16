@@ -44,6 +44,7 @@ export class ProductBuyStatisticsDto {
 
 export class ProductBuyInParcelDto {
     buyPrice: number;
+    deliveryPrice: number;
     parcelFormedDate: Date;
     deliveryType: string;
 }

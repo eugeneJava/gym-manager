@@ -3,7 +3,7 @@
 <div ngbAccordion>
   <div ngbAccordionItem *ngFor="let productBuyStatistic of productsBuyStatistics; let i = index" [collapsed]="i!==0">
     <h2 ngbAccordionHeader>
-      <button ngbAccordionButton>Product: {{ productBuyStatistic.product.name }}</button>
+      <button ngbAccordionButton>Продукт: {{ productBuyStatistic.product.name }}</button>
     </h2>
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
@@ -11,14 +11,16 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Buy Price</th>
-                <th>Parcel Formed Date</th>
-                <th>Delivery Type</th>
+                <th>Ціна покупки</th>
+                <th>Ціна доставки</th>
+                <th>Дата комплектації посилки</th>
+                <th>Тип доставки</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let productBuyInParcel of productBuyStatistic.productsBuyInParcel">
                 <td>{{ productBuyInParcel.buyPrice }}</td>
+                <td>{{ productBuyInParcel.deliveryPrice }}</td>
                 <td>{{ productBuyInParcel.parcelFormedDate | date }}</td>
                 <td>{{ productBuyInParcel.deliveryType }}</td>
               </tr>

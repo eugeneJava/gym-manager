@@ -45,7 +45,7 @@ export class ProcurementEditComponent implements OnInit {
       totalBuyPriceInYuan: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       totalBuyPriceInUah: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       weight: new FormControl<number>(null),
-      trackId: new FormControl<string>(''),
+      trackId: new FormControl<string>('', Validators.required),
       name: new FormControl<string>('',  Validators.required),
       comments: new FormControl<string>(''),
       purchaseDate: new FormControl<string>(DateUtils.now(), Validators.required),

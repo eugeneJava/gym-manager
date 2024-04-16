@@ -21,7 +21,7 @@ export class TradesParcelEditComponent implements OnInit {
     this.parcelForm = this.fb.group({
       id: [null],
       weight: [null, Validators.required],
-      deliveryPrice: [null],
+      deliveryPrice: [null, Validators.required],
       startedDeliveryAt: [null, Validators.required],
       deliveredAt: [''],
       deliveryType: [null, Validators.required],
