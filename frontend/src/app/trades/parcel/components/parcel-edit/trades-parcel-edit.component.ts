@@ -5,7 +5,8 @@ import {TradesParcelDto, TradesParcelGroupDto} from "../../../../model/trades-pr
 
 @Component({
   selector: 'app-trades-parcel-edit',
-  templateUrl: './trades-parcel-edit.component.html'
+  templateUrl: './trades-parcel-edit.component.html',
+  styleUrls: ['./trades-parcel-edit.component.scss']
 })
 export class TradesParcelEditComponent implements OnInit {
   @Input() parcel: TradesParcelDto;
@@ -42,7 +43,7 @@ export class TradesParcelEditComponent implements OnInit {
     const purchaseFormGroup = this.fb.group({
       selected: selected,
       product: pg,
-      weight: [null, Validators.required],
+      weight: [null],
     });
 
     if (!pg.trackId) {

@@ -36,7 +36,7 @@ public class TradesProductWebService {
     @PostMapping("/trades/product")
     @Transactional
     public TradesProductDto createTradesProduct(@RequestBody TradesProductDto productDto) {
-        TradesProduct product = new TradesProduct(productDto.getCode(), productDto.getName());
+        TradesProduct product = new TradesProduct(productDto.getName());
         product.setComments(productDto.getComments());
         product = repository.save(product);
         return new TradesProductDto(product);
@@ -47,7 +47,6 @@ public class TradesProductWebService {
     @Transactional
     public TradesProductDto updateTradesProduct(@PathVariable String id, @RequestBody TradesProductDto productDto) {
         TradesProduct product = repository.findById(id).orElseThrow();
-        product.setCode(productDto.getCode());
         product.setName(productDto.getName());
         product.setComments(productDto.getComments());
         return new TradesProductDto(product);

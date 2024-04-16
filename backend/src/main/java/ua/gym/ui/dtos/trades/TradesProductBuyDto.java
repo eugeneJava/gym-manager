@@ -17,24 +17,23 @@ public class TradesProductBuyDto {
     private BigDecimal unitPrice;
     private BigDecimal weight;
     private String trackId;
+    private String parcelId;
     private String name;
     private String comments;
     private LocalDateTime purchaseDate;
 
-    // Default public constructor
     public TradesProductBuyDto() {}
 
-    // Constructor mapping from entity
     public TradesProductBuyDto(TradesProductBuy productBuy) {
         this.id = productBuy.getId();
         this.totalBuyPriceInYuan = productBuy.getTotalBuyPriceInYuan();
         this.totalBuyPriceInUah = productBuy.getTotalBuyPriceInUah();
-        this.parcelGroup =  new TradesParcelGroupDto(productBuy.getParcelGroup());
         this.amount = productBuy.getProductUnits().size();
         this.product = new TradesProductDto(productBuy.getProductUnits().stream().findFirst().get().getProduct());
         this.unitPrice = productBuy.getUnitBuyPrice();
         this.weight = productBuy.getParcelGroup().getWeight();
         this.trackId = productBuy.getParcelGroup().getTrackId();
+        this.parcelId = productBuy.getParcelGroup().getParcel() != null ? productBuy.getParcelGroup().getParcel().getId() : null;
         this.name = productBuy.getParcelGroup().getName();
         this.comments = productBuy.getParcelGroup().getComments();
         this.purchaseDate = productBuy.getPurchaseDate();
@@ -72,7 +71,6 @@ public class TradesProductBuyDto {
     public void setParcelGroup(TradesParcelGroupDto parcelGroup) {
         this.parcelGroup = parcelGroup;
     }
-
 
     public int getAmount() {
         return amount;
@@ -132,5 +130,13 @@ public class TradesProductBuyDto {
 
     public LocalDateTime getPurchaseDate() {
         return purchaseDate;
+    }
+
+    public String getParcelId() {
+        return parcelId;
+    }
+
+    public void setParcelId(String parcelId) {
+        this.parcelId = parcelId;
     }
 }

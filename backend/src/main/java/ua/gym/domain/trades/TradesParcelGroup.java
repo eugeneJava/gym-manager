@@ -7,7 +7,6 @@ import ua.gym.utils.NumberUtils;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,20 +30,32 @@ public class TradesParcelGroup extends Identifiable {
     @Column(nullable = false)
     private String comments;
 
-    @OneToOne(mappedBy = "parcelGroup")
-    private TradesProductBuy productBuy;
+    @OneToMany(mappedBy = "parcelGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TradesProductBuy> productBuys = new ArrayList<>();
+
+    @Column(nullable = false)
+    private BigDecimal totalBuyPriceInYuan;
+
+    @Column(nullable = false)
+    private BigDecimal totalBuyPriceInUah;
+
+    BigDecimal groupWeightPart;
+    BigDecimal groupDeliveryPrice;
 
     public TradesParcelGroup() {
     }
 
-    public TradesParcelGroup(String name, String comments) {
+    public TradesParcelGroup(String name, String comments, BigDecimal totalBuyPriceInYuan, BigDecimal totalBuyPriceInUah) {
         this.name = name;
         this.comments = comments;
+        Assertions.assertGreaterThanZero(totalBuyPriceInYuan);
+        Assertions.assertGreaterThanZero(totalBuyPriceInUah);
+        this.totalBuyPriceInYuan = totalBuyPriceInYuan;
+        this.totalBuyPriceInUah = totalBuyPriceInUah;
     }
 
-    void setProductBuy(TradesProductBuy tradesProductBuy) {
-        Assertions.assertState(Objects.isNull(this.productBuy), "You cannot reassign product buy");
-        this.productBuy = tradesProductBuy;
+    void addProductBuy(TradesProductBuy tradesProductBuy) {
+        this.productBuys.add(tradesProductBuy);
     }
 
     public TradesParcel getParcel() {
@@ -98,7 +109,48 @@ public class TradesParcelGroup extends Identifiable {
         this.comments = comments;
     }
 
-    public TradesProductBuy getProductBuy() {
-        return productBuy;
+    public List<TradesProductBuy> getProductBuy() {
+        return productBuys;
+    }
+
+    void updateParcelCalculatedData(BigDecimal groupWeightPart,
+                                           BigDecimal groupDeliveryPrice) {
+        Assertions.assertGreaterThanZero(groupWeightPart);
+        Assertions.assertGreaterThanZero(groupDeliveryPrice);
+        this.groupWeightPart = groupWeightPart;
+        this.groupDeliveryPrice = groupDeliveryPrice;
+    }
+
+    public BigDecimal getGroupWeightPart() {
+        return groupWeightPart;
+    }
+
+    public BigDecimal getGroupDeliveryPrice() {
+        return groupDeliveryPrice;
+    }
+
+    public void performIntegrityCheck() {
+        Assertions.assertState(!productBuys.isEmpty(), "Parcel group should have at least one product buy");
+
+        BigDecimal totalWeight = productBuys.stream()
+                .map(TradesProductBuy::getWeightFraction)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        Assertions.assertState(totalWeight.compareTo(BigDecimal.ONE) == 0, "Total weight should be 1");
+
+        BigDecimal totalBuyPriceInUah = productBuys.stream()
+                .map(TradesProductBuy::getTotalBuyPriceInUah)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        Assertions.assertState(totalBuyPriceInUah.compareTo(this.totalBuyPriceInUah) == 0, "Total buy price should be greater than 0");
+    }
+
+    public BigDecimal getTotalBuyPriceInYuan() {
+        return totalBuyPriceInYuan;
+    }
+
+
+    public BigDecimal getTotalBuyPriceInUah() {
+        return totalBuyPriceInUah;
     }
 }

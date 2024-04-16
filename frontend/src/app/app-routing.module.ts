@@ -10,6 +10,9 @@ import {
 import {TradesParcelContainerComponent} from "./trades/parcel/container/trades-parcel-container.component";
 import {TradesProductSaleContainerComponent} from "./trades/sales/container/trades-product-sale-container.component";
 import {TradesMainViewComponent} from "./trades/main/trades-main-view/trades-main-view.component";
+import {
+  PurchaseStatisticsListComponent
+} from "./trades/purchase/components/purchase-statistics-list/purchase-statistics-list.component";
 
 const routes : Routes = [
   {
@@ -38,6 +41,11 @@ const routes : Routes = [
       {
         path: 'sales',
         component: TradesProductSaleContainerComponent
+      },
+
+      {
+        path: 'purchaseStatistics',
+        component: PurchaseStatisticsListComponent
       }
     ]
   }

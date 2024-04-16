@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {TradesParcelGroupDto, TradesProductBuyDto, TradesProductDto} from "../../../../model/trades-product.model";
 import {TradesProductService} from "../../../product/services/trades-product.service";
@@ -18,15 +18,17 @@ interface ProductFormValue {
   name: FormControl<string>;
   comments: FormControl<string>;
   purchaseDate: FormControl<string>;
+  productBuys: FormArray;
 }
 
 @Component({
   selector: 'app-edit',
-  templateUrl: './procurement-edit.component.html'
+  templateUrl: './procurement-edit.component.html',
+  styleUrls: ['./procurement-edit.component.scss']
 })
 export class ProcurementEditComponent implements OnInit {
   @Input() productBuy: TradesProductBuyDto;
-  productForm: FormGroup<ProductFormValue>;
+  productForm: UntypedFormGroup;
   products: TradesProductDto[] = [];
 
   constructor(
@@ -34,22 +36,27 @@ export class ProcurementEditComponent implements OnInit {
     private fb: FormBuilder,
     private productService: TradesProductService
   ) {
+
+  }
+
+  ngOnInit(): void {
     this.productForm = this.fb.group({
       id: new FormControl<string>(null),
-      product: new FormControl<TradesProductDto | null>(null, Validators.required),
-      parcelGroup: new FormControl<TradesParcelGroupDto>(null),
       totalBuyPriceInYuan: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       totalBuyPriceInUah: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
-      amount: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
-      unitPrice: new FormControl<number>(0),
       weight: new FormControl<number>(null),
       trackId: new FormControl<string>(''),
-      name: new FormControl<string>('', Validators.required),
+      name: new FormControl<string>('',  Validators.required),
       comments: new FormControl<string>(''),
-      purchaseDate: new FormControl<string>(DateUtils.now(), Validators.required)
+      purchaseDate: new FormControl<string>(DateUtils.now(), Validators.required),
+      productBuys: this.fb.array([]),
+      allProductsSameWeight: new FormControl<boolean>(true),
     });
+    this.addNewProductBuy();
 
-    this.product.valueChanges.subscribe(
+    this.loadProducts();
+
+    /*this.product.valueChanges.subscribe(
       product => {
         if (product) {
           this.name.setValue(product.name);
@@ -58,21 +65,18 @@ export class ProcurementEditComponent implements OnInit {
     );
 
     this.amount.valueChanges.subscribe(
-       amount => {
-         if (this.name.value && amount > 0) {
-           const suggestedName = amount + ' ' + this.name.value;
-           this.name.setValue(suggestedName);
-         }
-       }
-    )
-  }
+      amount => {
+        if (this.name.value && amount > 0) {
+          const suggestedName = amount + ' ' + this.name.value;
+          this.name.setValue(suggestedName);
+        }
+      }
+    )*/
 
-  ngOnInit(): void {
+
     if (this.productBuy) {
-      this.productForm.setValue({... this.productBuy});
+      this.productForm.setValue({...this.productBuy});
     }
-
-    this.loadProducts();
   }
 
   loadProducts(): void {
@@ -86,11 +90,20 @@ export class ProcurementEditComponent implements OnInit {
     );
   }
 
+  private addNewProductBuy() {
+    const productBuy = this.fb.group({
+      product: new FormControl<TradesProductDto>(null, Validators.required),
+      totalBuyPriceInYuan: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
+      totalBuyPriceInUah: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
+      amount: new FormControl<number>(1, [Validators.required, Validators.min(1)]),
+      comments: new FormControl<string>('')
+    });
+    this.productBuys.push(productBuy);
+  }
+
   saveProduct(): void {
-    if (this.productForm.valid) {
       const formValue = this.productForm.getRawValue(); // Use getRawValue() if you need to include disabled controls, else use value.
       this.activeModal.close(formValue);
-    }
   }
 
   productId(t1: TradesProductDto, t2: TradesProductDto): boolean {
@@ -98,50 +111,62 @@ export class ProcurementEditComponent implements OnInit {
   }
 
   get id(): FormControl {
-  return this.productForm.get('id') as FormControl;
-}
+    return this.productForm.get('id') as FormControl;
+  }
 
-get product(): FormControl {
-  return this.productForm.get('product') as FormControl;
-}
+  get product(): FormControl {
+    return this.productForm.get('product') as FormControl;
+  }
 
-get parcelGroup(): FormControl {
-  return this.productForm.get('parcelGroup') as FormControl;
-}
+  get parcelGroup(): FormControl {
+    return this.productForm.get('parcelGroup') as FormControl;
+  }
 
-get totalBuyPriceInYuan(): FormControl {
-  return this.productForm.get('totalBuyPriceInYuan') as FormControl;
-}
+  get totalBuyPriceInYuan(): FormControl {
+    return this.productForm.get('totalBuyPriceInYuan') as FormControl;
+  }
 
-get totalBuyPriceInUah(): FormControl {
-  return this.productForm.get('totalBuyPriceInUah') as FormControl;
-}
+  get totalBuyPriceInUah(): FormControl {
+    return this.productForm.get('totalBuyPriceInUah') as FormControl;
+  }
 
-get amount(): FormControl {
-  return this.productForm.get('amount') as FormControl;
-}
+  get amount(): FormControl {
+    return this.productForm.get('amount') as FormControl;
+  }
 
-get unitPrice(): FormControl {
-  return this.productForm.get('unitPrice') as FormControl;
-}
+  get unitPrice(): FormControl {
+    return this.productForm.get('unitPrice') as FormControl;
+  }
 
-get weight(): FormControl {
-  return this.productForm.get('weight') as FormControl;
-}
+  get weight(): FormControl {
+    return this.productForm.get('weight') as FormControl;
+  }
 
-get trackId(): FormControl {
-  return this.productForm.get('trackId') as FormControl;
-}
+  get trackId(): FormControl {
+    return this.productForm.get('trackId') as FormControl;
+  }
 
-get name(): FormControl {
-  return this.productForm.get('name') as FormControl;
-}
+  get name(): FormControl {
+    return this.productForm.get('name') as FormControl;
+  }
 
-get comments(): FormControl {
-  return this.productForm.get('comments') as FormControl;
-}
+  get comments(): FormControl {
+    return this.productForm.get('comments') as FormControl;
+  }
 
-get purchaseDate(): FormControl {
-  return this.productForm.get('purchaseDate') as FormControl;
-}
+  get purchaseDate(): FormControl {
+    return this.productForm.get('purchaseDate') as FormControl;
+  }
+
+  get productBuys(): FormArray {
+    return this.productForm.get('productBuys') as FormArray;
+  }
+
+  get productBuysGroups(): FormGroup[] {
+    return this.productBuys.controls as FormGroup[];
+  }
+
+  addProductBuy() {
+    this.addNewProductBuy()
+  }
 }

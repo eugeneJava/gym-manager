@@ -13,8 +13,8 @@ import java.util.List;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.joining;
-import static ua.gym.utils.NumberUtils.divide;
-import static ua.gym.utils.NumberUtils.v;
+import static ua.gym.utils.Assertions.assertGreaterThanZero;
+import static ua.gym.utils.NumberUtils.*;
 
 @Entity
 @Table(name = "trades_parcel")
@@ -39,7 +39,7 @@ public class TradesParcel extends Identifiable {
     @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TradesParcelGroup> parcelGroups = new ArrayList<>();
 
-    
+
     public TradesParcel(BigDecimal weight, BigDecimal deliveryPrice, LocalDate startedDeliveryAt, DeliveryType deliveryType) {
         this.weight = weight;
         this.deliveryPrice = deliveryPrice;
@@ -53,10 +53,6 @@ public class TradesParcel extends Identifiable {
 
     public BigDecimal getWeight() {
         return weight;
-    }
-
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
     }
 
     public BigDecimal getDeliveryPrice() {
@@ -117,31 +113,22 @@ public class TradesParcel extends Identifiable {
     }
 
     public void calculateTotalPriceForEveryProduct() {
+        assertGreaterThanZero(this.weight);
+        assertGreaterThanZero(this.deliveryPrice);
         this.parcelGroups.forEach(parcelGroup -> {
-            if (isNull(this.weight)) {
-                return;
-            }
-
-            if (isNull(this.deliveryPrice)) {
-                return;
-            }
-
-            if (isNull(parcelGroup.getWeight())) {
-                return;
-            }
-
-            if (isNull(parcelGroup.getProductBuy().getUnitBuyPrice())) {
-                return;
-            }
+            assertGreaterThanZero(parcelGroup.getWeight());
 
 
             BigDecimal groupWeightPart = divide(parcelGroup.getWeight(), this.weight);
-
             BigDecimal groupDeliveryPrice = this.deliveryPrice.multiply(groupWeightPart);
-            BigDecimal unitDeliveryPrice = divide(groupDeliveryPrice, v(parcelGroup.getProductBuy().getProductUnits().size()));
-            BigDecimal unitBuyPrice = parcelGroup.getProductBuy().getUnitBuyPrice().add(unitDeliveryPrice);
-            parcelGroup.getProductBuy().getProductUnits()
-                    .forEach(productUnit -> productUnit.setTotalBuyPrice(unitBuyPrice));
+            parcelGroup.updateParcelCalculatedData(groupWeightPart, groupDeliveryPrice);
+
+            parcelGroup.getProductBuy().forEach(buyGroup -> {
+                assertGreaterThanZero(buyGroup.getUnitBuyPrice());
+                BigDecimal buyGroupDeliveryPrice = multiply(groupDeliveryPrice, buyGroup.getWeightFraction());
+                BigDecimal unitDeliveryPrice = divide(buyGroupDeliveryPrice, v(buyGroup.getProductUnits().size()));
+                buyGroup.updateUnitPrices(unitDeliveryPrice);
+            });
         });
     }
 }

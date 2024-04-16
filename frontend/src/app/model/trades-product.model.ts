@@ -1,9 +1,6 @@
-import {FormControl} from "@angular/forms";
-
 export class TradesProductDto {
 
     id: string;
-    code: string;
     name: string;
     comments: string
 }
@@ -18,6 +15,7 @@ export class TradesProductBuyDto {
   unitPrice: number;
   weight: number;
   trackId: string;
+  parcelId: string;
   name: string;
   comments: string;
   purchaseDate: string;
@@ -32,6 +30,22 @@ export class TradesParcelGroupDto {
   productName: string;
   productAmount: number;
   parcelId: string;
+  allProductsSameWeight: boolean;
+  purchaseDate: string;
+  totalBuyPriceInYuan: number;
+  totalBuyPriceInUah: number;
+  productBuys: TradesProductBuyDto[];
+}
+
+export class ProductBuyStatisticsDto {
+    product: TradesProductDto;
+    productsBuyInParcel: ProductBuyInParcelDto[];
+}
+
+export class ProductBuyInParcelDto {
+    buyPrice: number;
+    parcelFormedDate: Date;
+    deliveryType: string;
 }
 
 export class TradesProductUnitDto {

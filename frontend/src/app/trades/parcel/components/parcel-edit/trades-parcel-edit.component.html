@@ -1,5 +1,5 @@
 <div class="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" style="display: block;" aria-modal="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog wide-modal" role="document">
     <div class="modal-content">
       <ng-container *ngTemplateOutlet="!parcel ? newParcel : editParcel"></ng-container>
       <div class="modal-footer">
@@ -14,54 +14,59 @@
   <div class="modal-header">
     <h5 class="modal-title" id="modalLabel">Створити посилку</h5>
   </div>
-  <div class="modal-body">
+ <div class="modal-body">
     <form [formGroup]="parcelForm" novalidate>
-      <div class="form-group">
-        <label>Закупки:</label>
-        <ng-container [formArrayName]="'parcelGroups'">
-          <div *ngFor="let parcelGroupControl of parcelGroupsGroups;" [formGroup]="parcelGroupControl">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" formControlName="selected">
-              <label class="form-check-label">
-                <div>{{ parcelGroupControl.get('product').value.name }}</div>
-                <div><small>{{ parcelGroupControl.get('product').value.trackId }}</small></div>
-                <div *ngIf="parcelGroupControl.get('product').value.trackId">
-                  <small><label for="groupWeight">Вага групи</label></small>
-                  <input type="number" class="form-control" id="groupWeight" formControlName="weight" min="0" placeholder="Введіть вагу">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label>Закупки:</label>
+            <ng-container [formArrayName]="'parcelGroups'">
+              <div *ngFor="let parcelGroupControl of parcelGroupsGroups;" [formGroup]="parcelGroupControl">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" formControlName="selected">
+                  <label class="form-check-label">
+                    <div>{{ parcelGroupControl.get('product').value.name }}</div>
+                    <div><small>{{ parcelGroupControl.get('product').value.trackId }}</small></div>
+                    <div *ngIf="parcelGroupControl.get('product').value.trackId">
+                      <small><label for="groupWeight">Вага групи</label></small>
+                      <input type="number" class="form-control" id="groupWeight" formControlName="weight" min="0" placeholder="Введіть вагу">
+                    </div>
+                  </label>
                 </div>
-              </label>
-            </div>
+              </div>
+            </ng-container>
           </div>
-        </ng-container>
-      </div>
-
-      <div class="form-group">
-        <label for="weight">Загальна вага</label>
-        <input type="number" class="form-control" id="weight" formControlName="weight" placeholder="Введіть вагу">
-      </div>
-      <div class="form-group">
-        <label for="deliveryPrice">Ціна доставки (грн)</label>
-        <input type="number" class="form-control" id="deliveryPrice" formControlName="deliveryPrice"
-               placeholder="Введіть ціну доставки">
-      </div>
-      <div class="form-group">
-        <label for="startedDeliveryAt">Дата відправки</label>
-        <input type="date" class="form-control" id="startedDeliveryAt" formControlName="startedDeliveryAt">
-      </div>
-      <div class="form-group">
-        <label for="deliveredAt">Дата доставки</label>
-        <input type="date" class="form-control" id="deliveredAt" formControlName="deliveredAt">
-      </div>
-      <div class="form-group">
-        <label for="deliveryType">Тип доставки</label>
-        <select class="form-control" id="deliveryType" formControlName="deliveryType">
-          <option value="SEA">Море</option>
-          <option value="AVIA">Авіа</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="comments">Коментарі</label>
-        <textarea class="form-control" id="comments" formControlName="comments" rows="3"></textarea>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="deliveryType">Тип доставки</label>
+            <select class="form-control" id="deliveryType" formControlName="deliveryType">
+              <option value="SEA">Море</option>
+              <option value="AVIA">Авіа</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="weight">Загальна вага</label>
+            <input type="number" class="form-control" id="weight" formControlName="weight" placeholder="Введіть вагу">
+          </div>
+          <div class="form-group">
+            <label for="deliveryPrice">Ціна доставки (грн)</label>
+            <input type="number" class="form-control" id="deliveryPrice" formControlName="deliveryPrice"
+                   placeholder="Введіть ціну доставки">
+          </div>
+          <div class="form-group">
+            <label for="startedDeliveryAt">Дата відправки</label>
+            <input type="date" class="form-control" id="startedDeliveryAt" formControlName="startedDeliveryAt">
+          </div>
+          <div class="form-group">
+            <label for="deliveredAt">Дата доставки</label>
+            <input type="date" class="form-control" id="deliveredAt" formControlName="deliveredAt">
+          </div>
+          <div class="form-group">
+            <label for="comments">Коментарі</label>
+            <textarea class="form-control" id="comments" formControlName="comments" rows="3"></textarea>
+          </div>
+        </div>
       </div>
     </form>
   </div>

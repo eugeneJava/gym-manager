@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
 import static ua.gym.utils.Assertions.*;
@@ -19,8 +18,7 @@ import static ua.gym.utils.NumberUtils.*;
 @Table(name = "trades_product_buy")
 public class TradesProductBuy extends Identifiable {
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private TradesParcelGroup parcelGroup;
 
     @Column(nullable = false)
@@ -32,7 +30,18 @@ public class TradesProductBuy extends Identifiable {
     @OneToMany(mappedBy = "productBuy", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TradesProductUnit> productUnits = new ArrayList<>();
 
+    BigDecimal weightFraction;
+    BigDecimal unitBuyPrice;
+    BigDecimal unitDeliveryPrice;
+    BigDecimal unitBuyPriceWithDelivery;
+
+    @ManyToOne
+    @JoinColumn
+    private TradesProduct product;
+
     private LocalDateTime purchaseDate;
+
+    private Integer amount;
 
     TradesProductBuy() {}
 
@@ -42,18 +51,27 @@ public class TradesProductBuy extends Identifiable {
                             TradesProduct product,
                             LocalDateTime purchaseDate, int amount) {
         assertPresent(parcelGroup, product, purchaseDate);
-        assertNonNegative(totalBuyPriceInUah);
-        assertNonNegative(totalBuyPriceInYuan);
+        Assertions.assertGreaterThanZero(totalBuyPriceInUah);
+        Assertions.assertGreaterThanZero(totalBuyPriceInYuan);
         assertGreaterThan(amount,0);
         this.parcelGroup = parcelGroup;
-        this.parcelGroup.setProductBuy(this);
+        this.parcelGroup.addProductBuy(this);
         this.totalBuyPriceInYuan = totalBuyPriceInYuan;
         this.totalBuyPriceInUah = totalBuyPriceInUah;
         this.purchaseDate = purchaseDate;
+        this.product = product;
+        this.amount = amount;
+        this.unitBuyPrice = divide(totalBuyPriceInUah, v(amount));
 
         for (int i = 0; i < amount; i++) {
             new TradesProductUnit(this, product);
         }
+    }
+
+    public void setWeightFraction(BigDecimal weightFraction) {
+        Assertions.assertGreaterThanZero(weightFraction);
+        Assertions.assertState(weightFraction.compareTo(BigDecimal.ONE) <= 0, "Weight fraction should be less than 1");
+        this.weightFraction = weightFraction;
     }
 
     void addProductUnit(TradesProductUnit productUnit) {
@@ -73,7 +91,7 @@ public class TradesProductBuy extends Identifiable {
     }
 
     public BigDecimal getUnitBuyPrice() {
-        return divide(totalBuyPriceInUah, v(productUnits.size()));
+        return unitBuyPrice;
     }
 
     public TradesParcelGroup getParcelGroup() {
@@ -82,5 +100,25 @@ public class TradesProductBuy extends Identifiable {
 
     public LocalDateTime getPurchaseDate() {
         return purchaseDate;
+    }
+
+    public TradesProduct getProduct() {
+        return product;
+    }
+
+     void updateUnitPrices(BigDecimal unitDeliveryPrice) {
+        Assertions.assertGreaterThanZero(unitDeliveryPrice);
+        this.unitDeliveryPrice = unitDeliveryPrice;
+
+        setUnitBuyPrice(getUnitBuyPrice().add(unitDeliveryPrice));
+    }
+
+     private void setUnitBuyPrice(BigDecimal unitBuyPrice) {
+        Assertions.assertGreaterThanZero(unitBuyPrice);
+        this.unitBuyPriceWithDelivery = unitBuyPrice;
+    }
+
+    public BigDecimal getWeightFraction() {
+        return weightFraction;
     }
 }

@@ -54,6 +54,7 @@ public class TradesParcelWebService {
             throw new IllegalStateException("Parcel should contain at least one group");
         }
         TradesParcel savedTradesParcel = tradesParcelRepository.save(tradesParcel);
+        savedTradesParcel.calculateTotalPriceForEveryProduct();
         return new TradesParcelDto(savedTradesParcel);
     }
 

@@ -1,0 +1,32 @@
+<div class="container py-3">
+  <h2>Ціни закупок</h2>
+<div ngbAccordion>
+  <div ngbAccordionItem *ngFor="let productBuyStatistic of productsBuyStatistics; let i = index" [collapsed]="i!==0">
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton>Product: {{ productBuyStatistic.product.name }}</button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <ng-template>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Buy Price</th>
+                <th>Parcel Formed Date</th>
+                <th>Delivery Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let productBuyInParcel of productBuyStatistic.productsBuyInParcel">
+                <td>{{ productBuyInParcel.buyPrice }}</td>
+                <td>{{ productBuyInParcel.parcelFormedDate | date }}</td>
+                <td>{{ productBuyInParcel.deliveryType }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

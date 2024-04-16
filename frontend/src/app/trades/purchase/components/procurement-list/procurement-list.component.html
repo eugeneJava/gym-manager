@@ -24,8 +24,8 @@
     <td>{{ product.purchaseDate }}</td>
     <td>
       <div><small>Трек: {{ product.trackId }}</small></div>
-      <div [ngClass]="{'text-success': product.parcelGroup.parcelId, 'text-info': !product.parcelGroup.parcelId}">
-        <small>Відправлено: {{ !product.parcelGroup.parcelId ? 'Ні' : 'Так' }}</small>
+      <div [ngClass]="{'text-success': product.parcelId, 'text-info': !product.parcelId}">
+        <small>Відправлено: {{ !product.parcelId ? 'Ні' : 'Так' }}</small>
       </div>
     </td>
   </tr>

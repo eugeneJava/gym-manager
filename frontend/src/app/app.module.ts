@@ -57,6 +57,7 @@ import {TradesProductSaleContainerComponent} from "./trades/sales/container/trad
 import {TradesProductSaleEditComponent} from "./trades/sales/components/sales-edit/tradesProductSale-edit.component";
 import {TradesProductSaleListComponent} from "./trades/sales/components/sales-list/tradesProductSale-list.component";
 import { TradesMainViewComponent } from './trades/main/trades-main-view/trades-main-view.component';
+import { PurchaseStatisticsListComponent } from './trades/purchase/components/purchase-statistics-list/purchase-statistics-list.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { TradesMainViewComponent } from './trades/main/trades-main-view/trades-m
     TradesProductSaleContainerComponent,
     TradesProductSaleEditComponent,
     TradesProductSaleListComponent,
-    TradesMainViewComponent
+    TradesMainViewComponent,
+    PurchaseStatisticsListComponent
 
   ],
   imports: [

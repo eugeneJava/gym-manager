@@ -1,56 +1,103 @@
 <div class="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" style="display: block;" aria-modal="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog wide-modal" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalLabel">Закупка</h5>
       </div>
       <div class="modal-body">
         <form [formGroup]="productForm">
-          <div class="form-group">
-            <label for="product">Товар</label>
-            <select class="form-control" id="product" formControlName="product" [compareWith]="productId">
-              <option *ngFor="let product of products" [ngValue]="product">{{ product.name }}</option>
-            </select>
-          </div>
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <ng-container [formArrayName]="'productBuys'">
+                  <div *ngFor="let productBuy of productBuysGroups;" [formGroup]="productBuy">
+                    <div class="form-group">
+                      <label for="product">Товар</label>
+                      <select class="form-control" id="product" formControlName="product" [compareWith]="productId">
+                        <option *ngFor="let product of products" [ngValue]="product">{{ product.name }}</option>
+                      </select>
+                    </div>
 
-          <div class="form-group">
-            <label for="amount">Кільксть</label>
-            <input formControlName="amount" type="number" id="amount" min="1" class="form-control">
-          </div>
+                    <div class="form-group">
+                      <label for="amount">Кільксть</label>
+                      <input formControlName="amount" type="number" id="amount" min="1" class="form-control">
+                    </div>
 
-          <div class="form-group">
-            <label for="totalBuyPriceInYuan">Ціна в юанях</label>
-            <input formControlName="totalBuyPriceInYuan" type="number" min="0" id="totalBuyPriceInYuan" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="totalBuyPriceInUah">Ціна в грн</label>
-            <input formControlName="totalBuyPriceInUah" type="number" min="0" id="totalBuyPriceInUah" class="form-control">
-          </div>
+                    <div class="form-group">
+                      <label for="totalBuyPriceInYuan">Ціна в юанях</label>
+                      <input formControlName="totalBuyPriceInYuan" type="number" min="0" id="totalBuyPriceInYuan"
+                             class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="totalBuyPriceInUah">Ціна в грн</label>
+                      <input formControlName="totalBuyPriceInUah" type="number" min="0" id="totalBuyPriceInUah"
+                             class="form-control">
+                    </div>
 
-          <div class="form-group">
-            <label for="purchaseDate">Дата закупки</label>
-            <input type="datetime-local" id="purchaseDate" class="form-control" formControlName="purchaseDate">
-          </div>
+                    <div class="form-group">
+                      <label for="comments">Коментарі</label>
+                      <textarea formControlName="comments" class="form-control" rows="3"></textarea>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <button type="button" class="btn btn-primary" (click)="addProductBuy()">
+                    <fa-icon [icon]="['fas', 'add']">Додати товар</fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
 
-          <div class="form-group">
-            <label for="trackId">Поштовий трек-номер</label>
-            <input formControlName="trackId" type="text" id="trackId" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="name">Назва</label>
-            <input formControlName="name" type="text" id="name" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="comments">Коментарі</label>
-            <textarea formControlName="comments" id="comments" class="form-control" rows="3"></textarea>
+            <div class="col">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="allProductsSameWeight"
+                       formControlName="allProductsSameWeight">
+                <label class="form-check-label" for="allProductsSameWeight">
+                  Усі протукти однакової ваги
+                  {{productForm.errors | json}}
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label for="purchase-totalBuyPriceInYuan">Ціна в юанях</label>
+                <input formControlName="totalBuyPriceInYuan" type="number" min="0" id="purchase-totalBuyPriceInYuan"
+                       class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="purchase-totalBuyPriceInUah">Ціна в грн</label>
+                <input formControlName="totalBuyPriceInUah" type="number" min="0" id="purchase-totalBuyPriceInUah"
+                       class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label for="purchaseDate">Дата закупки</label>
+                <input type="datetime-local" id="purchaseDate" class="form-control" formControlName="purchaseDate">
+              </div>
+
+              <div class="form-group">
+                <label for="trackId">Поштовий трек-номер</label>
+                <input formControlName="trackId" type="text" id="trackId" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="name">Назва</label>
+                <input formControlName="name" type="text" id="name" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="comments">Коментарі</label>
+                <textarea formControlName="comments" id="comments" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close click')">Відміна</button>
-        <button type="button" class="btn btn-success" (click)="saveProduct()" [disabled]="!productForm.valid">Зберегти</button>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close click')">Відміна</button>
+          <button type="button" class="btn btn-success" (click)="saveProduct()" [disabled]="!productForm.valid">Зберегти
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 

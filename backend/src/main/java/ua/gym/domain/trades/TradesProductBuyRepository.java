@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface TradesProductBuyRepository extends JpaRepository<TradesProductBuy, String> {
     List<TradesProductBuy> findAllByOrderByPurchaseDateDesc();
+
+    List<TradesProductBuy> findAllByProduct(TradesProduct product);
 }

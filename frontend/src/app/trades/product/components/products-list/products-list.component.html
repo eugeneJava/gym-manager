@@ -3,7 +3,6 @@
   <tr>
     <th scope="col">#</th>
     <th scope="col">Назва</th>
-    <th scope="col">Код</th>
     <th scope="col">Коментарі</th>
     <th scope="col">Редагувати</th>
   </tr>
@@ -12,7 +11,6 @@
   <tr *ngFor="let product of products; let i = index">
     <th scope="row">{{ i + 1 }}</th>
     <td>{{ product.name }}</td>
-    <td>{{ product.code }}</td>
     <td>{{ product.comments }}</td>
     <td>
       <button class="btn btn-light" (click)="onEdit(product)">

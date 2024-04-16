@@ -3,8 +3,10 @@ package ua.gym.ui.dtos.trades;
 import ua.gym.domain.trades.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -16,7 +18,13 @@ public class TradesParcelGroupDto {
     private String comments;
     private String productName;
     private int productAmount;
+    private boolean allProductsSameWeight;
     private String parcelId;
+    private LocalDateTime purchaseDate;
+    private BigDecimal totalBuyPriceInYuan;
+    private BigDecimal totalBuyPriceInUah;
+
+    private List<TradesProductBuyDto> productBuys = new ArrayList<>();
 
     public TradesParcelGroupDto() {
     }
@@ -27,9 +35,9 @@ public class TradesParcelGroupDto {
         this.trackId = parcelGroup.getTrackId();
         this.name = parcelGroup.getName();
         this.comments = parcelGroup.getComments();
-        List<TradesProductUnit> productUnits = parcelGroup.getProductBuy().getProductUnits();
-        this.productName = productUnits.stream().findFirst().get().getProduct().getName();
-        this.productAmount = productUnits.size();
+        this.productBuys = parcelGroup.getProductBuy().stream().map(TradesProductBuyDto::new).collect(Collectors.toList());
+        this.totalBuyPriceInUah = parcelGroup.getTotalBuyPriceInUah();
+        totalBuyPriceInYuan = parcelGroup.getTotalBuyPriceInYuan();
         this.parcelId = nonNull(parcelGroup.getParcel()) ? parcelGroup.getParcel().getId() : null;
     }
 
@@ -83,5 +91,41 @@ public class TradesParcelGroupDto {
 
     public String getParcelId() {
         return parcelId;
+    }
+
+    public List<TradesProductBuyDto> getProductBuys() {
+        return productBuys;
+    }
+
+    public void setAllProductsSameWeight(boolean allProductsSameWeight) {
+        this.allProductsSameWeight = allProductsSameWeight;
+    }
+
+    public boolean isAllProductsSameWeight() {
+        return allProductsSameWeight;
+    }
+
+    public LocalDateTime getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(LocalDateTime purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public BigDecimal getTotalBuyPriceInYuan() {
+        return totalBuyPriceInYuan;
+    }
+
+    public void setTotalBuyPriceInYuan(BigDecimal totalBuyPriceInYuan) {
+        this.totalBuyPriceInYuan = totalBuyPriceInYuan;
+    }
+
+    public BigDecimal getTotalBuyPriceInUah() {
+        return totalBuyPriceInUah;
+    }
+
+    public void setTotalBuyPriceInUah(BigDecimal totalBuyPriceInUah) {
+        this.totalBuyPriceInUah = totalBuyPriceInUah;
     }
 }

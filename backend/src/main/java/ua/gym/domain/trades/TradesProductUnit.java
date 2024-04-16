@@ -21,9 +21,6 @@ public class TradesProductUnit extends Identifiable {
     @ManyToOne(fetch = FetchType.LAZY)
     private TradesProductSale productSale;
 
-    @Transient
-    private BigDecimal totalBuyPrice;
-
     TradesProductUnit() {
     }
 
@@ -48,15 +45,5 @@ public class TradesProductUnit extends Identifiable {
 
     public TradesProductSale getProductSale() {
         return productSale;
-    }
-
-    void setTotalBuyPrice(BigDecimal totalBuyPrice) {
-        if (this.totalBuyPrice != null) {
-            return;
-        }
-
-        Assertions.assertState(NumberUtils.greaterOrEqualZero(totalBuyPrice), "Total buy price must be greater or equal to zero. Got: " + totalBuyPrice);
-
-        this.totalBuyPrice = totalBuyPrice;
     }
 }

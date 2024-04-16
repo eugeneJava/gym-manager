@@ -10,8 +10,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "trades_product")
 public class TradesProduct extends Identifiable {
-    @Column(nullable = false)
-    private String code;
 
     @Column(nullable = false)
     private String name;
@@ -22,19 +20,9 @@ public class TradesProduct extends Identifiable {
     protected TradesProduct() {
     }
 
-    public TradesProduct(String code, String name) {
-        Assertions.assertPresent(code, name);
-        this.code = code;
+    public TradesProduct(String name) {
+        Assertions.assertPresent(name);
         this.name = name;
-    }
-
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getName() {

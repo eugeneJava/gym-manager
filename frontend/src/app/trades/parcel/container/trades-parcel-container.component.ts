@@ -37,7 +37,7 @@ export class TradesParcelContainerComponent implements OnInit {
   }
 
   addParcel(): void {
-    const modalRef = this.modalService.open(TradesParcelEditComponent);
+    const modalRef = this.modalService.open(TradesParcelEditComponent, {size: 'xl'});
     modalRef.componentInstance.parcelGroupsWithoutParcel = this.parcelGroupsWithoutParcel;
     modalRef.result.then((result: TradesParcelDto) => {
       if (result) {
