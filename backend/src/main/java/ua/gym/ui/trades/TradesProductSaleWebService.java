@@ -55,7 +55,7 @@ public class TradesProductSaleWebService {
         List<TradesProductUnit> notSoldUnits = tradesProductUnitRepository.getNotSoldProductUnits(product);
         List<TradesProductUnit> unitsToSell = notSoldUnits.subList(0, dto.getAmountToSell());
 
-        TradesProductSale sale = new TradesProductSale(dto.getSellPrice(), dto.getSoldAt());
+        TradesProductSale sale = new TradesProductSale(dto.getSellPrice(), dto.getSoldAt(), dto.getComments());
         unitsToSell.forEach(unit -> sale.addProductUnit(unit));
 
         assertState(!sale.getProductUnits().isEmpty(), "At least one product unit should be sold.");

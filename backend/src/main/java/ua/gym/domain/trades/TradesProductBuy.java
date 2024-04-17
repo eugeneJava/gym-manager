@@ -52,7 +52,6 @@ public class TradesProductBuy extends Identifiable {
                             LocalDateTime purchaseDate, int amount) {
         assertPresent(parcelGroup, product, purchaseDate);
         Assertions.assertGreaterThanZero(totalBuyPriceInUah);
-        Assertions.assertGreaterThanZero(totalBuyPriceInYuan);
         assertGreaterThan(amount,0);
         this.parcelGroup = parcelGroup;
         this.parcelGroup.addProductBuy(this);

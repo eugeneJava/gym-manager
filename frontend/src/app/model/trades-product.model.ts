@@ -79,5 +79,6 @@ export class TradesProductSaleDto {
   soldAt: number;
   amountToSale: number
   soldAmount: number;
+  comments?: string;
 }
 

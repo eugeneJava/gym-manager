@@ -42,7 +42,6 @@ export class PurchaseWithParcelEdit implements OnInit {
   ngOnInit(): void {
     this.productForm = this.fb.group({
       id: new FormControl<string>(null),
-      totalBuyPriceInYuan: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       totalBuyPriceInUah: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       weight: new FormControl<number>(null),
       trackId: new FormControl<string>('', Validators.required),
@@ -53,6 +52,11 @@ export class PurchaseWithParcelEdit implements OnInit {
       allProductsSameWeight: new FormControl<boolean>(true),
     });
     this.addNewProductBuy();
+
+    this.productBuysGroups[0].get('product').valueChanges
+      .subscribe(product => {
+        this.name.setValue(this.formName(product.name, '1', product.name));
+      });
 
     this.loadProducts();
 
@@ -93,12 +97,29 @@ export class PurchaseWithParcelEdit implements OnInit {
   private addNewProductBuy() {
     const productBuy = this.fb.group({
       product: new FormControl<TradesProductDto>(null, Validators.required),
-      totalBuyPriceInYuan: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       totalBuyPriceInUah: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       amount: new FormControl<number>(1, [Validators.required, Validators.min(1)]),
       comments: new FormControl<string>('')
     });
     this.productBuys.push(productBuy);
+
+    productBuy.get('amount').valueChanges.subscribe(
+      amount => {
+        let totalAmount = 0;
+        this.productBuysGroups.forEach(buy => {
+           totalAmount +=  buy.get('amount').value
+        });
+
+        this.name.setValue(this.formName(this.name.value, totalAmount + ''));
+      }
+    );
+  }
+
+  formName(currentName: string, firstPart, secondPart?):  string {
+    const parts = currentName?.split('-',2)
+
+    const newName = firstPart + '-' + (!parts[1] ? secondPart : parts[1])
+    return newName;
   }
 
   saveProduct(): void {

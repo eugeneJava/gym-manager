@@ -31,13 +31,16 @@ public class TradesProductSale extends Identifiable {
     @Column(nullable = false)
     private LocalDateTime soldAt;
 
+    private String comments;
+
     TradesProductSale() {
     }
 
-    public TradesProductSale(BigDecimal sellPrice, LocalDateTime soldAt) {
+    public TradesProductSale(BigDecimal sellPrice, LocalDateTime soldAt, String comments) {
         Assertions.assertPresent(sellPrice, soldAt);
         this.sellPrice = sellPrice;
         this.soldAt = soldAt;
+        this.comments = comments;
     }
 
     public BigDecimal getSellPrice() {
@@ -64,5 +67,13 @@ public class TradesProductSale extends Identifiable {
 
     public void setProductSaleGroup(TradesProductSaleGroup productSaleGroup) {
         assertState(isNull(this.productSaleGroup), "You cannot reassingn a sale group");
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

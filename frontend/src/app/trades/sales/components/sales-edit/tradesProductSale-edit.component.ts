@@ -1,13 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TradesTradesProductUnitService} from "../../services/trades-product-unit.service";
 import {
-  ProductsAvailableForSaleDto, TradesProductDto,
-  TradesProductSaleDto,
-  TradesProductUnitDto
+  ProductsAvailableForSaleDto,
+  TradesProductDto,
+  TradesProductSaleDto
 } from "../../../../model/trades-product.model";
-import {formatDate} from "@angular/common";
 import {DateUtils} from "../../../../model/date-utils";
 
 @Component({
@@ -31,6 +30,7 @@ export class TradesProductSaleEditComponent implements OnInit {
       productSaleGroupId: [''],
       soldAt: [DateUtils.now(), [Validators.required]],
       amountToSell: [1, [Validators.required, Validators.min(1)]],
+      comments: [''],
       suggestedPrice: ['']
     });
   }

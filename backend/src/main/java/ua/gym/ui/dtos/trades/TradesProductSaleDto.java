@@ -15,6 +15,7 @@ public class TradesProductSaleDto {
     private LocalDateTime soldAt;
     private int amountToSell;
     private int soldAmount;
+    private String comments;
 
     public TradesProductSaleDto() {
     }
@@ -29,6 +30,7 @@ public class TradesProductSaleDto {
         this.product = new TradesProductDto(firstProductUnit.getProduct());
         this.productSaleGroup = tradesProductSale.getProductSaleGroup().map(TradesProductSaleGroupDto::new).orElse(null);
         this.soldAt = tradesProductSale.getSoldAt();
+        this.comments = tradesProductSale.getComments();
     }
 
     public int getSoldAmount() {
@@ -89,5 +91,13 @@ public class TradesProductSaleDto {
 
     public void setAmountToSell(int amountToSell) {
         this.amountToSell = amountToSell;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }
