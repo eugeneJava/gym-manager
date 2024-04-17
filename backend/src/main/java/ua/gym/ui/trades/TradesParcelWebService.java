@@ -32,7 +32,7 @@ public class TradesParcelWebService {
     @GetMapping("/trades/parcel")
     @Transactional(readOnly = true)
     public List<TradesParcelDto> getAllTradesParcels() {
-        List<TradesParcel> parcels = tradesParcelRepository.findAll();
+        List<TradesParcel> parcels = tradesParcelRepository.findAllByOrderByStartedDeliveryAtDesc();
         return parcels.stream().map(TradesParcelDto::new).collect(Collectors.toList());
     }
 
