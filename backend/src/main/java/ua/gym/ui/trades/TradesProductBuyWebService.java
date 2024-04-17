@@ -9,6 +9,7 @@ import ua.gym.ui.dtos.trades.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Comparator.*;
@@ -45,9 +46,9 @@ public class TradesProductBuyWebService {
         return new TradesProductBuyDto(productBuy);
     }
 
-    @PostMapping("/trades/productBuy")
+    @PostMapping("/trades/productBuy/withParcel")
     @Transactional
-    public TradesParcelGroupDto createTradesProductBuy(@RequestBody TradesParcelGroupDto parcelGroupDto) {
+    public TradesParcelGroupDto createTradesProductBuyWithParcel(@RequestBody TradesParcelGroupDto parcelGroupDto) {
         TradesParcelGroup parcelGroup = new TradesParcelGroup(
                 parcelGroupDto.getName(),
                 parcelGroupDto.getComments(), parcelGroupDto.getTotalBuyPriceInYuan(), parcelGroupDto.getTotalBuyPriceInUah());
@@ -84,6 +85,25 @@ public class TradesProductBuyWebService {
         return new TradesParcelGroupDto(parcelGroup);
     }
 
+    @PostMapping("/trades/productBuy")
+    @Transactional
+    public TradesProductBuyDto createTradesProductBuy(@RequestBody TradesProductBuyDto productBuyDto) {
+        TradesProduct product = productRepository.findById(productBuyDto.getProduct().getId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        TradesProductBuy productBuyEntity = new TradesProductBuy(
+                product,
+                productBuyDto.getPurchaseDate(),
+                productBuyDto.getAmount(),
+                productBuyDto.getUnitPrice()
+        );
+
+        productBuyRepository.save(productBuyEntity);
+        return new TradesProductBuyDto(productBuyEntity);
+    }
+
+
+
     @PutMapping("/trades/productBuy/{id}")
     @Transactional
     public TradesProductBuyDto updateTradesProductBuy(@PathVariable String id, @RequestBody TradesProductBuyDto productBuyDto) {
@@ -102,7 +122,7 @@ public class TradesProductBuyWebService {
         productRepository.findAll().forEach(product -> {
             List<TradesProductBuy> productBuys = productBuyRepository.findAllByProduct(product);
             List<TradesProductBuy> deliveredProductBuys = productBuys.stream()
-                    .filter(buy -> nonNull(buy.getParcelGroup().getParcel()))
+                    .filter(buy -> nonNull(buy.getUnitBuyPriceWithDelivery()))
                     .collect(Collectors.toList());
 
             if (deliveredProductBuys.isEmpty()) {
@@ -116,8 +136,8 @@ public class TradesProductBuyWebService {
                         = new ProductBuyInParcelDto(
                         buy.getUnitBuyPriceWithDelivery(),
                         buy.getUnitDeliveryPrice(),
-                        buy.getParcelGroup().getParcel().getStartedDeliveryAt(),
-                        buy.getParcelGroup().getParcel().getDeliveryType());
+                        buy.getPurchaseDate(),
+                        Optional.ofNullable(buy.getParcelGroup()).map(TradesParcelGroup::getParcel).map(TradesParcel::getDeliveryType).orElse(null));
                 dto.getProductsBuyInParcel().add(productBuyInParcel);
             });
 

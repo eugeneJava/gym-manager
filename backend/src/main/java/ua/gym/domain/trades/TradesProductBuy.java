@@ -68,6 +68,24 @@ public class TradesProductBuy extends Identifiable {
         }
     }
 
+    public TradesProductBuy(TradesProduct product,
+                            LocalDateTime purchaseDate, int amount, BigDecimal unitBuyPrice) {
+        assertPresent(product, purchaseDate);
+        Assertions.assertGreaterThanZero(unitBuyPrice);
+        assertGreaterThan(amount,0);
+        this.purchaseDate = purchaseDate;
+        this.product = product;
+        this.amount = amount;
+
+        for (int i = 0; i < amount; i++) {
+            new TradesProductUnit(this, product);
+        }
+        setUnitBuyPriceWithDelivery(unitBuyPrice);
+        this.totalBuyPriceInUah = unitBuyPrice.multiply(v(amount));
+        setWeightFraction(BigDecimal.ONE);
+    }
+
+
     public void setWeightFraction(BigDecimal weightFraction) {
         Assertions.assertGreaterThanZero(weightFraction);
         Assertions.assertState(weightFraction.compareTo(BigDecimal.ONE) <= 0, "Weight fraction should be less than 1");
@@ -110,10 +128,10 @@ public class TradesProductBuy extends Identifiable {
         Assertions.assertGreaterThanZero(unitDeliveryPrice);
         this.unitDeliveryPrice = unitDeliveryPrice;
 
-        setUnitBuyPrice(getUnitBuyPrice().add(unitDeliveryPrice));
+        setUnitBuyPriceWithDelivery(getUnitBuyPrice().add(unitDeliveryPrice));
     }
 
-     private void setUnitBuyPrice(BigDecimal unitBuyPrice) {
+     public void setUnitBuyPriceWithDelivery(BigDecimal unitBuyPrice) {
         Assertions.assertGreaterThanZero(unitBuyPrice);
         this.unitBuyPriceWithDelivery = unitBuyPrice;
     }

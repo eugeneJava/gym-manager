@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {TradesProductBuyDto} from "../../../../model/trades-product.model";
 import {TradesProductBuyService} from "../../service/trades-product-buy.service";
-import {ProcurementEditComponent} from "../../components/procurement-edit/procurement-edit.component";
+import {PurchaseWithParcelEdit} from "../../components/purchase-with-parcel-edit/purchase-with-parcel-edit.component";
+import {PurchaseEdit} from "../../components/purchase-edit/purchase-edit.component";
 
 @Component({
   selector: 'app-container',
@@ -32,8 +33,25 @@ export class ProcurementContainerComponent implements OnInit {
     );
   }
 
+  addPurchaseWithParcel() {
+    const modalRef = this.modalService.open(PurchaseWithParcelEdit);
+    modalRef.result.then((result) => {
+      if (result) {
+        this.productService.createProductBuyWithParcel(result).subscribe(
+          (newProduct) => {
+            this.products = [...this.products, newProduct];
+            this.loadProducts(); // Refresh list to ensure consistency
+          },
+          (error) => {
+            console.error('There was an error saving the new product', error);
+          }
+        );
+      }
+    });
+  }
+
   addPurchase() {
-    const modalRef = this.modalService.open(ProcurementEditComponent);
+    const modalRef = this.modalService.open(PurchaseEdit);
     modalRef.result.then((result) => {
       if (result) {
         this.productService.createProductBuy(result).subscribe(
@@ -50,7 +68,7 @@ export class ProcurementContainerComponent implements OnInit {
   }
 
   editPurchase(productBuy: TradesProductBuyDto) {
-    const modalRef = this.modalService.open(ProcurementEditComponent);
+    const modalRef = this.modalService.open(PurchaseWithParcelEdit);
     modalRef.componentInstance.productBuy = productBuy;
     modalRef.result.then((updatedProduct) => {
       if (updatedProduct) {

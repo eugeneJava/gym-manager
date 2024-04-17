@@ -43,21 +43,30 @@ import {TableSchedulerComponent} from "./table-manager/components/table-schedule
 import {
   TableManagerContainerComponent
 } from "./table-manager/containers/table-manager-container/table-manager-container.component";
-import { TableSessionCloseDialogComponent } from './table-manager/components/table-session-close-dialog/table-session-close-dialog.component';
-import { ProductsContainerComponent } from './trades/product/container/products-container.component';
-import { ProductsListComponent } from './trades/product/components/products-list/products-list.component';
-import { ProductsEditComponent } from './trades/product/components/products-edit/products-edit.component';
-import { ProcurementEditComponent } from './trades/purchase/components/procurement-edit/procurement-edit.component';
-import { ProcurementListComponent } from './trades/purchase/components/procurement-list/procurement-list.component';
-import { ProcurementContainerComponent } from './trades/purchase/container/procurement-container/procurement-container.component';
+import {
+  TableSessionCloseDialogComponent
+} from './table-manager/components/table-session-close-dialog/table-session-close-dialog.component';
+import {ProductsContainerComponent} from './trades/product/container/products-container.component';
+import {ProductsListComponent} from './trades/product/components/products-list/products-list.component';
+import {ProductsEditComponent} from './trades/product/components/products-edit/products-edit.component';
+import {
+  PurchaseWithParcelEdit
+} from './trades/purchase/components/purchase-with-parcel-edit/purchase-with-parcel-edit.component';
+import {ProcurementListComponent} from './trades/purchase/components/procurement-list/procurement-list.component';
+import {
+  ProcurementContainerComponent
+} from './trades/purchase/container/procurement-container/procurement-container.component';
 import {TradesParcelEditComponent} from "./trades/parcel/components/parcel-edit/trades-parcel-edit.component";
 import {TradesParcelListComponent} from "./trades/parcel/components/parcel-list/trades-parcel-list.component";
 import {TradesParcelContainerComponent} from "./trades/parcel/container/trades-parcel-container.component";
 import {TradesProductSaleContainerComponent} from "./trades/sales/container/trades-product-sale-container.component";
 import {TradesProductSaleEditComponent} from "./trades/sales/components/sales-edit/tradesProductSale-edit.component";
 import {TradesProductSaleListComponent} from "./trades/sales/components/sales-list/tradesProductSale-list.component";
-import { TradesMainViewComponent } from './trades/main/trades-main-view/trades-main-view.component';
-import { PurchaseStatisticsListComponent } from './trades/purchase/components/purchase-statistics-list/purchase-statistics-list.component';
+import {TradesMainViewComponent} from './trades/main/trades-main-view/trades-main-view.component';
+import {
+  PurchaseStatisticsListComponent
+} from './trades/purchase/components/purchase-statistics-list/purchase-statistics-list.component';
+import {PurchaseEdit} from "./trades/purchase/components/purchase-edit/purchase-edit.component";
 
 @NgModule({
   declarations: [
@@ -87,7 +96,8 @@ import { PurchaseStatisticsListComponent } from './trades/purchase/components/pu
     ProductsContainerComponent,
     ProductsListComponent,
     ProductsEditComponent,
-    ProcurementEditComponent,
+    PurchaseWithParcelEdit,
+    PurchaseEdit,
     ProcurementListComponent,
     ProcurementContainerComponent,
     TradesParcelEditComponent,

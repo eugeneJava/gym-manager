@@ -1,11 +1,14 @@
 package ua.gym.ui.dtos.trades;
 
+import ua.gym.domain.trades.TradesParcelGroup;
 import ua.gym.domain.trades.TradesProductBuy;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 public class TradesProductBuyDto {
     private String id;
@@ -31,11 +34,17 @@ public class TradesProductBuyDto {
         this.amount = productBuy.getProductUnits().size();
         this.product = new TradesProductDto(productBuy.getProductUnits().stream().findFirst().get().getProduct());
         this.unitPrice = productBuy.getUnitBuyPrice();
-        this.weight = productBuy.getParcelGroup().getWeight();
-        this.trackId = productBuy.getParcelGroup().getTrackId();
-        this.parcelId = productBuy.getParcelGroup().getParcel() != null ? productBuy.getParcelGroup().getParcel().getId() : null;
-        this.name = productBuy.getParcelGroup().getName();
-        this.comments = productBuy.getParcelGroup().getComments();
+
+        TradesParcelGroup parcelGroup = productBuy.getParcelGroup();
+        if (nonNull(parcelGroup)) {
+            //this.parcelGroup = new TradesParcelGroupDto(parcelGroup);
+            this.weight = parcelGroup.getWeight();
+            this.trackId = parcelGroup.getTrackId();
+            this.parcelId = parcelGroup.getParcel() != null ? parcelGroup.getParcel().getId() : null;
+            this.name = parcelGroup.getName();
+            this.comments = parcelGroup.getComments();
+        }
+
         this.purchaseDate = productBuy.getPurchaseDate();
 
     }

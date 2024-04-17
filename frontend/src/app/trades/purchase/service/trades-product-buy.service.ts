@@ -18,11 +18,15 @@ export class TradesProductBuyService {
     return this.http.get<TradesProductBuyDto>(`${environment.baseUrl}/gym-manager/trades/productBuy/${id}`);
   }
 
+  createProductBuyWithParcel(dto: TradesProductBuyDto): Observable<TradesProductBuyDto> {
+    return this.http.post<TradesProductBuyDto>(`${environment.baseUrl}/gym-manager/trades/productBuy/withParcel`, dto);
+  }
+
   createProductBuy(dto: TradesProductBuyDto): Observable<TradesProductBuyDto> {
     return this.http.post<TradesProductBuyDto>(`${environment.baseUrl}/gym-manager/trades/productBuy`, dto);
   }
 
-  updateProductBuy(id: string, dto: TradesProductBuyDto): Observable<TradesProductBuyDto> {
+    updateProductBuy(id: string, dto: TradesProductBuyDto): Observable<TradesProductBuyDto> {
     return this.http.put<TradesProductBuyDto>(`${environment.baseUrl}/gym-manager/trades/productBuy/${id}`, dto);
   }
 
