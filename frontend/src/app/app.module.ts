@@ -67,6 +67,9 @@ import {
   PurchaseStatisticsListComponent
 } from './trades/purchase/components/purchase-statistics-list/purchase-statistics-list.component';
 import {PurchaseEdit} from "./trades/purchase/components/purchase-edit/purchase-edit.component";
+import {
+  TradesProductSaleGroupEditComponent
+} from "./trades/sales/components/sales-group-edit/tradesProductSale-group-edit.component";
 
 @NgModule({
   declarations: [
@@ -103,6 +106,7 @@ import {PurchaseEdit} from "./trades/purchase/components/purchase-edit/purchase-
     TradesParcelEditComponent,
     TradesParcelListComponent,
     TradesParcelContainerComponent,
+    TradesProductSaleGroupEditComponent,
 
     TradesProductSaleContainerComponent,
     TradesProductSaleEditComponent,

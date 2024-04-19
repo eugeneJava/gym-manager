@@ -28,7 +28,7 @@ public class TradesProductSaleDto {
         this.productUnit = new TradesProductUnitDto(firstProductUnit);
         this.soldAmount = tradesProductSale.getProductUnits().size();
         this.product = new TradesProductDto(firstProductUnit.getProduct());
-        this.productSaleGroup = tradesProductSale.getProductSaleGroup().map(TradesProductSaleGroupDto::new).orElse(null);
+       // this.productSaleGroup = tradesProductSale.getProductSaleGroup().map(TradesProductSaleGroupDto::new).orElse(null);
         this.soldAt = tradesProductSale.getSoldAt();
         this.comments = tradesProductSale.getComments();
     }

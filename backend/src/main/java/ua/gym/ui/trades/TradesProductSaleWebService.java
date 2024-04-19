@@ -62,21 +62,41 @@ public class TradesProductSaleWebService {
         tradesProductSaleRepository.save(sale);
     }
 
+
     @Transactional
     @PutMapping("/trades/productSale/{id}")
     public TradesProductSaleDto updateTradesProductSale(@PathVariable String id, @RequestBody TradesProductSaleDto dto) {
         TradesProductSale sale = tradesProductSaleRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Sale not found"));
 
-        if (dto.getProductSaleGroup() != null) {
-            TradesProductSaleGroup productSaleGroup = tradesProductSaleGroupRepository.findById(dto.getProductSaleGroup().getId())
-                    .orElseThrow(() -> new IllegalStateException("ProductSaleGroup not found"));
-            sale.setProductSaleGroup(productSaleGroup);
-        }
 
         //sale.setSellPrice(dto.getSellPrice());
         //sale.setSoldAt(dto.getSoldAt());
 
         return new TradesProductSaleDto(sale);
+    }
+
+
+    @Transactional
+    @PostMapping("/trades/productSale/group")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createTradesProductSaleGroup(@RequestBody TradesProductSaleGroupDto dto) {
+        TradesProductSaleGroup group = new TradesProductSaleGroup(dto.getType());
+        tradesProductSaleGroupRepository.save(group);
+
+        dto.getProductSales().forEach(saleDto -> {
+            TradesProduct product = tradesProductRepository.findById(saleDto.getProduct().getId()).orElseThrow();
+            List<TradesProductUnit> notSoldUnits = tradesProductUnitRepository.getNotSoldProductUnits(product);
+            List<TradesProductUnit> unitsToSell = notSoldUnits.subList(0, saleDto.getAmountToSell());
+
+            TradesProductSale sale = new TradesProductSale(group, saleDto.getSellPrice(), dto.getSoldAt(), dto.getComments());
+            TradesProductSale savedSale = tradesProductSaleRepository.save(sale);
+            unitsToSell.forEach(unit -> savedSale.addProductUnit(unit));
+            tradesProductSaleRepository.flush();
+
+            assertState(!savedSale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
+        });
+
+        assertState(!group.getProductSales().isEmpty(), "At least one product sale should be added to the group.");
     }
 }

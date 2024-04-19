@@ -3,6 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {TradesProductSaleDto} from "../../../model/trades-product.model";
 import {TradesProductSaleService} from "../services/tradesProductSale.service";
 import {TradesProductSaleEditComponent} from "../components/sales-edit/tradesProductSale-edit.component";
+import {
+  TradesProductSaleGroupEditComponent
+} from "../components/sales-group-edit/tradesProductSale-group-edit.component";
 
 @Component({
   selector: 'app-trades-product-sale-container',
@@ -36,6 +39,23 @@ export class TradesProductSaleContainerComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.tradesProductSaleService.createTradesProductSale(result).subscribe(
+          (newSale: TradesProductSaleDto) => {
+            this.tradesProductSales.push(newSale);
+            this.tradesProductSales = [...this.tradesProductSales]; // Refresh the list in the view
+          },
+          error => {
+            console.error('There was an error while creating a TradesProductSale', error);
+          }
+        );
+      }
+    });
+  }
+
+  addTradesProductSaleGroup(): void {
+    const modalRef = this.modalService.open(TradesProductSaleGroupEditComponent);
+    modalRef.result.then((result) => {
+      if (result) {
+        this.tradesProductSaleService.createTradesProductSaleGroup(result).subscribe(
           (newSale: TradesProductSaleDto) => {
             this.tradesProductSales.push(newSale);
             this.tradesProductSales = [...this.tradesProductSales]; // Refresh the list in the view

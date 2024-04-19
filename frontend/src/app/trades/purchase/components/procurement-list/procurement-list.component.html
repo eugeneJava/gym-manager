@@ -23,10 +23,16 @@
     <td>{{ product.unitPrice }}</td>
     <td>{{ product.purchaseDate }}</td>
     <td>
-      <div><small>Трек: {{ product.trackId }}</small></div>
-      <div [ngClass]="{'text-success': product.parcelId, 'text-info': !product.parcelId}">
-        <small>Відправлено: {{ !product.parcelId ? 'Ні' : 'Так' }}</small>
-      </div>
+      <ng-container *ngIf="product.parcelGroupId">
+        <div><small>Трек: {{ product.trackId }}</small></div>
+        <div [ngClass]="{'text-success': product.parcelId, 'text-info': !product.parcelId}">
+          <small>Відправлено: {{ !product.parcelId ? 'Ні' : 'Так' }}</small>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!product.parcelGroupId">
+        <small class="text-warning">Окрема закупка</small>
+      </ng-container>
     </td>
   </tr>
   </tbody>

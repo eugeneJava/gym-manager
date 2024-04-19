@@ -1,10 +1,19 @@
 package ua.gym.ui.dtos.trades;
 
+import ua.gym.domain.trades.SaleGroupType;
 import ua.gym.domain.trades.TradesProductSaleGroup;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TradesProductSaleGroupDto {
     private String id;
-    // Assuming additional fields exist in TradesProductSaleGroup that should be mapped
+    private SaleGroupType type;
+    private LocalDateTime soldAt;
+    private String comments;
+    private List<TradesProductSaleDto> productSales = new ArrayList<>();
 
     public TradesProductSaleGroupDto() {
     }
@@ -12,12 +21,47 @@ public class TradesProductSaleGroupDto {
     // Constructor mapping fields from TradesProductSaleGroup entity
     public TradesProductSaleGroupDto(TradesProductSaleGroup productSaleGroup) {
         this.id = productSaleGroup.getId();
-        // Map other fields as needed
+        this.type = productSaleGroup.getType();
+        this.productSales = productSaleGroup.getProductSales().stream().map(TradesProductSaleDto::new).collect(Collectors.toList());
     }
 
     public String getId() {
         return id;
     }
 
-    // Getters and Setters
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public SaleGroupType getType() {
+        return type;
+    }
+
+    public void setType(SaleGroupType type) {
+        this.type = type;
+    }
+
+    public List<TradesProductSaleDto> getProductSales() {
+        return productSales;
+    }
+
+    public void setProductSales(List<TradesProductSaleDto> productSales) {
+        this.productSales = productSales;
+    }
+
+    public LocalDateTime getSoldAt() {
+        return soldAt;
+    }
+
+    public void setSoldAt(LocalDateTime soldAt) {
+        this.soldAt = soldAt;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 }

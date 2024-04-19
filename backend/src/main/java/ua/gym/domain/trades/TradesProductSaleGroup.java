@@ -4,6 +4,7 @@ import ua.gym.persistense.Identifiable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -24,5 +25,15 @@ public class TradesProductSaleGroup extends Identifiable {
 
     }
 
+    public List<TradesProductSale> getProductSales() {
+        return Collections.unmodifiableList(productSales);
+    }
 
+    public SaleGroupType getType() {
+        return type;
+    }
+
+    void addProductSale(TradesProductSale tradesProductSale) {
+        productSales.add(tradesProductSale);
+    }
 }

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static javax.persistence.FetchType.LAZY;
 import static ua.gym.utils.Assertions.*;
@@ -111,8 +112,8 @@ public class TradesProductBuy extends Identifiable {
         return unitBuyPrice;
     }
 
-    public TradesParcelGroup getParcelGroup() {
-        return parcelGroup;
+    public Optional<TradesParcelGroup> getParcelGroup() {
+        return Optional.ofNullable(parcelGroup);
     }
 
     public LocalDateTime getPurchaseDate() {

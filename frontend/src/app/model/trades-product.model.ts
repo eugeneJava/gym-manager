@@ -9,7 +9,7 @@ export class TradesProductBuyDto {
   id: string;
   totalBuyPriceInYuan: number;
   totalBuyPriceInUah: number;
-  parcelGroup: TradesParcelGroupDto;
+  parcelGroupId: string;
   product: TradesProductDto;
   amount: number;
   unitPrice: number;
@@ -80,5 +80,15 @@ export class TradesProductSaleDto {
   amountToSale: number
   soldAmount: number;
   comments?: string;
+}
+
+export class TradesProductSaleGroupDto {
+  id: string;
+  type: SaleGroupType; // This is assuming that 'RACKET' is the only value in the SaleGroupType enum in your Java code
+  productSales: TradesProductSaleDto[] = [];
+}
+
+export enum SaleGroupType {
+  RACKET = 'RACKET'
 }
 

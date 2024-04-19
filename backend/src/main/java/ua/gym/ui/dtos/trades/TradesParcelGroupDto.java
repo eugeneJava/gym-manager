@@ -35,10 +35,10 @@ public class TradesParcelGroupDto {
         this.trackId = parcelGroup.getTrackId();
         this.name = parcelGroup.getName();
         this.comments = parcelGroup.getComments();
-        this.productBuys = parcelGroup.getProductBuy().stream().map(TradesProductBuyDto::new).collect(Collectors.toList());
         this.totalBuyPriceInUah = parcelGroup.getTotalBuyPriceInUah();
         totalBuyPriceInYuan = parcelGroup.getTotalBuyPriceInYuan();
         this.parcelId = nonNull(parcelGroup.getParcel()) ? parcelGroup.getParcel().getId() : null;
+        this.productBuys = parcelGroup.getProductBuy().stream().map(TradesProductBuyDto::new).collect(Collectors.toList());
     }
 
     public String getId() {

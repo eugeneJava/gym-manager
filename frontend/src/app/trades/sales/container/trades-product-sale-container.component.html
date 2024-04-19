@@ -1,6 +1,7 @@
 <div class="container mt-3">
   <h2>Продажі</h2>
   <button class="btn btn-primary mb-2" (click)="addTradesProductSale()">Нова продажа</button>
+  <button class="btn btn-primary mb-2" (click)="addTradesProductSaleGroup()">Нова продажа ракетки</button>
   <app-trades-product-sale-list
     [tradesProductSales]="tradesProductSales"
     (editEvent)="editTradesProductSale($event)"

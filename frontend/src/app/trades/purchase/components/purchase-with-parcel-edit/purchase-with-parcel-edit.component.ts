@@ -190,4 +190,8 @@ export class PurchaseWithParcelEdit implements OnInit {
   addProductBuy() {
     this.addNewProductBuy()
   }
+
+  recalculatePrices() {
+
+  }
 }

@@ -24,16 +24,10 @@
             <label for="sellPrice">Кількість</label>
             <input type="number" id="amountToSell" class="form-control" formControlName="amountToSell">
           </div>
-<!--          <div class="form-group">
-            <label for="productSaleGroupId">Product Sale Group</label>
-            <select id="productSaleGroupId" class="form-control" formControlName="productSaleGroupId">
-              <option *ngFor="let group of productSaleGroups" [value]="group.id">{{ group.name }}</option>
-              &lt;!&ndash; Adjust according to your data structure &ndash;&gt;
-            </select>
-          </div>-->
+
           <div class="form-group">
             <label for="soldAt">Дата продажу</label>
-            <input type="datetime-local" id="soldAt" class="form-control" formControlName="soldAt">
+            <input type="date" id="soldAt" class="form-control" formControlName="soldAt">
           </div>
 
           <div class="form-group">

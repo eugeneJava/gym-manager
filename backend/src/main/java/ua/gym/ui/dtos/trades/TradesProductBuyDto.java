@@ -1,20 +1,15 @@
 package ua.gym.ui.dtos.trades;
 
-import ua.gym.domain.trades.TradesParcelGroup;
 import ua.gym.domain.trades.TradesProductBuy;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.Objects.nonNull;
 
 public class TradesProductBuyDto {
     private String id;
     private BigDecimal totalBuyPriceInYuan;
     private BigDecimal totalBuyPriceInUah;
-    private TradesParcelGroupDto parcelGroup;
+    private String parcelGroupId;
     private TradesProductDto product;
     private int amount;
     private BigDecimal unitPrice;
@@ -35,18 +30,15 @@ public class TradesProductBuyDto {
         this.product = new TradesProductDto(productBuy.getProductUnits().stream().findFirst().get().getProduct());
         this.unitPrice = productBuy.getUnitBuyPrice();
 
-        TradesParcelGroup parcelGroup = productBuy.getParcelGroup();
-        if (nonNull(parcelGroup)) {
-            //this.parcelGroup = new TradesParcelGroupDto(parcelGroup);
+        productBuy.getParcelGroup().ifPresent(parcelGroup -> {
+            this.parcelGroupId = parcelGroup.getId();
             this.weight = parcelGroup.getWeight();
             this.trackId = parcelGroup.getTrackId();
             this.parcelId = parcelGroup.getParcel() != null ? parcelGroup.getParcel().getId() : null;
             this.name = parcelGroup.getName();
             this.comments = parcelGroup.getComments();
-        }
-
+        });
         this.purchaseDate = productBuy.getPurchaseDate();
-
     }
 
     public String getId() {
@@ -73,12 +65,12 @@ public class TradesProductBuyDto {
         this.totalBuyPriceInUah = totalBuyPriceInUah;
     }
 
-    public TradesParcelGroupDto getParcelGroup() {
-        return parcelGroup;
+    public String getParcelGroupId() {
+        return parcelGroupId;
     }
 
-    public void setParcelGroup(TradesParcelGroupDto parcelGroup) {
-        this.parcelGroup = parcelGroup;
+    public void setParcelGroupId(String parcelGroupId) {
+        this.parcelGroupId = parcelGroupId;
     }
 
     public int getAmount() {

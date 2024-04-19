@@ -43,6 +43,14 @@ public class TradesProductSale extends Identifiable {
         this.comments = comments;
     }
 
+    public TradesProductSale(TradesProductSaleGroup group, BigDecimal sellPrice, LocalDateTime soldAt, String comments) {
+        Assertions.assertPresent(sellPrice, soldAt);
+        this.sellPrice = sellPrice;
+        this.soldAt = soldAt;
+        this.comments = comments;
+        this.setProductSaleGroup(group);
+    }
+
     public BigDecimal getSellPrice() {
         return sellPrice;
     }
@@ -61,12 +69,16 @@ public class TradesProductSale extends Identifiable {
         return Optional.ofNullable(productSaleGroup);
     }
 
+
     public LocalDateTime getSoldAt() {
         return soldAt;
     }
 
-    public void setProductSaleGroup(TradesProductSaleGroup productSaleGroup) {
-        assertState(isNull(this.productSaleGroup), "You cannot reassingn a sale group");
+    private void setProductSaleGroup(TradesProductSaleGroup productSaleGroup) {
+        Assertions.assertPresent(productSaleGroup);
+        assertState(isNull(this.productSaleGroup), "You cannot reassign a sale group");
+        this.productSaleGroup = productSaleGroup;
+        productSaleGroup.addProductSale(this);
     }
 
     public String getComments() {
@@ -76,4 +88,6 @@ public class TradesProductSale extends Identifiable {
     public void setComments(String comments) {
         this.comments = comments;
     }
+
+
 }

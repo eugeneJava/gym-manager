@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {environment} from "../../../../environments/environment";
-import {TradesProductSaleDto} from "../../../model/trades-product.model";
+import {TradesProductSaleDto, TradesProductSaleGroupDto} from "../../../model/trades-product.model";
  // Assume this exists
 
 @Injectable({
@@ -23,6 +23,10 @@ export class TradesProductSaleService {
 
   createTradesProductSale(dto: TradesProductSaleDto): Observable<TradesProductSaleDto> {
     return this.http.post<TradesProductSaleDto>(`${this.apiUrl}/trades/productSale`, dto);
+  }
+
+  createTradesProductSaleGroup(dto: TradesProductSaleGroupDto): Observable<TradesProductSaleDto> {
+    return this.http.post<TradesProductSaleDto>(`${this.apiUrl}/trades/productSale/group`, dto);
   }
 
   updateTradesProductSale(id: string, dto: TradesProductSaleDto): Observable<TradesProductSaleDto> {

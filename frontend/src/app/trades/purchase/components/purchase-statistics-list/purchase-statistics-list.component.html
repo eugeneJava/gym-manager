@@ -11,16 +11,16 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Ціна покупки</th>
                 <th>Ціна доставки</th>
+                <th>Загальна ціна покупки</th>
                 <th>Дата комплектації посилки</th>
                 <th>Тип доставки</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let productBuyInParcel of productBuyStatistic.productsBuyInParcel">
-                <td>{{ productBuyInParcel.buyPrice }}</td>
                 <td>{{ productBuyInParcel.deliveryPrice }}</td>
+                <td>{{ productBuyInParcel.buyPrice }}</td>
                 <td>{{ productBuyInParcel.parcelFormedDate | date }}</td>
                 <td>{{ productBuyInParcel.deliveryType }}</td>
               </tr>

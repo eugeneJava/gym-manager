@@ -108,9 +108,9 @@ public class TradesProductBuyWebService {
     @Transactional
     public TradesProductBuyDto updateTradesProductBuy(@PathVariable String id, @RequestBody TradesProductBuyDto productBuyDto) {
         TradesProductBuy productBuy = productBuyRepository.findById(id).orElseThrow();
-        productBuy.getParcelGroup().setName(productBuyDto.getName());
-        productBuy.getParcelGroup().setComments(productBuyDto.getComments());
-        productBuy.getParcelGroup().setTrackId(productBuyDto.getTrackId());
+        //productBuy.getParcelGroup().setName(productBuyDto.getName());
+        //productBuy.getParcelGroup().setComments(productBuyDto.getComments());
+        //productBuy.getParcelGroup().setTrackId(productBuyDto.getTrackId());
         return new TradesProductBuyDto(productBuy);
     }
 
@@ -137,7 +137,7 @@ public class TradesProductBuyWebService {
                         buy.getUnitBuyPriceWithDelivery(),
                         buy.getUnitDeliveryPrice(),
                         buy.getPurchaseDate(),
-                        Optional.ofNullable(buy.getParcelGroup()).map(TradesParcelGroup::getParcel).map(TradesParcel::getDeliveryType).orElse(null));
+                        buy.getParcelGroup().map(TradesParcelGroup::getParcel).map(TradesParcel::getDeliveryType).orElse(null));
                 dto.getProductsBuyInParcel().add(productBuyInParcel);
             });
 
