@@ -3,7 +3,7 @@ package ua.gym.ui.dtos.trades;
 import ua.gym.domain.trades.SaleGroupType;
 import ua.gym.domain.trades.TradesProductSaleGroup;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class TradesProductSaleGroupDto {
     private String id;
     private SaleGroupType type;
-    private LocalDateTime soldAt;
+    private LocalDate soldAt;
     private String comments;
     private List<TradesProductSaleDto> productSales = new ArrayList<>();
 
@@ -49,11 +49,11 @@ public class TradesProductSaleGroupDto {
         this.productSales = productSales;
     }
 
-    public LocalDateTime getSoldAt() {
+    public LocalDate getSoldAt() {
         return soldAt;
     }
 
-    public void setSoldAt(LocalDateTime soldAt) {
+    public void setSoldAt(LocalDate soldAt) {
         this.soldAt = soldAt;
     }
 

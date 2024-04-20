@@ -4,6 +4,7 @@ import ua.gym.domain.trades.TradesProductSale;
 import ua.gym.domain.trades.TradesProductUnit;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TradesProductSaleDto {
@@ -12,7 +13,7 @@ public class TradesProductSaleDto {
     private TradesProductUnitDto productUnit;
     private TradesProductDto product;
     private TradesProductSaleGroupDto productSaleGroup;
-    private LocalDateTime soldAt;
+    private LocalDate soldAt;
     private int amountToSell;
     private int soldAmount;
     private String comments;
@@ -77,11 +78,11 @@ public class TradesProductSaleDto {
         this.productSaleGroup = productSaleGroup;
     }
 
-    public LocalDateTime getSoldAt() {
+    public LocalDate getSoldAt() {
         return soldAt;
     }
 
-    public void setSoldAt(LocalDateTime soldAt) {
+    public void setSoldAt(LocalDate soldAt) {
         this.soldAt = soldAt;
     }
 

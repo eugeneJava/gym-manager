@@ -47,7 +47,7 @@ export class PurchaseWithParcelEdit implements OnInit {
       trackId: new FormControl<string>('', Validators.required),
       name: new FormControl<string>('',  Validators.required),
       comments: new FormControl<string>(''),
-      purchaseDate: new FormControl<string>(DateUtils.now(), Validators.required),
+      purchaseDate: new FormControl<string>(DateUtils.nowAsDate(), Validators.required),
       productBuys: this.fb.array([]),
       allProductsSameWeight: new FormControl<boolean>(true),
     });

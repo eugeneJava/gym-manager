@@ -3,6 +3,7 @@ package ua.gym.ui.dtos.trades;
 import ua.gym.domain.trades.TradesProductBuy;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TradesProductBuyDto {
@@ -18,7 +19,7 @@ public class TradesProductBuyDto {
     private String parcelId;
     private String name;
     private String comments;
-    private LocalDateTime purchaseDate;
+    private LocalDate purchaseDate;
 
     public TradesProductBuyDto() {}
 
@@ -129,7 +130,7 @@ public class TradesProductBuyDto {
         this.comments = comments;
     }
 
-    public LocalDateTime getPurchaseDate() {
+    public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
 

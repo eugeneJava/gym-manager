@@ -26,7 +26,7 @@ export class TradesProductSaleGroupEditComponent implements OnInit {
   ) {
     this.editForm = this.fb.group({
       id: [''],
-      soldAt: [DateUtils.now(), [Validators.required]],
+      soldAt: [DateUtils.nowAsDate(), [Validators.required]],
       comments: [''],
       type: [SaleGroupType.RACKET, [Validators.required]],
       productSales: this.fb.array([])

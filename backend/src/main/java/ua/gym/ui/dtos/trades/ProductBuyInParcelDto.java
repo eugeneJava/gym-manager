@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 public class ProductBuyInParcelDto {
     private BigDecimal buyPrice;
     private BigDecimal deliveryPrice;
-    private LocalDateTime parcelFormedDate;
+    private LocalDate parcelFormedDate;
     private DeliveryType deliveryType;
 
     public ProductBuyInParcelDto() {
     }
 
-    public ProductBuyInParcelDto(BigDecimal buyPrice, BigDecimal deliveryPrice, LocalDateTime parcelFormedDate, DeliveryType deliveryType) {
+    public ProductBuyInParcelDto(BigDecimal buyPrice, BigDecimal deliveryPrice, LocalDate parcelFormedDate, DeliveryType deliveryType) {
     this.buyPrice = buyPrice;
     this.deliveryPrice = deliveryPrice;
     this.parcelFormedDate = parcelFormedDate;
@@ -37,11 +37,11 @@ public class ProductBuyInParcelDto {
         this.deliveryPrice = deliveryPrice;
     }
 
-    public LocalDateTime getParcelFormedDate() {
+    public LocalDate getParcelFormedDate() {
         return parcelFormedDate;
     }
 
-    public void setParcelFormedDate(LocalDateTime parcelFormedDate) {
+    public void setParcelFormedDate(LocalDate parcelFormedDate) {
         this.parcelFormedDate = parcelFormedDate;
     }
 

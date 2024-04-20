@@ -3,6 +3,7 @@ package ua.gym.ui.dtos.trades;
 import ua.gym.domain.trades.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class TradesParcelGroupDto {
     private int productAmount;
     private boolean allProductsSameWeight;
     private String parcelId;
-    private LocalDateTime purchaseDate;
+    private LocalDate purchaseDate;
     private BigDecimal totalBuyPriceInYuan;
     private BigDecimal totalBuyPriceInUah;
 
@@ -105,11 +106,11 @@ public class TradesParcelGroupDto {
         return allProductsSameWeight;
     }
 
-    public LocalDateTime getPurchaseDate() {
+    public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(LocalDateTime purchaseDate) {
+    public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 

@@ -5,6 +5,7 @@ import ua.gym.utils.Assertions;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +41,7 @@ public class TradesProductBuy extends Identifiable {
     @JoinColumn
     private TradesProduct product;
 
-    private LocalDateTime purchaseDate;
+    private LocalDate purchaseDate;
 
     private Integer amount;
 
@@ -50,7 +51,7 @@ public class TradesProductBuy extends Identifiable {
                             BigDecimal totalBuyPriceInYuan,
                             BigDecimal totalBuyPriceInUah,
                             TradesProduct product,
-                            LocalDateTime purchaseDate, int amount) {
+                            LocalDate purchaseDate, int amount) {
         assertPresent(parcelGroup, product, purchaseDate);
         Assertions.assertGreaterThanZero(totalBuyPriceInUah);
         assertGreaterThan(amount,0);
@@ -69,7 +70,7 @@ public class TradesProductBuy extends Identifiable {
     }
 
     public TradesProductBuy(TradesProduct product,
-                            LocalDateTime purchaseDate, int amount, BigDecimal unitBuyPrice) {
+                            LocalDate purchaseDate, int amount, BigDecimal unitBuyPrice) {
         assertPresent(product, purchaseDate);
         Assertions.assertGreaterThanZero(unitBuyPrice);
         assertGreaterThan(amount,0);
@@ -116,7 +117,7 @@ public class TradesProductBuy extends Identifiable {
         return Optional.ofNullable(parcelGroup);
     }
 
-    public LocalDateTime getPurchaseDate() {
+    public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
 

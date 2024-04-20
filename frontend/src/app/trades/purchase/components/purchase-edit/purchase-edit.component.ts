@@ -47,7 +47,7 @@ export class PurchaseEdit implements OnInit {
       weight: new FormControl<number>(null),
       name: new FormControl<string>('',  Validators.required),
       comments: new FormControl<string>(''),
-      purchaseDate: new FormControl<string>(DateUtils.now(), Validators.required),
+      purchaseDate: new FormControl<string>(DateUtils.nowAsDate(), Validators.required),
       amount: new FormControl<number>(1, [Validators.required, Validators.min(1)])
 
     });

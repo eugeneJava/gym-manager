@@ -28,7 +28,7 @@ export class TradesProductSaleEditComponent implements OnInit {
       sellPrice: ['', [Validators.required]],
       product: ['', [Validators.required]],
       productSaleGroupId: [''],
-      soldAt: [DateUtils.now(), [Validators.required]],
+      soldAt: [DateUtils.nowAsDate(), [Validators.required]],
       amountToSell: [1, [Validators.required, Validators.min(1)]],
       comments: [''],
       suggestedPrice: ['']
