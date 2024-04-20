@@ -5,6 +5,7 @@ import ua.gym.domain.trades.TradesProductBuy;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class TradesProductBuyDto {
     private String id;
@@ -29,7 +30,7 @@ public class TradesProductBuyDto {
         this.totalBuyPriceInUah = productBuy.getTotalBuyPriceInUah();
         this.amount = productBuy.getProductUnits().size();
         this.product = new TradesProductDto(productBuy.getProductUnits().stream().findFirst().get().getProduct());
-        this.unitPrice = productBuy.getUnitBuyPrice();
+        this.unitPrice = productBuy.getUnitBuyPriceOrUnitBuyPriceWithDelivery();
 
         productBuy.getParcelGroup().ifPresent(parcelGroup -> {
             this.parcelGroupId = parcelGroup.getId();

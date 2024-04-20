@@ -113,6 +113,10 @@ public class TradesProductBuy extends Identifiable {
         return unitBuyPrice;
     }
 
+    public BigDecimal getUnitBuyPriceOrUnitBuyPriceWithDelivery() {
+        return Optional.ofNullable(unitBuyPrice).orElse(getUnitBuyPriceWithDelivery());
+    }
+
     public Optional<TradesParcelGroup> getParcelGroup() {
         return Optional.ofNullable(parcelGroup);
     }

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 import ua.gym.domain.trades.*;
 import ua.gym.ui.dtos.trades.*;
-import ua.gym.utils.Assertions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ public class TradesProductSaleWebService {
     @Transactional(readOnly = true)
     @GetMapping("/trades/productSale")
     public List<TradesProductSaleDto> getAllTradesProductSale() {
-        return tradesProductSaleRepository.findAll().stream()
+        return tradesProductSaleRepository.findAllByOrderBySoldAtDesc().stream()
                 .map(TradesProductSaleDto::new)
                 .collect(Collectors.toList());
     }
