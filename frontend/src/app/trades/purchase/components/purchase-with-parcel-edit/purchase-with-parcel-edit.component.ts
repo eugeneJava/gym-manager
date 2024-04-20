@@ -30,6 +30,9 @@ export class PurchaseWithParcelEdit implements OnInit {
   @Input() productBuy: TradesProductBuyDto;
   productForm: UntypedFormGroup;
   products: TradesProductDto[] = [];
+  moreThanOneProduct: boolean = false;
+  totalCalculatedForVerification: number = 0;
+  yuanToUahRate: number = 0;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -43,6 +46,7 @@ export class PurchaseWithParcelEdit implements OnInit {
     this.productForm = this.fb.group({
       id: new FormControl<string>(null),
       totalBuyPriceInUah: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
+      totalBuyPriceInYuan: new FormControl<number>(0,[Validators.required, Validators.min(1)]),
       weight: new FormControl<number>(null),
       trackId: new FormControl<string>('', Validators.required),
       name: new FormControl<string>('',  Validators.required),
@@ -59,6 +63,14 @@ export class PurchaseWithParcelEdit implements OnInit {
       });
 
     this.loadProducts();
+
+    this.totalBuyPriceInUah.valueChanges.subscribe(
+      value => {
+        if (!this.moreThanOneProduct) {
+           this.productBuysGroups[0].get('totalBuyPriceInUah').setValue(value);
+        }
+      }
+    );
 
     /*this.product.valueChanges.subscribe(
       product => {
@@ -98,6 +110,7 @@ export class PurchaseWithParcelEdit implements OnInit {
     const productBuy = this.fb.group({
       product: new FormControl<TradesProductDto>(null, Validators.required),
       totalBuyPriceInUah: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
+      unitPriceInYuan: new FormControl<number>(0),
       amount: new FormControl<number>(1, [Validators.required, Validators.min(1)]),
       comments: new FormControl<string>('')
     });
@@ -188,10 +201,24 @@ export class PurchaseWithParcelEdit implements OnInit {
   }
 
   addProductBuy() {
-    this.addNewProductBuy()
+    this.addNewProductBuy();
+    this.moreThanOneProduct = true;
   }
 
   recalculatePrices() {
+    const totalUah: number = this.totalBuyPriceInUah.value;
+    const totalYuan: number = this.totalBuyPriceInYuan.value;
+    const rate = totalUah / totalYuan;
 
+    this.yuanToUahRate = Math.round(rate * 100) / 100;
+
+    this.productBuysGroups.forEach(group => {
+      const amount : number = group.get('amount').value;
+      const unitPriceInYuan: number = group.get('unitPriceInYuan').value;
+      const totalInUah = Math.round(amount * unitPriceInYuan * rate);
+
+      this.totalCalculatedForVerification += totalInUah;
+      group.get('totalBuyPriceInUah').setValue(totalInUah);
+    })
   }
 }

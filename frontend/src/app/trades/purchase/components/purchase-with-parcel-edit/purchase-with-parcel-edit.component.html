@@ -23,8 +23,15 @@
                       <input formControlName="amount" type="number" id="amount" min="1" class="form-control">
                     </div>
 
+                    <div *ngIf="moreThanOneProduct"
+                         class="form-group">
+                      <label class="small" for="unitPriceInYuan">Ціна за одиницю в юанях</label>
+                      <input formControlName="unitPriceInYuan" type="number" min="0" id="unitPriceInYuan"
+                             class="form-control">
+                    </div>
+
                     <div class="form-group">
-                      <label for="totalBuyPriceInUah">Ціна в грн</label>
+                      <label for="totalBuyPriceInUah">Розрахована ціна в грн</label>
                       <input formControlName="totalBuyPriceInUah" type="number" min="0" id="totalBuyPriceInUah"
                              class="form-control">
                     </div>
@@ -55,13 +62,23 @@
               </div>
 
               <div class="form-group">
-                <label for="purchase-totalBuyPriceInUah">Ціна в грн</label>
+                <label for="purchase-totalBuyPriceInUah">Загальна ціна в грн </label>
                 <input formControlName="totalBuyPriceInUah" type="number" min="0" id="purchase-totalBuyPriceInUah"
                        class="form-control">
               </div>
 
-              <div class="form-group  mt-2">
+              <div
+                   class="form-group">
+                <label for="purchase-totalBuyPriceInUah">Загальна ціна в Юанях </label>
+                <input formControlName="totalBuyPriceInYuan" type="number" min="0" id="purchase-totalBuyPriceInYuan"
+                       class="form-control">
+              </div>
+
+              <div *ngIf="moreThanOneProduct"
+                class="form-group  mt-2 mb-3">
                 <fa-icon [icon]="['fas', 'calculator']" (click)="recalculatePrices()" class="fa-lg"></fa-icon>
+                <div *ngIf="totalCalculatedForVerification > 0"> <small>Загальна розрахована вартість в грн: {{totalCalculatedForVerification}}</small></div>
+                <div  *ngIf="yuanToUahRate > 0"><small>Курс Юань/Гривня: {{yuanToUahRate}}</small></div>
               </div>
 
               <div class="form-group">
