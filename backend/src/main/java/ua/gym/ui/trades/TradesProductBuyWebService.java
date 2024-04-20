@@ -8,6 +8,7 @@ import ua.gym.ui.dtos.trades.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,16 +29,19 @@ public class TradesProductBuyWebService {
     @Autowired
     private TradesParcelGroupRepository parcelGroupRepository;
 
-    @GetMapping("/trades/productBuy")
-    @Transactional(readOnly = true)
-    public List<TradesProductBuyDto> getTradesProductBuy() {
-        List<TradesProductBuy> productBuy = productBuyRepository.findAllByOrderByPurchaseDateDesc();
-        return productBuy.stream()
-                .map(TradesProductBuyDto::new)
-                /*  .sorted(comparing(TradesProductBuyDto::getTrackId, nullsFirst(String::compareTo))
-                          .thenComparing(buy -> buy.getParcelId(), nullsFirst(String::compareTo)))*/
-                .collect(Collectors.toList());
-    }
+@GetMapping("/trades/productBuy")
+@Transactional(readOnly = true)
+public List<TradesProductBuyDto> getTradesProductBuy() {
+    List<TradesProductBuy> productBuy = productBuyRepository.findAll();
+    return productBuy.stream()
+            .sorted(Comparator.comparing((TradesProductBuy b) -> !b.getParcelGroup().isPresent())
+                    .thenComparing(b -> b.getParcelGroup().isPresent() && b.getParcelGroup().get().getParcel() != null)
+
+                    .thenComparing(TradesProductBuy::getPurchaseDate, reverseOrder())
+                    .thenComparing(b -> b.getParcelGroup().map(TradesParcelGroup::getTrackId).orElse(null), nullsLast(naturalOrder())))
+            .map(TradesProductBuyDto::new)
+            .collect(Collectors.toList());
+}
 
     @GetMapping("/trades/productBuy/{id}")
     @Transactional(readOnly = true)
@@ -101,7 +105,6 @@ public class TradesProductBuyWebService {
         productBuyRepository.save(productBuyEntity);
         return new TradesProductBuyDto(productBuyEntity);
     }
-
 
 
     @PutMapping("/trades/productBuy/{id}")
