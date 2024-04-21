@@ -35,7 +35,7 @@ public class TradesProductUnitWebService {
     @Transactional(readOnly = true)
     @GetMapping("/trades/productUnit/available")
     public List<TradesProductUnitDto> getAllTradesProductSale() {
-        return tradesProductUnitRepository.getAvailableProductUnits().stream()
+        return tradesProductUnitRepository.getAvailableForSaleProductUnits().stream()
                 .map(TradesProductUnitDto::new)
                 .sorted(comparing(unit -> unit.getProduct().getName()))
                 .collect(Collectors.toList());
@@ -44,7 +44,7 @@ public class TradesProductUnitWebService {
     @Transactional(readOnly = true)
     @GetMapping("/trades/productUnit/availableForSale")
     public List<ProductsAvailableForSaleDto> getAvailableForSaleProducts() {
-        Map<TradesProduct, Long> availableForSaleProducts = tradesProductUnitRepository.getAvailableProductUnits().stream()
+        Map<TradesProduct, Long> availableForSaleProducts = tradesProductUnitRepository.getAvailableForSaleProductUnits().stream()
                 .collect(groupingBy(TradesProductUnit::getProduct, counting()));
 
         List<ProductsAvailableForSaleDto> products = availableForSaleProducts

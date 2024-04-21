@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.gym.domain.trades.*;
 import ua.gym.ui.dtos.trades.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,9 @@ public class TradesProductSaleWebService {
     @Transactional(readOnly = true)
     @GetMapping("/trades/productSale")
     public List<TradesProductSaleDto> getAllTradesProductSale() {
-        return tradesProductSaleRepository.findAllByOrderBySoldAtDesc().stream()
+        return tradesProductSaleRepository.findAll().stream()
+                .sorted(Comparator.comparing(TradesProductSale::getSoldAt).reversed()
+                        .thenComparing(sale -> sale.getProductSaleGroup().map(TradesProductSaleGroup::getId).orElse(null), Comparator.nullsLast(Comparator.naturalOrder())))
                 .map(TradesProductSaleDto::new)
                 .collect(Collectors.toList());
     }
@@ -51,7 +54,7 @@ public class TradesProductSaleWebService {
     @ResponseStatus(HttpStatus.CREATED)
     public void createTradesProductSale(@RequestBody TradesProductSaleDto dto) {
         TradesProduct product = tradesProductRepository.findById(dto.getProduct().getId()).orElseThrow();
-        List<TradesProductUnit> notSoldUnits = tradesProductUnitRepository.getNotSoldProductUnits(product);
+        List<TradesProductUnit> notSoldUnits = tradesProductUnitRepository.getAvailableForSaleProductUnits(product);
         List<TradesProductUnit> unitsToSell = notSoldUnits.subList(0, dto.getAmountToSell());
 
         TradesProductSale sale = new TradesProductSale(dto.getSellPrice(), dto.getSoldAt(), dto.getComments());
@@ -85,7 +88,7 @@ public class TradesProductSaleWebService {
 
         dto.getProductSales().forEach(saleDto -> {
             TradesProduct product = tradesProductRepository.findById(saleDto.getProduct().getId()).orElseThrow();
-            List<TradesProductUnit> notSoldUnits = tradesProductUnitRepository.getNotSoldProductUnits(product);
+            List<TradesProductUnit> notSoldUnits = tradesProductUnitRepository.getAvailableForSaleProductUnits(product);
             List<TradesProductUnit> unitsToSell = notSoldUnits.subList(0, saleDto.getAmountToSell());
 
             TradesProductSale sale = new TradesProductSale(group, saleDto.getSellPrice(), dto.getSoldAt(), dto.getComments());

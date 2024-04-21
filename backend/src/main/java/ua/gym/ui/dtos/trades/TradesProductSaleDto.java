@@ -13,6 +13,7 @@ public class TradesProductSaleDto {
     private TradesProductUnitDto productUnit;
     private TradesProductDto product;
     private TradesProductSaleGroupDto productSaleGroup;
+    private String parcelGroupId;
     private LocalDate soldAt;
     private int amountToSell;
     private int soldAmount;
@@ -30,6 +31,7 @@ public class TradesProductSaleDto {
         this.soldAmount = tradesProductSale.getProductUnits().size();
         this.product = new TradesProductDto(firstProductUnit.getProduct());
        // this.productSaleGroup = tradesProductSale.getProductSaleGroup().map(TradesProductSaleGroupDto::new).orElse(null);
+        this.parcelGroupId = tradesProductSale.getProductSaleGroup().map(group -> group.getId()).orElse(null);
         this.soldAt = tradesProductSale.getSoldAt();
         this.comments = tradesProductSale.getComments();
     }
@@ -100,5 +102,13 @@ public class TradesProductSaleDto {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getParcelGroupId() {
+        return parcelGroupId;
+    }
+
+    public void setParcelGroupId(String parcelGroupId) {
+        this.parcelGroupId = parcelGroupId;
     }
 }

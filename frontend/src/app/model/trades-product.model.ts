@@ -80,6 +80,7 @@ export class TradesProductSaleDto {
   amountToSale: number
   soldAmount: number;
   comments?: string;
+  parcelGroupId: string;
 }
 
 export class TradesProductSaleGroupDto {

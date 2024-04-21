@@ -7,6 +7,7 @@
       <th scope="col">Продукт</th>
       <th scope="col">Кількість</th>
       <th scope="col">Дата продажі</th>
+      <th scope="col">Група</th>
     <!--  <th scope="col">Редагувати</th>-->
     </tr>
     </thead>
@@ -16,7 +17,8 @@
       <td>{{ sale.sellPrice }}</td>
       <td>{{ sale.product.name }}</td> <!-- Display appropriate property -->
       <td>{{ sale.soldAmount }}</td> <!-- Display appropriate property -->
-      <td>{{ sale.soldAt | date: 'short' }}</td>
+      <td>{{ sale.soldAt}}</td>
+      <td>{{ sale.parcelGroupId}}</td>
 <!--      <td>
         <button class="btn btn-outline-secondary btn-sm" (click)="editSale(sale)">
           <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
