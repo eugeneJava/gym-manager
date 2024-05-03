@@ -9,7 +9,27 @@
         <form [formGroup]="editForm">
           <div class="row">
             <ng-container [formArrayName]="'productSales'">
-              <div class="col" *ngFor="let productSale of productSaleGroups;" [formGroup]="productSale">
+              <div class="col">
+
+
+              <sale-group
+                [productSalesArray]="productSales"
+                [amountToSell]="1"
+                [productUnits]="blades"
+                [category]="TradesProductCategory.BLADE">
+              </sale-group>
+              </div>
+
+              <div class="col">
+              <sale-group
+                [productSalesArray]="productSales"
+                [amountToSell]="2"
+                [productUnits]="rubbers"
+                [category]="TradesProductCategory.RUBBER">
+              </sale-group>
+              </div>
+
+<!--              <div class="col" *ngFor="let productSale of productSaleGroups;" [formGroup]="productSale">
                 <div class="form-group">
                   <label for="productUnitId">Продукт</label>
                   <select id="productUnitId" class="form-control" formControlName="product" [compareWith]="productId">
@@ -28,7 +48,7 @@
                   <label for="sellPrice">Кількість</label>
                   <input type="number" id="amountToSell" class="form-control" formControlName="amountToSell">
                 </div>
-              </div>
+              </div>-->
             </ng-container>
 
             <div class="col">

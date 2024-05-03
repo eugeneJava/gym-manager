@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
+import {FormArray, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TradesTradesProductUnitService} from "../../services/trades-product-unit.service";
 import {
   ProductsAvailableForSaleDto,
-  SaleGroupType, TradesProductCategory,
+  SaleGroupType,
+  TradesProductCategory,
   TradesProductDto,
   TradesProductSaleGroupDto
 } from "../../../../model/trades-product.model";
@@ -21,6 +22,9 @@ export class TradesProductSaleGroupEditComponent implements OnInit {
   rubbers: ProductsAvailableForSaleDto[] = [];
   blades: ProductsAvailableForSaleDto[] = [];
 
+  public TradesProductCategory: typeof TradesProductCategory = TradesProductCategory;
+
+
   constructor(
     public activeModal: NgbActiveModal,
     private fb: UntypedFormBuilder,
@@ -34,19 +38,19 @@ export class TradesProductSaleGroupEditComponent implements OnInit {
       productSales: this.fb.array([])
     });
 
-    if(this.editForm.get('type').value === SaleGroupType.RACKET) {
-      this.productSales.push(this.createProductSale(1));
-      this.productSales.push(this.createProductSale(2));
-    }
+ /*   if(this.editForm.get('type').value === SaleGroupType.RACKET) {
+      this.productSales.push(this.createProductSale(1, TradesProductCategory.BLADE));
+      this.productSales.push(this.createProductSale(2, TradesProductCategory.RUBBER));
+    }*/
   }
 
-  createProductSale(amountToSell: number): FormGroup {
+  createProductSale(amountToSell: number, category: TradesProductCategory): FormGroup {
     const productSale = this.fb.group({
       sellPrice: ['', [Validators.required]],
       product: ['', [Validators.required]],
       productSaleGroupId: [''],
       amountToSell: [amountToSell, [Validators.required, Validators.min(1)]],
-      suggestedPrice: ['']
+      category: [category]
     });
 
     productSale.get('product').valueChanges.subscribe((product: TradesProductDto) => {
