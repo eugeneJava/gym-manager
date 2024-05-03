@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-import {TradesProductDto} from "../../../model/trades-product.model";
+import {TradesProductCategoryDto, TradesProductDto} from "../../../model/trades-product.model";
 import {environment} from "../../../../environments/environment";
 
 @Injectable({
@@ -51,5 +51,9 @@ export class TradesProductService {
 
   updateProduct(product: TradesProductDto): Observable<TradesProductDto> {
     return this.http.put<TradesProductDto>(`${this.apiUrl}/gym-manager/trades/product/${product.id}`, product);
+  }
+
+  getCategories(): Observable<TradesProductCategoryDto[]> {
+    return this.http.get<TradesProductCategoryDto[]>(`${this.apiUrl}/gym-manager/trades/category`);
   }
 }

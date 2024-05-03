@@ -8,6 +8,7 @@ public class TradesProductDto {
     private String id;
     private String name;
     private String comments;
+    private TradesProductCategoryDto category;
 
     public TradesProductDto() {
     }
@@ -19,6 +20,7 @@ public class TradesProductDto {
         this.name = product.getName();
         this.comments = product.getComments();
         this.recommendedPrice = product.getRecommendedPrice();
+        this.category = new TradesProductCategoryDto(product.getCategory());
     }
 
     public BigDecimal getRecommendedPrice() {
@@ -47,5 +49,13 @@ public class TradesProductDto {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public TradesProductCategoryDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(TradesProductCategoryDto category) {
+        this.category = category;
     }
 }

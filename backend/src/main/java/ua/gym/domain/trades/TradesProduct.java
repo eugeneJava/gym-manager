@@ -3,9 +3,7 @@ package ua.gym.domain.trades;
 import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -20,6 +18,11 @@ public class TradesProduct extends Identifiable {
     @Column
     private BigDecimal recommendedPrice;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private TradesProductCategory category;
+
+
     public BigDecimal getRecommendedPrice() {
         return recommendedPrice;
     }
@@ -31,9 +34,10 @@ public class TradesProduct extends Identifiable {
     protected TradesProduct() {
     }
 
-    public TradesProduct(String name) {
-        Assertions.assertPresent(name);
+    public TradesProduct(String name, TradesProductCategory category) {
+        Assertions.assertPresent(name,category);
         this.name = name;
+        this.category = category;
     }
 
     public String getName() {
@@ -50,5 +54,9 @@ public class TradesProduct extends Identifiable {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public TradesProductCategory getCategory() {
+        return category;
     }
 }

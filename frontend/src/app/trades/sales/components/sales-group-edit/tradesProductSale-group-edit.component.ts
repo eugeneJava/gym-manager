@@ -4,7 +4,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TradesTradesProductUnitService} from "../../services/trades-product-unit.service";
 import {
   ProductsAvailableForSaleDto,
-  SaleGroupType,
+  SaleGroupType, TradesProductCategory,
   TradesProductDto,
   TradesProductSaleGroupDto
 } from "../../../../model/trades-product.model";
@@ -18,6 +18,8 @@ export class TradesProductSaleGroupEditComponent implements OnInit {
   @Input() saleGroup: TradesProductSaleGroupDto;
   editForm: UntypedFormGroup;
   productUnits: ProductsAvailableForSaleDto[] = [];
+  rubbers: ProductsAvailableForSaleDto[] = [];
+  blades: ProductsAvailableForSaleDto[] = [];
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -55,21 +57,19 @@ export class TradesProductSaleGroupEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProductUnits();
-    this.loadProductSaleGroups();
   }
 
   loadProductUnits(): void {
     this.productUnitService.getAvailebleForSaleProducts().subscribe(
       data => {
         this.productUnits = data;
+        this.rubbers = this.productUnits.filter(p => p.product.category.id === TradesProductCategory.RUBBER);
+        this.blades = this.productUnits.filter(p => p.product.category.id === TradesProductCategory.BLADE);
       },
       error => console.error('Error fetching product units', error)
     );
   }
 
-  loadProductSaleGroups(): void {
-
-  }
 
   get productSales(): FormArray {
     return this.editForm.get('productSales') as FormArray;

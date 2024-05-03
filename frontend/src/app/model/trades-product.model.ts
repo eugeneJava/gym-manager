@@ -3,6 +3,7 @@ export class TradesProductDto {
     name: string;
     comments: string;
     recommendedPrice: number;
+    category: TradesProductCategoryDto;
 }
 
 export class TradesProductBuyDto {
@@ -92,5 +93,18 @@ export class TradesProductSaleGroupDto {
 
 export enum SaleGroupType {
   RACKET = 'RACKET'
+}
+
+export enum TradesProductCategory {
+    BLADE = 'BLADE',
+    RUBBER = 'RUBBER',
+    BALL = 'BALL',
+    CASE = 'CASE',
+    OTHER = 'OTHER'
+}
+
+export class TradesProductCategoryDto {
+    id: TradesProductCategory;
+    name: string;
 }
 

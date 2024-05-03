@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ua.gym.domain.trades.TradesProduct;
+import ua.gym.domain.trades.TradesProductCategory;
 import ua.gym.domain.trades.TradesProductRepository;
+import ua.gym.ui.dtos.trades.TradesProductCategoryDto;
 import ua.gym.ui.dtos.trades.TradesProductDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 public class TradesProductWebService {
@@ -36,7 +39,7 @@ public class TradesProductWebService {
     @PostMapping("/trades/product")
     @Transactional
     public TradesProductDto createTradesProduct(@RequestBody TradesProductDto productDto) {
-        TradesProduct product = new TradesProduct(productDto.getName());
+        TradesProduct product = new TradesProduct(productDto.getName(), productDto.getCategory().getId());
         product.setComments(productDto.getComments());
         product.setRecommendedPrice(productDto.getRecommendedPrice());
         product = repository.save(product);
@@ -52,5 +55,12 @@ public class TradesProductWebService {
         product.setComments(productDto.getComments());
         product.setRecommendedPrice(productDto.getRecommendedPrice());
         return new TradesProductDto(product);
+    }
+
+    @GetMapping("/trades/category")
+    public List<TradesProductCategoryDto> getCategoryList() {
+        return Stream.of(TradesProductCategory.values())
+                .map(TradesProductCategoryDto::new)
+                .collect(Collectors.toList());
     }
 }
