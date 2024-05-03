@@ -18,7 +18,8 @@ export class ProductsEditComponent implements OnInit {
     this.productForm = this.fb.group({
       id: [this.product?.id],
       name: [this.product?.name, Validators.required],
-      comments: [this.product?.comments]
+      comments: [this.product?.comments],
+      recommendedPrice: [this.product?.recommendedPrice]
     });
   }
 

@@ -1,8 +1,8 @@
 export class TradesProductDto {
-
     id: string;
     name: string;
-    comments: string
+    comments: string;
+    recommendedPrice: number;
 }
 
 export class TradesProductBuyDto {

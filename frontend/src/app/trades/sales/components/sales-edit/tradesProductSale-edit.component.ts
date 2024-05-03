@@ -36,8 +36,11 @@ export class TradesProductSaleEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.editForm.get('product').valueChanges.subscribe((product: TradesProductDto) => {
+      this.editForm.get('sellPrice').setValue(product?.recommendedPrice);
+    });
+
     this.loadProductUnits();
-    this.loadProductSaleGroups();
   }
 
   loadProductUnits(): void {
@@ -49,9 +52,6 @@ export class TradesProductSaleEditComponent implements OnInit {
     );
   }
 
-  loadProductSaleGroups(): void {
-
-  }
 
   save(): void {
     if (this.editForm.valid) {

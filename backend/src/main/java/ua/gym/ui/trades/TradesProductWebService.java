@@ -38,6 +38,7 @@ public class TradesProductWebService {
     public TradesProductDto createTradesProduct(@RequestBody TradesProductDto productDto) {
         TradesProduct product = new TradesProduct(productDto.getName());
         product.setComments(productDto.getComments());
+        product.setRecommendedPrice(productDto.getRecommendedPrice());
         product = repository.save(product);
         return new TradesProductDto(product);
     }
@@ -49,6 +50,7 @@ public class TradesProductWebService {
         TradesProduct product = repository.findById(id).orElseThrow();
         product.setName(productDto.getName());
         product.setComments(productDto.getComments());
+        product.setRecommendedPrice(productDto.getRecommendedPrice());
         return new TradesProductDto(product);
     }
 }

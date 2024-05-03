@@ -6,6 +6,7 @@ import ua.gym.utils.Assertions;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "trades_product")
@@ -16,6 +17,16 @@ public class TradesProduct extends Identifiable {
 
     private String comments;
 
+    @Column
+    private BigDecimal recommendedPrice;
+
+    public BigDecimal getRecommendedPrice() {
+        return recommendedPrice;
+    }
+
+    public void setRecommendedPrice(BigDecimal recommendedPrice) {
+        this.recommendedPrice = recommendedPrice;
+    }
 
     protected TradesProduct() {
     }

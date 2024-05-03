@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TradesTradesProductUnitService} from "../../services/trades-product-unit.service";
 import {
@@ -16,12 +16,12 @@ import {DateUtils} from "../../../../model/date-utils";
 })
 export class TradesProductSaleGroupEditComponent implements OnInit {
   @Input() saleGroup: TradesProductSaleGroupDto;
-  editForm: FormGroup;
+  editForm: UntypedFormGroup;
   productUnits: ProductsAvailableForSaleDto[] = [];
 
   constructor(
     public activeModal: NgbActiveModal,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private productUnitService: TradesTradesProductUnitService,
   ) {
     this.editForm = this.fb.group({
@@ -33,18 +33,22 @@ export class TradesProductSaleGroupEditComponent implements OnInit {
     });
 
     if(this.editForm.get('type').value === SaleGroupType.RACKET) {
-      this.productSales.push(this.createProductSale());
-      this.productSales.push(this.createProductSale());
+      this.productSales.push(this.createProductSale(1));
+      this.productSales.push(this.createProductSale(2));
     }
   }
 
-  createProductSale(): FormGroup {
+  createProductSale(amountToSell: number): FormGroup {
     const productSale = this.fb.group({
       sellPrice: ['', [Validators.required]],
       product: ['', [Validators.required]],
       productSaleGroupId: [''],
-      amountToSell: [1, [Validators.required, Validators.min(1)]],
+      amountToSell: [amountToSell, [Validators.required, Validators.min(1)]],
       suggestedPrice: ['']
+    });
+
+    productSale.get('product').valueChanges.subscribe((product: TradesProductDto) => {
+      productSale.get('sellPrice').setValue(product?.recommendedPrice);
     });
     return productSale;
   }
