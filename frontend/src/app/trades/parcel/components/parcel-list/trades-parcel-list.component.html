@@ -1,42 +1,65 @@
-<div class="table-responsive">
-  <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">Закупки</th>
-      <th scope="col">Тип доставки</th>
-      <th scope="col">Вага</th>
-      <th scope="col">Ціна доставки(грн)</th>
-      <th scope="col">Відправлено</th>
-      <th scope="col">Отримано</th>
-      <th scope="col">Коментарі</th>
-      <th scope="col">Редагувати</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let parcel of parcels;">
-      <td>
-         <div *ngFor="let group of parcel.parcelGroups">
-             <div>{{group.name}}</div>
-             <div><small>{{group.trackId}}</small></div>
-             <br>
-         </div>
-      </td>
-      <td>{{ parcel.deliveryType }}</td>
-      <td>{{ parcel.weight }}</td>
-      <td>{{ parcel.deliveryPrice }}</td>
-      <td>{{ parcel.startedDeliveryAt | date }}</td>
-      <td>{{ parcel.deliveredAt | date }}</td>
-      <td>{{ parcel.comments }}</td>
-      <td>
-        <button class="btn btn-secondary btn-sm" (click)="onEdit(parcel)">
-          <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
-        </button>
+<div class="container py-3">
+  <h2>Посилки</h2>
+  <div ngbAccordion>
+    <div ngbAccordionItem *ngFor="let parcel of parcels; let i = index" [collapsed]="i!==0">
+      <h2 ngbAccordionHeader>
+        <button ngbAccordionButton><table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Тип доставки</th>
+            <th scope="col">Вага</th>
+            <th scope="col">Ціна доставки(грн)</th>
+            <th scope="col">Ціна усіх посилок</th>
+            <th scope="col">Відправлено</th>
+            <th scope="col">Отримано</th>
+            <th scope="col">Коментарі</th>
+            <th scope="col">Редагувати</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
 
-        <button class="btn btn-secondary btn-sm" (click)="onEdit(parcel)">
-          <fa-icon [icon]="['fas', 'money-bill-transfer']"></fa-icon>
+            <td>{{ parcel.deliveryType }}</td>
+            <td>{{ parcel.weight }}</td>
+            <td>{{ parcel.deliveryPrice }}</td>
+            <td>{{ parcel.totalBuyPriceOfAllGroups }}</td>
+            <td>{{ parcel.startedDeliveryAt | date }}</td>
+            <td>{{ parcel.deliveredAt | date }}</td>
+            <td>{{ parcel.comments }}</td>
+            <td>
+              <button class="btn btn-secondary btn-sm" (click)="onEdit(parcel)">
+                <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
         </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+      </h2>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <table class="table small">
+              <thead>
+              <tr>
+                <th>Поштовий трек</th>
+                <th>Вага</th>
+                <th>Ціна закупки</th>
+                <th>Назва групи</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let group of parcel.parcelGroups">
+                <td>{{ group.trackId }}</td>
+                <td>{{ group.weight }}</td>
+                <td>{{ group.totalBuyPriceInUah}}</td>
+                <td>{{ group.name }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

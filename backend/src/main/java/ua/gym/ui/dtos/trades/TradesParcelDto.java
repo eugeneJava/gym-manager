@@ -20,6 +20,7 @@ public class TradesParcelDto {
     private String comments;
     private String name;
     private List<TradesParcelGroupDto> parcelGroups;
+    private BigDecimal totalBuyPriceOfAllGroups;
 
     public TradesParcelDto() {
     }
@@ -34,6 +35,7 @@ public class TradesParcelDto {
         this.comments = parcel.getComments();
         this.parcelGroups = parcel.getParcelGroups().stream().map(TradesParcelGroupDto::new).collect(Collectors.toList());
         this.name = parcel.getName();
+        this.totalBuyPriceOfAllGroups = parcel.getTotalBuyPriceOfAllGroups();
     }
 
     public String getName() {
@@ -102,5 +104,9 @@ public class TradesParcelDto {
 
     public void setParcelGroups(List<TradesParcelGroupDto> parcelGroups) {
         this.parcelGroups = parcelGroups;
+    }
+
+    public BigDecimal getTotalBuyPriceOfAllGroups() {
+        return totalBuyPriceOfAllGroups;
     }
 }

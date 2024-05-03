@@ -131,4 +131,10 @@ public class TradesParcel extends Identifiable {
             });
         });
     }
+
+    public BigDecimal getTotalBuyPriceOfAllGroups() {
+        return parcelGroups.stream()
+                .map(TradesParcelGroup::getTotalBuyPriceInUah)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

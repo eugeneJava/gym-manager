@@ -69,6 +69,7 @@ export class TradesParcelDto {
   comments?: string;
   name: string;
   parcelGroups: TradesParcelGroupDto[];
+  totalBuyPriceOfAllGroups: number;
 }
 
 export class TradesProductSaleDto {
