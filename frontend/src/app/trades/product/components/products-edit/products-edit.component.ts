@@ -19,15 +19,15 @@ export class ProductsEditComponent implements OnInit {
               private tradesProductService: TradesProductService) {} // Inject TradesProductService
 
   ngOnInit() {
-    this.loadProductCategories(); // Add this line
-
     this.productForm = this.fb.group({
       id: [this.product?.id],
       name: [this.product?.name, Validators.required],
       comments: [this.product?.comments],
       recommendedPrice: [this.product?.recommendedPrice],
-      productCategory: [this.product?.category?.id, Validators.required],
+      category: [this.product?.category, Validators.required],
     });
+
+    this.loadProductCategories(); // Add this line
   }
 
   loadProductCategories() { // Add this method
@@ -40,5 +40,9 @@ export class ProductsEditComponent implements OnInit {
     if (this.productForm.valid) {
       this.activeModal.close(this.productForm.value);
     }
+  }
+
+  categoryId(t1: TradesProductCategoryDto, t2: TradesProductCategoryDto): boolean {
+    return t1 && t2 ? t1.id === t2.id : t1 === t2;
   }
 }
