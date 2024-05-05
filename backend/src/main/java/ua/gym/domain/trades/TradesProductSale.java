@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static ua.gym.utils.Assertions.assertGreaterThanZero;
 import static ua.gym.utils.Assertions.assertState;
 
 @Entity
@@ -39,16 +40,14 @@ public class TradesProductSale extends Identifiable {
 
     public TradesProductSale(BigDecimal sellPrice, LocalDate soldAt, String comments) {
         Assertions.assertPresent(sellPrice, soldAt);
+        assertGreaterThanZero(sellPrice);
         this.sellPrice = sellPrice;
         this.soldAt = soldAt;
         this.comments = comments;
     }
 
     public TradesProductSale(TradesProductSaleGroup group, BigDecimal sellPrice, LocalDate soldAt, String comments) {
-        Assertions.assertPresent(sellPrice, soldAt);
-        this.sellPrice = sellPrice;
-        this.soldAt = soldAt;
-        this.comments = comments;
+        this(sellPrice, soldAt, comments);
         this.setProductSaleGroup(group);
     }
 
@@ -64,8 +63,19 @@ public class TradesProductSale extends Identifiable {
         assertState(isNull(productUnit.getProductSale()), "Product unit is already sold");
         assertState(assertUnitIsAvailableForSale(productUnit), "Product unit is not available for sale. It has empty parcel delivery date.");
 
+        getLastProductUnit().ifPresent(lastUnit -> {
+            assertState(lastUnit.getProduct().equals(productUnit.getProduct()), "Single product sale should contain units of the same product.");
+        });
+
         productUnits.add(productUnit);
         productUnit.setProductSale(this);
+    }
+
+    private Optional<TradesProductUnit> getLastProductUnit() {
+        if(productUnits.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(productUnits.get(productUnits.size() - 1));
     }
 
     private boolean assertUnitIsAvailableForSale(TradesProductUnit productUnit) {
