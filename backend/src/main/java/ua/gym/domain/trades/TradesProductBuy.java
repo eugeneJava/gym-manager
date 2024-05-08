@@ -6,7 +6,6 @@ import ua.gym.utils.Assertions;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +53,7 @@ public class TradesProductBuy extends Identifiable {
                             TradesProduct product,
                             LocalDate purchaseDate, int amount) {
         assertPresent(parcelGroup, product, purchaseDate);
-        Assertions.assertGreaterThanZero(totalBuyPriceInUah);
+        assertGreaterThanZero(totalBuyPriceInUah);
         assertGreaterThan(amount, 0);
         this.parcelGroup = parcelGroup;
         this.parcelGroup.addProductBuy(this);
@@ -73,7 +72,7 @@ public class TradesProductBuy extends Identifiable {
     public TradesProductBuy(TradesProduct product,
                             LocalDate purchaseDate, int amount, BigDecimal unitBuyPrice) {
         assertPresent(product, purchaseDate);
-        Assertions.assertGreaterThanZero(unitBuyPrice);
+        assertGreaterThanZero(unitBuyPrice);
         assertGreaterThan(amount, 0);
         this.purchaseDate = purchaseDate;
         this.product = product;
@@ -83,13 +82,13 @@ public class TradesProductBuy extends Identifiable {
             new TradesProductUnit(this, product);
         }
         setWeightFraction(BigDecimal.ONE);
-        setUnitBuyPriceWithDelivery(unitBuyPrice);
+        setUnitBuyPriceForStandaloneBuy(unitBuyPrice);
         this.totalBuyPriceInUah = unitBuyPrice.multiply(v(amount));
     }
 
 
     public void setWeightFraction(BigDecimal weightFraction) {
-        Assertions.assertGreaterThanZero(weightFraction);
+        assertGreaterThanZero(weightFraction);
         Assertions.assertState(weightFraction.compareTo(BigDecimal.ONE) <= 0, "Weight fraction should be less than 1");
         this.weightFraction = weightFraction;
     }
@@ -114,10 +113,6 @@ public class TradesProductBuy extends Identifiable {
         return unitBuyPrice;
     }
 
-    public BigDecimal getUnitBuyPriceOrUnitBuyPriceWithDelivery() {
-        return Optional.ofNullable(unitBuyPrice).orElse(getUnitBuyPriceWithDelivery());
-    }
-
     public Optional<TradesParcelGroup> getParcelGroup() {
         return Optional.ofNullable(parcelGroup);
     }
@@ -130,16 +125,16 @@ public class TradesProductBuy extends Identifiable {
         return product;
     }
 
-    void updateUnitPrices(BigDecimal unitDeliveryPrice) {
-        Assertions.assertGreaterThanZero(unitDeliveryPrice);
+    void updateUnitPricesForBuyWithDelivery(BigDecimal unitDeliveryPrice) {
+        assertGreaterThanZero(unitDeliveryPrice);
         this.unitDeliveryPrice = unitDeliveryPrice;
-
-        setUnitBuyPriceWithDelivery(getUnitBuyPrice().add(unitDeliveryPrice));
+        this.unitBuyPriceWithDelivery = getUnitBuyPrice().add(unitDeliveryPrice);
     }
 
-    private void setUnitBuyPriceWithDelivery(BigDecimal unitBuyPrice) {
-        Assertions.assertGreaterThanZero(unitBuyPrice);
-        this.unitBuyPriceWithDelivery = unitBuyPrice;
+    private void setUnitBuyPriceForStandaloneBuy(BigDecimal unitBuyPrice) {
+        assertGreaterThanZero(unitBuyPrice);
+        this.unitBuyPrice = unitBuyPrice;
+        this.unitBuyPriceWithDelivery = this.unitBuyPrice;
     }
 
     public BigDecimal getWeightFraction() {

@@ -127,7 +127,7 @@ public class TradesParcel extends Identifiable {
                 assertGreaterThanZero(buyGroup.getUnitBuyPrice());
                 BigDecimal buyGroupDeliveryPrice = multiply(groupDeliveryPrice, buyGroup.getWeightFraction());
                 BigDecimal unitDeliveryPrice = divide(buyGroupDeliveryPrice, v(buyGroup.getProductUnits().size()));
-                buyGroup.updateUnitPrices(unitDeliveryPrice);
+                buyGroup.updateUnitPricesForBuyWithDelivery(unitDeliveryPrice);
             });
         });
     }

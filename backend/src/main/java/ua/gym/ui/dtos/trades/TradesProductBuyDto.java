@@ -30,7 +30,7 @@ public class TradesProductBuyDto {
         this.totalBuyPriceInUah = productBuy.getTotalBuyPriceInUah();
         this.amount = productBuy.getProductUnits().size();
         this.product = new TradesProductDto(productBuy.getProductUnits().stream().findFirst().get().getProduct());
-        this.unitPrice = productBuy.getUnitBuyPriceOrUnitBuyPriceWithDelivery();
+        this.unitPrice = productBuy.getUnitBuyPrice();
 
         productBuy.getParcelGroup().ifPresent(parcelGroup -> {
             this.parcelGroupId = parcelGroup.getId();
