@@ -16,6 +16,7 @@ import {
 import {
   TradesProductSaleStatisticsComponent
 } from "./trades/sales/components/sales-statistics/trades-product-sale-statistics.component";
+import {ProductTradeStatisticsComponent} from "./trades/statistics/components/product-trade-statistics.component";
 
 const routes : Routes = [
   {
@@ -54,6 +55,11 @@ const routes : Routes = [
       {
         path: 'salesStatistics',
         component: TradesProductSaleStatisticsComponent
+      },
+
+      {
+        path: 'tradeStatistics',
+        component: ProductTradeStatisticsComponent
       }
     ]
   }

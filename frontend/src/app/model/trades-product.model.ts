@@ -140,3 +140,24 @@ export class TradesProductCategoryDto {
     name: string;
 }
 
+export class ProductTradeStatisticsDto {
+  productName: string;
+  totalBought: number;
+  totalSold: number;
+  totalProfit: number;
+  history: ProductTradeHistoryItemDto[];
+}
+
+export enum TradeDirection {
+  BUY = 'BUY',
+  SELL = 'SELL'
+}
+
+export class ProductTradeHistoryItemDto {
+  productName: string;
+  direction: TradeDirection;
+  date: string;
+  amount: number;
+  price: number;
+}
+

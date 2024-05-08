@@ -1,6 +1,5 @@
 package ua.gym.ui.trades;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ua.gym.domain.trades.*;
@@ -10,7 +9,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Comparator.*;
@@ -21,27 +19,35 @@ import static ua.gym.utils.NumberUtils.v;
 @RestController
 public class TradesProductBuyWebService {
 
-    @Autowired
-    private TradesProductRepository productRepository;
+    private final TradesProductRepository productRepository;
+    private final TradesProductBuyRepository productBuyRepository;
+    private final TradesParcelGroupRepository parcelGroupRepository;
+    private final TradesProductSaleRepository tradesProductSaleRepository;
 
-    @Autowired
-    private TradesProductBuyRepository productBuyRepository;
-    @Autowired
-    private TradesParcelGroupRepository parcelGroupRepository;
+    public TradesProductBuyWebService(TradesProductRepository productRepository,
+                                      TradesProductBuyRepository productBuyRepository,
+                                      TradesParcelGroupRepository parcelGroupRepository,
+                                      TradesProductSaleRepository tradesProductSaleRepository) {
+        this.productRepository = productRepository;
+        this.productBuyRepository = productBuyRepository;
+        this.parcelGroupRepository = parcelGroupRepository;
+        this.tradesProductSaleRepository = tradesProductSaleRepository;
+    }
 
-@GetMapping("/trades/productBuy")
-@Transactional(readOnly = true)
-public List<TradesProductBuyDto> getTradesProductBuy() {
-    List<TradesProductBuy> productBuy = productBuyRepository.findAll();
-    return productBuy.stream()
-            .sorted(Comparator.comparing((TradesProductBuy b) -> !b.getParcelGroup().isPresent())
-                    .thenComparing(b -> b.getParcelGroup().isPresent() && b.getParcelGroup().get().getParcel() != null)
 
-                    .thenComparing(TradesProductBuy::getPurchaseDate, reverseOrder())
-                    .thenComparing(b -> b.getParcelGroup().map(TradesParcelGroup::getTrackId).orElse(null), nullsLast(naturalOrder())))
-            .map(TradesProductBuyDto::new)
-            .collect(Collectors.toList());
-}
+    @GetMapping("/trades/productBuy")
+    @Transactional(readOnly = true)
+    public List<TradesProductBuyDto> getTradesProductBuy() {
+        List<TradesProductBuy> productBuy = productBuyRepository.findAll();
+        return productBuy.stream()
+                .sorted(Comparator.comparing((TradesProductBuy b) -> !b.getParcelGroup().isPresent())
+                        .thenComparing(b -> b.getParcelGroup().isPresent() && b.getParcelGroup().get().getParcel() != null)
+
+                        .thenComparing(TradesProductBuy::getPurchaseDate, reverseOrder())
+                        .thenComparing(b -> b.getParcelGroup().map(TradesParcelGroup::getTrackId).orElse(null), nullsLast(naturalOrder())))
+                .map(TradesProductBuyDto::new)
+                .collect(Collectors.toList());
+    }
 
     @GetMapping("/trades/productBuy/{id}")
     @Transactional(readOnly = true)

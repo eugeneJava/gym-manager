@@ -146,5 +146,4 @@ public class TradesProductSaleWebService {
 
         return statistics;
     }
-
 }

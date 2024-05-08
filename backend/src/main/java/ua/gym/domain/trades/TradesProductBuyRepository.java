@@ -16,4 +16,6 @@ public interface TradesProductBuyRepository extends JpaRepository<TradesProductB
 
             "WHERE parcelGroup IS NULL OR (parcelGroup IS NOT NULL AND parcel IS NOT NULL) ORDER BY buy.purchaseDate DESC ")
     List<TradesProductBuy> findAllBuysWithCalculatedPrice();
+
+    List<TradesProductBuy> findAllByOrderByPurchaseDateDesc();
 }

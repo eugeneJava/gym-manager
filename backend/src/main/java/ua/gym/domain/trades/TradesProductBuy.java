@@ -17,7 +17,7 @@ import static ua.gym.utils.NumberUtils.*;
 
 @Entity
 @Table(name = "trades_product_buy")
-public class TradesProductBuy extends Identifiable {
+public class TradesProductBuy extends Identifiable implements TradeOperation {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private TradesParcelGroup parcelGroup;
@@ -147,5 +147,20 @@ public class TradesProductBuy extends Identifiable {
 
     public BigDecimal getUnitDeliveryPrice() {
         return unitDeliveryPrice;
+    }
+
+    @Override
+    public TradeDirection getDirection() {
+        return TradeDirection.BUY;
+    }
+
+    @Override
+    public BigDecimal spentAmount() {
+        return getTotalBuyPriceInUah();
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return getPurchaseDate();
     }
 }
