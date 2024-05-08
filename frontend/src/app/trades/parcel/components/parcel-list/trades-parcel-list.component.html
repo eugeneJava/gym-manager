@@ -24,7 +24,15 @@
             <td>{{ parcel.deliveryPrice }}</td>
             <td>{{ parcel.totalBuyPriceOfAllGroups }}</td>
             <td>{{ parcel.startedDeliveryAt | date }}</td>
-            <td>{{ parcel.deliveredAt | date }}</td>
+            <td>
+              <span *ngIf="parcel.deliveredAt" class="text-success">
+                {{ parcel.deliveredAt | date }}
+              </span>
+
+              <span *ngIf="!parcel.deliveredAt" class="text-info">
+                В дорозі
+              </span>
+            </td>
             <td>{{ parcel.comments }}</td>
             <td>
               <button class="btn btn-secondary btn-sm" (click)="onEdit(parcel)">

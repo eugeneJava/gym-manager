@@ -35,6 +35,7 @@ public class TradesProductSale extends Identifiable {
 
     private String comments;
 
+
     TradesProductSale() {
     }
 
@@ -60,7 +61,7 @@ public class TradesProductSale extends Identifiable {
     }
 
     public void addProductUnit(TradesProductUnit productUnit) {
-        assertState(isNull(productUnit.getProductSale()), "Product unit is already sold");
+        assertState(!productUnit.getProductSale().isPresent(), "Product unit is already sold");
         assertState(assertUnitIsAvailableForSale(productUnit), "Product unit is not available for sale. It has empty parcel delivery date.");
 
         getLastProductUnit().ifPresent(lastUnit -> {
@@ -76,6 +77,10 @@ public class TradesProductSale extends Identifiable {
             return Optional.empty();
         }
         return Optional.of(productUnits.get(productUnits.size() - 1));
+    }
+
+    public TradesProduct getProduct() {
+        return productUnits.stream().findFirst().map(TradesProductUnit::getProduct).get();
     }
 
     private boolean assertUnitIsAvailableForSale(TradesProductUnit productUnit) {
@@ -112,5 +117,10 @@ public class TradesProductSale extends Identifiable {
         this.comments = comments;
     }
 
+
+    public Optional<BigDecimal> calculateTotalProfit() {
+         Optional<BigDecimal> profit = this.getProductUnits().stream().flatMap(unit -> unit.getProfit().stream()).reduce(BigDecimal::add);
+        return profit;
+    }
 
 }

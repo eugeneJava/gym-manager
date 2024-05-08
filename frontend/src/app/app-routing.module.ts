@@ -13,6 +13,9 @@ import {TradesMainViewComponent} from "./trades/main/trades-main-view/trades-mai
 import {
   PurchaseStatisticsListComponent
 } from "./trades/purchase/components/purchase-statistics-list/purchase-statistics-list.component";
+import {
+  TradesProductSaleStatisticsComponent
+} from "./trades/sales/components/sales-statistics/trades-product-sale-statistics.component";
 
 const routes : Routes = [
   {
@@ -46,6 +49,11 @@ const routes : Routes = [
       {
         path: 'purchaseStatistics',
         component: PurchaseStatisticsListComponent
+      },
+
+      {
+        path: 'salesStatistics',
+        component: TradesProductSaleStatisticsComponent
       }
     ]
   }

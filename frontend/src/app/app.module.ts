@@ -71,6 +71,9 @@ import {
   TradesProductSaleGroupEditComponent
 } from "./trades/sales/components/sales-group-edit/tradesProductSale-group-edit.component";
 import {SaleGroupComponent} from "./trades/sales/components/sales-group/sale-group.component";
+import {
+  TradesProductSaleStatisticsComponent
+} from "./trades/sales/components/sales-statistics/trades-product-sale-statistics.component";
 
 @NgModule({
   declarations: [
@@ -114,8 +117,8 @@ import {SaleGroupComponent} from "./trades/sales/components/sales-group/sale-gro
     TradesProductSaleListComponent,
     TradesMainViewComponent,
     PurchaseStatisticsListComponent,
-    SaleGroupComponent
-
+    SaleGroupComponent,
+    TradesProductSaleStatisticsComponent
   ],
   imports: [
     BrowserModule,

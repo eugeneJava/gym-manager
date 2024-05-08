@@ -23,6 +23,10 @@ public class NumberUtils {
         return dividend.divide(divisor,2, HALF_UP);
     }
 
+    public static BigDecimal increment(BigDecimal number) {
+        return number.add(BigDecimal.ONE);
+    }
+
     public static boolean greaterThanZero(BigDecimal value) {
         return value.compareTo(ZERO) > 0;
     }

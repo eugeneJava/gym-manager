@@ -6,6 +6,7 @@ import ua.gym.utils.NumberUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Entity
 @Table(name = "trades_product_unit")
@@ -43,7 +44,12 @@ public class TradesProductUnit extends Identifiable {
         this.productSale = tradesProductSale;
     }
 
-    public TradesProductSale getProductSale() {
-        return productSale;
+    public Optional<TradesProductSale> getProductSale() {
+        return Optional.ofNullable(productSale);
+    }
+
+    public Optional<BigDecimal> getProfit() {
+        return getProductSale()
+                .map(sale -> sale.getSellPrice().subtract(productBuy.getUnitBuyPriceWithDelivery()));
     }
 }

@@ -45,7 +45,8 @@ public class TradesProductBuy extends Identifiable {
 
     private Integer amount;
 
-    TradesProductBuy() {}
+    TradesProductBuy() {
+    }
 
     public TradesProductBuy(TradesParcelGroup parcelGroup,
                             BigDecimal totalBuyPriceInYuan,
@@ -54,7 +55,7 @@ public class TradesProductBuy extends Identifiable {
                             LocalDate purchaseDate, int amount) {
         assertPresent(parcelGroup, product, purchaseDate);
         Assertions.assertGreaterThanZero(totalBuyPriceInUah);
-        assertGreaterThan(amount,0);
+        assertGreaterThan(amount, 0);
         this.parcelGroup = parcelGroup;
         this.parcelGroup.addProductBuy(this);
         this.totalBuyPriceInYuan = totalBuyPriceInYuan;
@@ -73,7 +74,7 @@ public class TradesProductBuy extends Identifiable {
                             LocalDate purchaseDate, int amount, BigDecimal unitBuyPrice) {
         assertPresent(product, purchaseDate);
         Assertions.assertGreaterThanZero(unitBuyPrice);
-        assertGreaterThan(amount,0);
+        assertGreaterThan(amount, 0);
         this.purchaseDate = purchaseDate;
         this.product = product;
         this.amount = amount;
@@ -81,9 +82,9 @@ public class TradesProductBuy extends Identifiable {
         for (int i = 0; i < amount; i++) {
             new TradesProductUnit(this, product);
         }
+        setWeightFraction(BigDecimal.ONE);
         setUnitBuyPriceWithDelivery(unitBuyPrice);
         this.totalBuyPriceInUah = unitBuyPrice.multiply(v(amount));
-        setWeightFraction(BigDecimal.ONE);
     }
 
 
@@ -129,14 +130,14 @@ public class TradesProductBuy extends Identifiable {
         return product;
     }
 
-     void updateUnitPrices(BigDecimal unitDeliveryPrice) {
+    void updateUnitPrices(BigDecimal unitDeliveryPrice) {
         Assertions.assertGreaterThanZero(unitDeliveryPrice);
         this.unitDeliveryPrice = unitDeliveryPrice;
 
         setUnitBuyPriceWithDelivery(getUnitBuyPrice().add(unitDeliveryPrice));
     }
 
-     public void setUnitBuyPriceWithDelivery(BigDecimal unitBuyPrice) {
+    private void setUnitBuyPriceWithDelivery(BigDecimal unitBuyPrice) {
         Assertions.assertGreaterThanZero(unitBuyPrice);
         this.unitBuyPriceWithDelivery = unitBuyPrice;
     }

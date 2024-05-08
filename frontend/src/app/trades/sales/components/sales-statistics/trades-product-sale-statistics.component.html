@@ -1,0 +1,70 @@
+<div class="container py-3">
+  <h2>Статистика продажів за період {{statistics.from}} - {{statistics.to}}</h2>
+  <div ngbAccordion>
+    <div ngbAccordionItem *ngFor="let productStat of statistics.productStat; let i = index" [collapsed]="i!==0">
+      <h2 ngbAccordionHeader>
+        <button ngbAccordionButton>
+          <div class="row">
+            <div class="col-fixed-1">
+              Продукт: <b>{{ productStat.productName }}</b>
+            </div>
+            <div class="col-auto">
+              Продана кількість: <b>{{ productStat.soldAmount }}</b>
+            </div>
+            <div class="col-auto">
+              Прибуток на одиницю товару: <b>{{ productStat.avgProfitPerUnit }}</b>
+            </div>
+
+            <div class="col">
+              Прибуток: <b>{{ productStat.totalProfit }}</b>
+            </div>
+          </div>
+        </button>
+      </h2>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ціна покупки за штуку (грн)</th>
+                <th scope="col">Ціна продажу за штуку (грн)</th>
+                <th scope="col">Прибуток за штуку (грн)</th>
+                <th scope="col">Прибуток з продажу (грн)</th>
+                <th scope="col">Кількість</th>
+                <th scope="col">Дата продажі</th>
+                <th scope="col">Група</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let sale of productStat.saleStatistics; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ sale.buyPrice }}</td>
+                <td>{{ sale.sellPrice }}</td>
+                <td>{{ sale.profitPerUnit }}</td>
+                <td>{{ sale.totalSaleProfit }}</td>
+                <td>{{ sale.soldAmount }}</td> <!-- Display appropriate property -->
+                <td>{{ sale.soldAt }}</td>
+                <td>{{ sale.parcelGroupId }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="totals-section">
+      <h3>Період: {{statistics.from}} - {{statistics.to}}</h3>
+      <h3>Загальний прибуток: {{ statistics.totalProfit }}</h3>
+      <h3>Продано на суму: {{ statistics.totalSold }}</h3>
+    </div>
+  </div>
+</div>

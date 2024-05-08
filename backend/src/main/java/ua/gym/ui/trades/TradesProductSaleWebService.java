@@ -2,16 +2,19 @@ package ua.gym.ui.trades;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import ua.gym.domain.trades.*;
 import ua.gym.ui.dtos.trades.*;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.*;
 
+import static java.util.stream.Collectors.toList;
 import static ua.gym.utils.Assertions.assertState;
+import static ua.gym.utils.NumberUtils.divide;
+import static ua.gym.utils.NumberUtils.v;
 
 @RestController
 public class TradesProductSaleWebService {
@@ -38,7 +41,7 @@ public class TradesProductSaleWebService {
                 .sorted(Comparator.comparing(TradesProductSale::getSoldAt).reversed()
                         .thenComparing(sale -> sale.getProductSaleGroup().map(TradesProductSaleGroup::getId).orElse(null), Comparator.nullsLast(Comparator.naturalOrder())))
                 .map(TradesProductSaleDto::new)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Transactional(readOnly = true)
@@ -101,4 +104,47 @@ public class TradesProductSaleWebService {
 
         assertState(!group.getProductSales().isEmpty(), "At least one product sale should be added to the group.");
     }
+
+
+    @GetMapping("/trades/productSale/statistics")
+    @Transactional(readOnly = true)
+    public TradesProductSaleTotalStatisticsDto getProductSaleStatistics() {
+        List<TradesProductSale> allSales = tradesProductSaleRepository.findAllByOrderBySoldAtDesc();
+        TradesProductSaleTotalStatisticsDto statistics =
+                new TradesProductSaleTotalStatisticsDto(
+                        allSales.stream().findFirst().map(TradesProductSale::getSoldAt).orElse(null),
+                        LocalDate.now());
+
+        Map<TradesProduct, ProductSaleStatDto> productStats = new HashMap<>();
+        BigDecimal totalProfit = BigDecimal.ZERO;
+        BigDecimal totalSold = BigDecimal.ZERO;
+        for (TradesProductSale sale : allSales) {
+            TradesProduct product = sale.getProduct();
+            productStats.putIfAbsent(product, new ProductSaleStatDto(product.getName()));
+
+            ProductSaleStatDto productStat = productStats.get(product);
+            productStat.setSoldAmount(productStat.getSoldAmount().add(v(sale.getProductUnits().size())));
+            sale.calculateTotalProfit().ifPresent(profit -> productStat.setTotalProfit(productStat.getTotalProfit().add(profit)));
+
+            totalProfit = totalProfit.add(sale.calculateTotalProfit().orElse(BigDecimal.ZERO));
+            totalSold = totalSold.add(sale.getSellPrice());
+
+            productStat.getSaleStatistics().add(new TradesProductSaleStatisticsDto(sale));
+        }
+
+
+        statistics.setTotalProfit(totalProfit);
+        statistics.setTotalSold(totalSold);
+
+        List<ProductSaleStatDto> productSaleStats = productStats
+                .values().stream()
+                .peek(stat -> {
+                    stat.setAvgProfitPerUnit(divide(stat.getTotalProfit(), stat.getSoldAmount()));
+                })
+                .sorted(Comparator.comparing(ProductSaleStatDto::getAvgProfitPerUnit).reversed()).collect(toList());
+        statistics.setProductStat(productSaleStats);
+
+        return statistics;
+    }
+
 }

@@ -79,11 +79,43 @@ export class TradesProductSaleDto {
   product: TradesProductDto; // Use appropriate type or DTO
   productSaleGroup: TradesParcelGroupDto; // Use appropriate type or DTO
   soldAt: number;
-  amountToSale: number
+  amountToSale: number;
   soldAmount: number;
   comments?: string;
   parcelGroupId: string;
 }
+
+export class TradesProductSaleTotalStatisticsDto {
+  totalProfit: number;
+  totalSold: number;
+  productStat: ProductSaleStatDto[];
+  from: string;
+  to: string;
+}
+
+export class TradesProductSaleStatisticsDto {
+  id: string;
+  sellPrice: number; // Assuming BigDecimal maps to number in TypeScript
+  buyPrice: number; // Assuming BigDecimal maps to number in TypeScript
+  profitPerUnit: number; // Assuming BigDecimal maps to number in TypeScript
+  totalSaleProfit: number; // Assuming BigDecimal maps to number in TypeScript
+  product: TradesProductDto; // Use appropriate type or DTO
+  productSaleGroup: TradesParcelGroupDto; // Use appropriate type or DTO
+  soldAt: number;
+  amountToSale: number;
+  soldAmount: number;
+  comments?: string;
+  parcelGroupId: string;
+}
+
+export class ProductSaleStatDto {
+  productName: string;
+  soldAmount: number;
+  totalProfit: number;
+  avgProfitPerUnit: number;
+  saleStatistics: TradesProductSaleStatisticsDto[];
+}
+
 
 export class TradesProductSaleGroupDto {
   id: string;
