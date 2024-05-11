@@ -71,6 +71,7 @@ export class TradesParcelDto {
   name: string;
   parcelGroups: TradesParcelGroupDto[];
   totalBuyPriceOfAllGroups: number;
+  deliveryDurationInDays: number;
 }
 
 export class TradesProductSaleDto {

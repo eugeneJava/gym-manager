@@ -14,6 +14,7 @@ public class TradesParcelDto {
     private String id;
     private BigDecimal weight;
     private BigDecimal deliveryPrice;
+    private String deliveryDurationInDays;
     private LocalDate startedDeliveryAt;
     private LocalDate deliveredAt;
     private DeliveryType deliveryType;
@@ -36,6 +37,7 @@ public class TradesParcelDto {
         this.parcelGroups = parcel.getParcelGroups().stream().map(TradesParcelGroupDto::new).collect(Collectors.toList());
         this.name = parcel.getName();
         this.totalBuyPriceOfAllGroups = parcel.getTotalBuyPriceOfAllGroups();
+        this.deliveryDurationInDays = parcel.getDeliveryDurationFormatted();
     }
 
     public String getName() {
@@ -108,5 +110,9 @@ public class TradesParcelDto {
 
     public BigDecimal getTotalBuyPriceOfAllGroups() {
         return totalBuyPriceOfAllGroups;
+    }
+
+    public String getDeliveryDurationInDays() {
+        return deliveryDurationInDays;
     }
 }

@@ -5,7 +5,8 @@ import {TradesParcelDto} from "../../../../model/trades-product.model";
 
 @Component({
   selector: 'app-trades-parcel-list',
-  templateUrl: './trades-parcel-list.component.html'
+  templateUrl: './trades-parcel-list.component.html',
+  styleUrls: ['./trades-parcel-list.component.scss']
 })
 export class TradesParcelListComponent {
   @Input() parcels: TradesParcelDto[] = [];

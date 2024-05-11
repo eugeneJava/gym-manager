@@ -6,9 +6,11 @@ import ua.gym.utils.Assertions;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -136,5 +138,12 @@ public class TradesParcel extends Identifiable {
         return parcelGroups.stream()
                 .map(TradesParcelGroup::getTotalBuyPriceInUah)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public String getDeliveryDurationFormatted() {
+        LocalDate deliveryTo = Optional.ofNullable(getDeliveredAt()).orElse(LocalDate.now());
+        Period period = Period.between(getStartedDeliveryAt(), deliveryTo);
+        String month = period.getMonths() > 0 ? period.getMonths() + " міс " : "";
+        return month +  " " + period.getDays() + " днів";
     }
 }

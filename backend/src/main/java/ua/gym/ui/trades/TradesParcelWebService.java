@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import ua.gym.domain.trades.*;
 import ua.gym.ui.dtos.trades.TradesParcelDto;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @RestController
 public class TradesParcelWebService {
@@ -32,8 +36,13 @@ public class TradesParcelWebService {
     @GetMapping("/trades/parcel")
     @Transactional(readOnly = true)
     public List<TradesParcelDto> getAllTradesParcels() {
-        List<TradesParcel> parcels = tradesParcelRepository.findAllByOrderByStartedDeliveryAtDesc();
-        return parcels.stream().map(TradesParcelDto::new).collect(Collectors.toList());
+        List<TradesParcel> parcels = tradesParcelRepository
+                .findAllByOrderByStartedDeliveryAtDesc()
+                .stream()
+                .sorted(Comparator.comparing((TradesParcel p) -> nonNull(p.getDeliveredAt()))
+                        .thenComparing(TradesParcel::getStartedDeliveryAt, Comparator.reverseOrder())).collect(Collectors.toList());
+
+                                return parcels.stream().map(TradesParcelDto::new).collect(Collectors.toList());
     }
 
     @PostMapping("/trades/parcel")
