@@ -112,7 +112,7 @@ public class TradesProductSaleWebService {
         List<TradesProductSale> allSales = tradesProductSaleRepository.findAllByOrderBySoldAtDesc();
         TradesProductSaleTotalStatisticsDto statistics =
                 new TradesProductSaleTotalStatisticsDto(
-                        allSales.stream().findFirst().map(TradesProductSale::getSoldAt).orElse(null),
+                        allSales.isEmpty() ? null : allSales.get(allSales.size() - 1).getSoldAt(),
                         LocalDate.now());
 
         Map<TradesProduct, ProductSaleStatDto> productStats = new HashMap<>();

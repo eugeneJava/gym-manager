@@ -40,8 +40,7 @@ export class TradesProductSaleContainerComponent implements OnInit {
       if (result) {
         this.tradesProductSaleService.createTradesProductSale(result).subscribe(
           (newSale: TradesProductSaleDto) => {
-            this.tradesProductSales.push(newSale);
-            this.tradesProductSales = [...this.tradesProductSales]; // Refresh the list in the view
+            this.loadTradesProductSales();
           },
           error => {
             console.error('There was an error while creating a TradesProductSale', error);
@@ -57,8 +56,7 @@ export class TradesProductSaleContainerComponent implements OnInit {
       if (result) {
         this.tradesProductSaleService.createTradesProductSaleGroup(result).subscribe(
           (newSale: TradesProductSaleDto) => {
-            this.tradesProductSales.push(newSale);
-            this.tradesProductSales = [...this.tradesProductSales]; // Refresh the list in the view
+            this.loadTradesProductSales();// Refresh the list in the view
           },
           error => {
             console.error('There was an error while creating a TradesProductSale', error);
