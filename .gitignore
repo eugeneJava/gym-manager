@@ -8,3 +8,9 @@
 /frontend/target/
 /frontend/*.iml
 /frontend/src/main/
+
+#secrets
+/backend/src/main/resources/secrets.properties
+
+#deploy
+deploy.sh

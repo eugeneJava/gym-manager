@@ -140,6 +140,10 @@ public class TradesParcel extends Identifiable {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public BigDecimal getTotalPrice() {
+        return getTotalBuyPriceOfAllGroups().add(deliveryPrice);
+    }
+
     public String getDeliveryDurationFormatted() {
         LocalDate deliveryTo = Optional.ofNullable(getDeliveredAt()).orElse(LocalDate.now());
         Period period = Period.between(getStartedDeliveryAt(), deliveryTo);

@@ -32,7 +32,7 @@ public class MvcConfig implements WebMvcConfigurer {
    @Override
    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-      registry.addResourceHandler(new String[]{"/frontend/**", "/**"})
+      registry.addResourceHandler(new String[]{"/frontend/**"})
               .addResourceLocations("classpath:/resources/frontend/")
               .resourceChain(true)
               .addResolver(new PathResourceResolver() {
