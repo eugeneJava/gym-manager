@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 import ua.gym.persistense.JpaRepository;
 import ua.gym.utils.StringUtils;
 
-import javax.persistence.Query;
+import jakarta.persistence.Query;
 import java.util.Collections;
 import java.util.List;
 

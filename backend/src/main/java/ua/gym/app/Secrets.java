@@ -11,10 +11,14 @@ import java.util.Set;
 @Configuration
 @PropertySource("secrets.properties")
 public class Secrets {
-    @Value("${internal.http.communication.allowed.ids}")
-    private Set<String> internalHttpCommunicationAllowedIds = new HashSet<>();
+    @Value("${http.internal.communication.allowed.ids}")
+    private Set<String> internalHttpCommunicationAllowedIds;
 
     public Set<String> getInternalHttpCommunicationAllowedIds() {
         return Collections.unmodifiableSet(internalHttpCommunicationAllowedIds);
+    }
+
+    public void setInternalHttpCommunicationAllowedIds(Set<String> internalHttpCommunicationAllowedIds) {
+        this.internalHttpCommunicationAllowedIds = new HashSet<>(internalHttpCommunicationAllowedIds);
     }
 }

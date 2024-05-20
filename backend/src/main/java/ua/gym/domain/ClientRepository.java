@@ -3,7 +3,7 @@ package ua.gym.domain;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import ua.gym.persistense.JpaRepository;
 import ua.gym.utils.StringUtils;

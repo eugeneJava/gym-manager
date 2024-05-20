@@ -1,7 +1,8 @@
 package ua.gym.persistense;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+
 import java.util.Objects;
 import java.util.UUID;
 

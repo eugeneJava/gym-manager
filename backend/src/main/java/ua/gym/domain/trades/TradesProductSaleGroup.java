@@ -2,7 +2,7 @@ package ua.gym.domain.trades;
 
 import ua.gym.persistense.Identifiable;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

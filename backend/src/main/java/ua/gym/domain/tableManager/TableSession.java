@@ -3,7 +3,7 @@ package ua.gym.domain.tableManager;
 import ua.gym.persistense.Identifiable;
 import ua.gym.utils.MoneyUtils;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

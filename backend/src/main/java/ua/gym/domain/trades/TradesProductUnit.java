@@ -4,7 +4,7 @@ import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 import ua.gym.utils.NumberUtils;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Optional;
 

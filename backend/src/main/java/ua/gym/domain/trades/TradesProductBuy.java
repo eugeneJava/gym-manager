@@ -1,9 +1,9 @@
 package ua.gym.domain.trades;
 
+import jakarta.persistence.*;
 import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,15 +11,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static javax.persistence.FetchType.LAZY;
+import static jakarta.persistence.FetchType.LAZY;
 import static ua.gym.utils.Assertions.*;
-import static ua.gym.utils.NumberUtils.*;
+import static ua.gym.utils.NumberUtils.divide;
+import static ua.gym.utils.NumberUtils.v;
 
 @Entity
 @Table(name = "trades_product_buy")
 public class TradesProductBuy extends Identifiable implements TradeOperation {
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = LAZY, optional = false)
     private TradesParcelGroup parcelGroup;
 
     @Column(nullable = false)

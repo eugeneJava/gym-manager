@@ -1,7 +1,8 @@
 package ua.gym.persistense;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 public class JpaRepository<Entity> {
    @PersistenceContext

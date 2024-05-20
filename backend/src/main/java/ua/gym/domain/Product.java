@@ -3,8 +3,8 @@ package ua.gym.domain;
 import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 
 @Entity

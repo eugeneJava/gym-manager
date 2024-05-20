@@ -4,8 +4,8 @@ import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 import ua.gym.utils.StringUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table
