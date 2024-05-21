@@ -1,9 +1,13 @@
 package ua.gym.ui.internal;
 
+import ua.gym.domain.trades.TradesParcel;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ParcelDeliveryInfoDto {
     private String deliveryType;
@@ -13,12 +17,19 @@ public class ParcelDeliveryInfoDto {
     private String deliveryDurationInDays;
     private List<ParcelContentItemDto> content = new ArrayList<>();
 
-    public ParcelDeliveryInfoDto(String deliveryType, BigDecimal totalCost, LocalDate sendAt, LocalDate expectedDeliveryDate, String deliveryDurationInDays) {
-        this.deliveryType = deliveryType;
-        this.totalCost = totalCost;
-        this.sendAt = sendAt;
+
+    public ParcelDeliveryInfoDto(TradesParcel parcel, LocalDate expectedDeliveryDate) {
+        this.deliveryType = parcel.getDeliveryType().name();
+        this.totalCost = parcel.getTotalPrice();
+        this.sendAt = parcel.getStartedDeliveryAt();
         this.expectedDeliveryDate = expectedDeliveryDate;
-        this.deliveryDurationInDays = deliveryDurationInDays;
+        this.deliveryDurationInDays = parcel.getDeliveryDurationFormatted();
+        this.content = parcel.getParcelGroups().stream().map(ParcelContentItemDto::new)
+                .sorted(Comparator.comparing(ParcelContentItemDto::getProductName))
+                .collect(Collectors.toList());
+    }
+
+    public ParcelDeliveryInfoDto() {
     }
 
     public String getDeliveryType() {

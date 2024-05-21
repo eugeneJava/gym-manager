@@ -46,22 +46,9 @@ public class TradesProductTradeStatisticsInternalWebService {
                 .sorted(Comparator.comparing((TradesParcel p) -> nonNull(p.getDeliveredAt()))
                         .thenComparing(TradesParcel::getStartedDeliveryAt, Comparator.reverseOrder())).collect(Collectors.toList());
 
-        return parcels.stream().map(parcel -> {
-            ParcelDeliveryInfoDto parcelDeliveryInfoDto = new ParcelDeliveryInfoDto(
-                    parcel.getDeliveryType().name(),
-                    parcel.getTotalPrice(),
-                    parcel.getStartedDeliveryAt(),
-                    deliveryDurationProvider.calculateApproximateDeliveryDate(parcel),
-                    parcel.getDeliveryDurationFormatted());
-
-            parcelDeliveryInfoDto.setContent(
-                    parcel.getParcelGroups().stream().map(ParcelContentItemDto::new)
-                    .sorted(Comparator.comparing(ParcelContentItemDto::getProductName))
-                    .collect(Collectors.toList())
-            );
-
-            return parcelDeliveryInfoDto;
-        }).collect(Collectors.toList());
+        return parcels.stream().map(parcel -> new ParcelDeliveryInfoDto(
+                parcel, deliveryDurationProvider.calculateApproximateDeliveryDate(parcel)
+        )).collect(Collectors.toList());
     }
 
 
