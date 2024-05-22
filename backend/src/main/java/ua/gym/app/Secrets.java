@@ -4,36 +4,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 @Configuration
-@PropertySource("secrets.properties")
+@PropertySource("classpath:secrets.properties")
 public class Secrets {
-    @Value("${http.internal.communication.allowed.ids}")
-    private Set<String> internalHttpCommunicationAllowedIds;
 
-    @Value("${http.internal.communication.basic.auth.secret}")
-    private String basicAuthSecret;
 
-    @Value("${security.login.form.password}")
+    @Value("${security.authentication.basic.password}")
+    private String basicAuthPassword;
+
+    @Value("${security.authentication.form.password}")
     private String formLoginPassword;
 
-    public Set<String> getInternalHttpCommunicationAllowedIds() {
-        return Collections.unmodifiableSet(internalHttpCommunicationAllowedIds);
+    public String getBasicAuthPassword() {
+        return basicAuthPassword;
     }
 
-    public void setInternalHttpCommunicationAllowedIds(Set<String> internalHttpCommunicationAllowedIds) {
-        this.internalHttpCommunicationAllowedIds = new HashSet<>(internalHttpCommunicationAllowedIds);
-    }
-
-    public String getBasicAuthSecret() {
-        return basicAuthSecret;
-    }
-
-    public void setBasicAuthSecret(String basicAuthSecret) {
-        this.basicAuthSecret = basicAuthSecret;
+    public void setBasicAuthPassword(String basicAuthPassword) {
+        this.basicAuthPassword = basicAuthPassword;
     }
 
     public String getFormLoginPassword() {

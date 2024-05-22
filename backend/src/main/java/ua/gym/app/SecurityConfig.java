@@ -49,15 +49,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService users() {
+    public UserDetailsService users(Secrets secrets) {
         UserDetails webUser = User.builder()
                 .username("user")
-                .password("{bcrypt}$2a$10$84Yy8LcMaHwiAY7FQ0eW/uReiZZ21ykg7DPfWFpittIoUes4WAAhm")
+                .password(secrets.getFormLoginPassword())
                 .build();
 
         UserDetails internalHttpCommunicationUser = User.builder()
                 .username("admin")
-                .password("{bcrypt}$2a$10$JAT4fHJaUawD.XtGHOfJb.ZXPnD4WmWhRqPMClcxKS25hroa4Vmbi")
+                .password(secrets.getBasicAuthPassword())
                 .roles("USER")
                 .build();
 
