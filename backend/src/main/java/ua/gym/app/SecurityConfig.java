@@ -40,7 +40,8 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        http.cors(cors -> cors.disable())
+                .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth.anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
 
@@ -52,7 +53,6 @@ public class SecurityConfig {
         UserDetails webUser = User.builder()
                 .username("user")
                 .password("{bcrypt}$2a$10$84Yy8LcMaHwiAY7FQ0eW/uReiZZ21ykg7DPfWFpittIoUes4WAAhm")
-                .roles("USER")
                 .build();
 
         UserDetails internalHttpCommunicationUser = User.builder()
