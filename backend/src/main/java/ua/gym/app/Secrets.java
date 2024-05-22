@@ -17,6 +17,9 @@ public class Secrets {
     @Value("${http.internal.communication.basic.auth.secret}")
     private String basicAuthSecret;
 
+    @Value("${security.login.form.password}")
+    private String formLoginPassword;
+
     public Set<String> getInternalHttpCommunicationAllowedIds() {
         return Collections.unmodifiableSet(internalHttpCommunicationAllowedIds);
     }
@@ -31,5 +34,13 @@ public class Secrets {
 
     public void setBasicAuthSecret(String basicAuthSecret) {
         this.basicAuthSecret = basicAuthSecret;
+    }
+
+    public String getFormLoginPassword() {
+        return formLoginPassword;
+    }
+
+    public void setFormLoginPassword(String formLoginPassword) {
+        this.formLoginPassword = formLoginPassword;
     }
 }
