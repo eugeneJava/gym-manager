@@ -3,7 +3,6 @@ package ua.gym.app;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,14 +34,8 @@ public class SecurityConfig {
                 .authorizeRequests(auth -> auth.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
-                //.authenticationProvider(authProvider(secrets));
         return http.build();
     }
-
-   /* @Bean
-    public AuthenticationProvider authProvider(Secrets secrets) {
-        return new BasicAuthenticationSecretAuthenticationProvider(secrets);
-    }*/
 
     @Bean
     @Order(2)
