@@ -6,46 +6,52 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="editForm">
+<!--          <div class="row">
+            <div class="col">
+          <ng-container *ngTemplateOutlet="racketInfo"></ng-container>
+            </div>
+            </div>-->
+
           <div class="row" *ngIf="currentStep == FlowSteps.SELECT_BLADE">
-              <div class="col">
-                <div class="form-group">
-                  <label>Виберіть основу</label>
-                  <div class="btn-group">
-                    <ng-container *ngFor="let blade of blades; let i = index">
+            <div class="col">
+              <div class="form-group">
+                <h2>Виберіть основу</h2>
+                <div class="row mb-2" *ngFor="let blade of blades; let i = index">
+                    <div class="col">
                       <input type="radio" class="btn-check" [value]="blade" formControlName="blade" id="bladeItem_{{i}}">
-                      <label class="btn btn-outline-primary" for="bladeItem_{{i}}"> {{blade.product.name}} </label>
-                    </ng-container>
+                      <label class="btn btn-outline-primary w-100" for="bladeItem_{{i}}"> {{blade.product.name}}</label>
+                    </div>
                   </div>
-                </div>
               </div>
+            </div>
           </div>
 
           <div class="row" *ngIf="currentStep == FlowSteps.SELCT_RUBBER1">
             <div class="col">
               <div class="form-group">
-                <label>Виберіть накладку 1</label>
-                <div class="btn-group">
-                  <ng-container *ngFor="let rubber of rubbers; let i = index">
+                <h2>Виберіть накладку 1</h2>
+                  <div class="row mb-2" *ngFor="let rubber of rubbers; let i = index">
+                    <div class="col">
                     <input type="radio" class="btn-check" [value]="rubber" formControlName="rubber1" id="rubber1Item_{{i}}">
-                    <label class="btn btn-outline-primary" for="rubber1Item_{{i}}"> {{rubber.product.name}} </label>
-                  </ng-container>
+                    <label class="btn btn-outline-primary w-100" for="rubber1Item_{{i}}"> {{rubber.product.name}} </label>
+                    </div>
               </div>
-            </div>
+          </div>
           </div>
           </div>
 
           <div class="row" *ngIf="currentStep == FlowSteps.SELCT_RUBBER2">
             <div class="col">
               <div class="form-group">
-                <label>Виберіть накладку 2</label>
-                <div class="btn-group">
-                  <ng-container *ngFor="let rubber of rubbers; let i = index">
+                <h2>Виберіть накладку 2</h2>
+                  <div class="row mb-2" *ngFor="let rubber of rubbers; let i = index">
+                    <div class="col">
                     <input type="radio" class="btn-check" [value]="rubber" formControlName="rubber2" id="rubber2Item_{{i}}">
-                    <label class="btn btn-outline-primary" for="rubber2Item_{{i}}"> {{rubber.product.name}} </label>
-                  </ng-container>
+                    <label class="btn btn-outline-primary w-100" for="rubber2Item_{{i}}"> {{rubber.product.name}} </label>
+                    </div>
                 </div>
-              </div>
             </div>
+          </div>
           </div>
 
           <div class="row" *ngIf="currentStep == FlowSteps.SET_PRICE">
@@ -62,20 +68,35 @@
             <div class="col">
               <div class="form-group">
                 <label>Підтвердіть дані</label>
-                 <div>{{editForm.get('blade')?.value.product.name}}</div>
-                 <div>{{editForm.get('rubber1')?.value.product.name}}</div>
-                 <div>{{editForm.get('rubber2')?.value.product.name}}</div>
-                 <div>{{editForm.get('sellPrice')?.value}}</div>
+                <ng-container *ngTemplateOutlet="racketInfo"></ng-container>
               </div>
             </div>
           </div>
 
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="nextStep()">Далі</button>
-        <!--<button type="button" class="btn btn-primary" (click)="nextStep()">Назад</button>-->
+      <div class="modal-footer d-flex">
+<!--        <button *ngIf="currentStepIndex > 0"
+          type="button" class="btn btn-primary"
+          (click)="back()">Назад</button>-->
+          <button *ngIf="currentStep != FlowSteps.CONFIRM"
+            type="button"
+            class="btn btn-primary"
+            [disabled]="!currentStepValid" (click)="nextStep()">Далі</button>
+
+        <button *ngIf="currentStep == FlowSteps.CONFIRM"
+                type="button" class="btn btn-danger" [disabled]="!currentStepValid" (click)="reload()">Відмінити та почати заново</button>
+
+          <button *ngIf="currentStep == FlowSteps.CONFIRM"
+            type="button" class="btn btn-success" [disabled]="!currentStepValid" (click)="save()">Дані правильні - додати ракетку</button>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #racketInfo>
+  <div>Основа :{{editForm.get('blade')?.value?.product?.name}}</div>
+  <div>Накладка 1: {{editForm.get('rubber1')?.value?.product?.name}}</div>
+  <div>Накладка 2: {{editForm.get('rubber2')?.value?.product?.name}}</div>
+  <div>Ціна: {{editForm.get('sellPrice')?.value}}</div>
+</ng-template>

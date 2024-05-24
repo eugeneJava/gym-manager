@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {environment} from "../../../../environments/environment";
 import {
+  RacketSellDto,
   TradesProductSaleDto,
   TradesProductSaleGroupDto,
   TradesProductSaleTotalStatisticsDto
@@ -39,5 +40,9 @@ export class TradesProductSaleService {
 
   updateTradesProductSale(id: string, dto: TradesProductSaleDto): Observable<TradesProductSaleDto> {
     return this.http.put<TradesProductSaleDto>(`${this.apiUrl}/trades/productSale/${id}`, dto);
+  }
+
+  sellRacket(racketSellDto: RacketSellDto) {
+    return this.http.post<TradesProductSaleDto>(`${this.apiUrl}/trades/productSale/sellRacket`, racketSellDto);
   }
 }

@@ -1,12 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {
-  ProductsAvailableForSaleDto,
+  ProductsAvailableForSaleDto, RacketSellDto,
   TradesProductCategory,
   TradesProductDto,
   TradesProductSaleDto
 } from "../../../../model/trades-product.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TradesTradesProductUnitService} from "../../services/trades-product-unit.service";
+import {TradesProductSaleService} from "../../services/tradesProductSale.service";
 
 @Component({
   selector: 'app-sales-simple-sell-racket-flow',
@@ -19,29 +20,59 @@ export class SalesSimpleSellRacketFlowComponent {
   productUnits: ProductsAvailableForSaleDto[] = [];
   rubbers: ProductsAvailableForSaleDto[] = [];
   blades: ProductsAvailableForSaleDto[] = [];
-  productSaleGroups: any[] = []; // Adjust the type accordingly
+  recommendedPrice: number = 0;
 
   public steps: FlowSteps[] = [FlowSteps.SELECT_BLADE, FlowSteps.SELCT_RUBBER1, FlowSteps.SELCT_RUBBER2, FlowSteps.SET_PRICE, FlowSteps.CONFIRM];
   public currentStepIndex: number = 0;
-  public currentStep: FlowSteps = this.steps[0];
+  public currentStep: FlowSteps;
+  public currentStepValid: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private productUnitService: TradesTradesProductUnitService
+    private productUnitService: TradesTradesProductUnitService,
+    private productSaleService: TradesProductSaleService
   ) {
    this.editForm = this.fb.group({
-      blade: ['', [Validators.required]],
-      rubber1: ['', [Validators.required]],
-      rubber2: ['', [Validators.required]],
-      sellPrice: ['', [Validators.required]]
+      blade: [null],
+      rubber1: [null],
+      rubber2: [null],
+      sellPrice: [null]
     });
   }
 
   ngOnInit(): void {
     this.currentStep = this.steps[this.currentStepIndex];
-/*    this.editForm.get('product').valueChanges.subscribe((product: TradesProductDto) => {
-      this.editForm.get('sellPrice').setValue(product?.recommendedPrice);
-    });*/
+    this.stepSelected();
+
+    this.editForm.get('blade').valueChanges.subscribe((sale: ProductsAvailableForSaleDto) => {
+      this.recommendedPrice += sale.product.recommendedPrice;
+      this.editForm.get('sellPrice').setValue(this.recommendedPrice);
+      if (sale) {
+        this.currentStepValid = true;
+      }
+    });
+
+    this.editForm.get('rubber1').valueChanges.subscribe((sale: ProductsAvailableForSaleDto) => {
+      this.recommendedPrice += sale.product.recommendedPrice;
+      this.editForm.get('sellPrice').setValue(this.recommendedPrice);
+      if (sale) {
+        this.currentStepValid = true;
+      }
+    });
+
+    this.editForm.get('rubber2').valueChanges.subscribe((sale: ProductsAvailableForSaleDto) => {
+      this.recommendedPrice += sale.product.recommendedPrice;
+      this.editForm.get('sellPrice').setValue(this.recommendedPrice);
+      if (sale) {
+        this.currentStepValid = true;
+      }
+    });
+
+    this.editForm.get('sellPrice').valueChanges.subscribe((salePrice: number) => {
+      if (salePrice <= 0) {
+        this.currentStepValid = false;
+      }
+    });
 
     this.loadProductUnits();
   }
@@ -57,11 +88,15 @@ export class SalesSimpleSellRacketFlowComponent {
     );
   }
 
-
  save(): void {
-    if (this.editForm.valid) {
-     // this.activeModal.close(this.editForm.value);
-    }
+   const racket: RacketSellDto = {
+      blade: this.editForm.get('blade').value.product,
+      rubber1: this.editForm.get('rubber1').value.product,
+      rubber2: this.editForm.get('rubber2').value.product,
+      sellPrice: this.editForm.get('sellPrice').value,
+   }
+   this.productSaleService.sellRacket(racket)
+     .subscribe()
   }
 
   productId(t1: TradesProductDto, t2: TradesProductDto): boolean {
@@ -69,11 +104,46 @@ export class SalesSimpleSellRacketFlowComponent {
   }
 
   nextStep(): void {
-    this.currentStepIndex++;
-    this.currentStep = this.steps[this.currentStepIndex];
+    this.currentStep = this.steps[++this.currentStepIndex];
+    this.stepSelected();
+  }
+
+  back(): void {
+    this.currentStep = this.steps[--this.currentStepIndex];
+  }
+
+  stepSelected(): void {
+    this.currentStepValid = false;
+    if (this.currentStep === FlowSteps.SELECT_BLADE) {
+      //this.editForm.get('blade').addValidators(Validators.required);
+    }
+
+    if (this.currentStep === FlowSteps.SELCT_RUBBER1) {
+      //this.editForm.get('rubber1').addValidators(Validators.required);
+      //this.editForm.updateValueAndValidity();
+    }
+
+    if (this.currentStep === FlowSteps.SELCT_RUBBER2) {
+      //this.editForm.get('rubber2').addValidators(Validators.required);
+    }
+
+    if (this.currentStep === FlowSteps.SET_PRICE) {
+      const sellPrice: number = this.editForm.get('sellPrice')?.value
+      if (sellPrice > 0) {
+        this.currentStepValid = true;
+      }
+    }
+
+    if (this.currentStep === FlowSteps.CONFIRM) {
+      this.currentStepValid = true;
+    }
   }
 
   protected readonly FlowSteps = FlowSteps;
+
+  reload() {
+    window.location.reload()
+  }
 }
 
 export enum FlowSteps {

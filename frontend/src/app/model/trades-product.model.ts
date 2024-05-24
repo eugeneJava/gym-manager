@@ -162,3 +162,10 @@ export class ProductTradeHistoryItemDto {
   price: number;
 }
 
+export class RacketSellDto {
+  blade: TradesProductDto;
+  rubber1: TradesProductDto;
+  rubber2: TradesProductDto;
+  sellPrice: number;
+}
+

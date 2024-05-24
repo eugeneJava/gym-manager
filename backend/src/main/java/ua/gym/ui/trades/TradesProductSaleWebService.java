@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
+import static ua.gym.domain.trades.SaleGroupType.RACKET;
+import static ua.gym.utils.Assertions.assertGreaterThanZero;
 import static ua.gym.utils.Assertions.assertState;
 import static ua.gym.utils.NumberUtils.divide;
 import static ua.gym.utils.NumberUtils.v;
@@ -145,5 +147,47 @@ public class TradesProductSaleWebService {
         statistics.setProductStat(productSaleStats);
 
         return statistics;
+    }
+
+
+    @PostMapping("/trades/productSale/sellRacket")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void sellRacket(@RequestBody RacketSellDto racketSellDto) {
+        TradesProductSaleGroup group = new TradesProductSaleGroup(RACKET);
+        tradesProductSaleGroupRepository.save(group);
+
+        assertGreaterThanZero(racketSellDto.getSellPrice());
+
+        TradesProduct blade = tradesProductRepository.findById(racketSellDto.getBlade().getId()).orElseThrow();
+        TradesProduct rubber1 = tradesProductRepository.findById(racketSellDto.getRubber1().getId()).orElseThrow();
+        TradesProduct rubber2 = tradesProductRepository.findById(racketSellDto.getRubber2().getId()).orElseThrow();
+
+        BigDecimal sellPrice = racketSellDto.getSellPrice();
+        BigDecimal recommendedSellPrice = blade.getRecommendedPrice()
+                .add(rubber1.getRecommendedPrice())
+                .add(rubber2.getRecommendedPrice());
+
+        BigDecimal priceDiff = sellPrice.subtract(recommendedSellPrice);
+        BigDecimal amountOfItemsInSale = v(3);
+        BigDecimal diffForEachProduct = divide(priceDiff, amountOfItemsInSale);
+
+
+        sellProduct(group, blade, diffForEachProduct);
+        sellProduct(group, rubber1, diffForEachProduct);
+        sellProduct(group, rubber2, diffForEachProduct);
+
+        assertState(!group.getProductSales().isEmpty(), "At least one product sale should be added to the group.");
+
+        throw new RuntimeException("Chamba mambe");
+    }
+
+    private void sellProduct(TradesProductSaleGroup group, TradesProduct product, BigDecimal diffForEachProduct) {
+        TradesProductUnit notSoldBlade = tradesProductUnitRepository.getAvailableForSaleProductUnits(product).stream().findFirst().orElseThrow();
+        BigDecimal finalSellPrice = product.getRecommendedPrice().add(diffForEachProduct);
+        TradesProductSale sale = new TradesProductSale(group, finalSellPrice, LocalDate.now(), "Sell from bot");
+        TradesProductSale savedSale = tradesProductSaleRepository.save(sale);
+        savedSale.addProductUnit(notSoldBlade);
+        assertState(!savedSale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
+        tradesProductSaleRepository.flush();
     }
 }
