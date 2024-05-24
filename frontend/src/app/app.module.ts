@@ -75,6 +75,7 @@ import {
   TradesProductSaleStatisticsComponent
 } from "./trades/sales/components/sales-statistics/trades-product-sale-statistics.component";
 import {ProductTradeStatisticsComponent} from "./trades/statistics/components/product-trade-statistics.component";
+import { SalesSimpleSellRacketFlowComponent } from './trades/sales/components/sales-simple-sell-racket-flow/sales-simple-sell-racket-flow.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import {ProductTradeStatisticsComponent} from "./trades/statistics/components/pr
     PurchaseStatisticsListComponent,
     SaleGroupComponent,
     TradesProductSaleStatisticsComponent,
-    ProductTradeStatisticsComponent
+    ProductTradeStatisticsComponent,
+    SalesSimpleSellRacketFlowComponent
   ],
   imports: [
     BrowserModule,

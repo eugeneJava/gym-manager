@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {
   TableManagerContainerComponent
 } from "./table-manager/containers/table-manager-container/table-manager-container.component";
@@ -16,7 +16,9 @@ import {
 import {
   TradesProductSaleStatisticsComponent
 } from "./trades/sales/components/sales-statistics/trades-product-sale-statistics.component";
-import {ProductTradeStatisticsComponent} from "./trades/statistics/components/product-trade-statistics.component";
+import {
+  SalesSimpleSellRacketFlowComponent
+} from "./trades/sales/components/sales-simple-sell-racket-flow/sales-simple-sell-racket-flow.component";
 
 const routes : Routes = [
   {
@@ -59,9 +61,14 @@ const routes : Routes = [
 
       {
         path: 'tradeStatistics',
-        component: ProductTradeStatisticsComponent
+        component: SalesSimpleSellRacketFlowComponent,
       }
     ]
+  },
+
+  {
+    path: 'simpleSaleRacketFlow',
+    component: SalesSimpleSellRacketFlowComponent
   }
 ];
 
