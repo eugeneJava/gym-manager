@@ -19,6 +19,7 @@ import {
 import {
   SalesSimpleSellRacketFlowComponent
 } from "./trades/sales/components/sales-simple-sell-racket-flow/sales-simple-sell-racket-flow.component";
+import {ProductTradeStatisticsComponent} from "./trades/statistics/components/product-trade-statistics.component";
 
 const routes : Routes = [
   {
@@ -61,7 +62,7 @@ const routes : Routes = [
 
       {
         path: 'tradeStatistics',
-        component: SalesSimpleSellRacketFlowComponent,
+        component: ProductTradeStatisticsComponent,
       }
     ]
   },
