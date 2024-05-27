@@ -79,8 +79,8 @@ export class TradesProductSaleDto {
   sellPrice: number; // Assuming BigDecimal maps to number in TypeScript
   product: TradesProductDto; // Use appropriate type or DTO
   productSaleGroup: TradesParcelGroupDto; // Use appropriate type or DTO
-  soldAt: number;
-  amountToSale: number;
+  soldAt: string;
+  amountToSell: number;
   soldAmount: number;
   comments?: string;
   parcelGroupId: string;

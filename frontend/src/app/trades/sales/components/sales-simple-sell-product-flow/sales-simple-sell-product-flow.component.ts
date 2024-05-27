@@ -110,9 +110,9 @@ export class SalesSimpleSellProductFlowComponent {
   save(): void {
     const product: TradesProductSaleDto = {
       product: this.editForm.get('product').value.product,
-      amountToSale: this.editForm.get('amount').value.product,
-      sellPrice: this.editForm.get('sellPrice').value.product,
-      soldAt: 0,
+      amountToSell: this.editForm.get('amount').value,
+      sellPrice: this.editForm.get('sellPrice').value,
+      soldAt: DateUtils.nowAsDate(),
     } as TradesProductSaleDto;
 
     this.productSaleService.createTradesProductSale(product)
@@ -123,10 +123,6 @@ export class SalesSimpleSellProductFlowComponent {
           this.success = true;
         }, er => this.error = true
       )
-  }
-
-  productId(t1: TradesProductDto, t2: TradesProductDto): boolean {
-    return t1 && t2 ? t1.id === t2.id : t1 === t2;
   }
 
   nextStep(): void {
