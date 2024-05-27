@@ -1,13 +1,15 @@
 import {Component, Input} from '@angular/core';
 import {
-  ProductsAvailableForSaleDto, RacketSellDto,
+  ProductsAvailableForSaleDto,
+  RacketSellDto,
   TradesProductCategory,
   TradesProductDto,
   TradesProductSaleDto
 } from "../../../../model/trades-product.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {TradesTradesProductUnitService} from "../../services/trades-product-unit.service";
 import {TradesProductSaleService} from "../../services/tradesProductSale.service";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-sales-simple-sell-racket-flow',
@@ -21,8 +23,10 @@ export class SalesSimpleSellRacketFlowComponent {
   rubbers: ProductsAvailableForSaleDto[] = [];
   blades: ProductsAvailableForSaleDto[] = [];
   recommendedPrice: number = 0;
+  success: boolean = false;
+  error: boolean = false;
 
-  public steps: FlowSteps[] = [FlowSteps.SELECT_BLADE, FlowSteps.SELCT_RUBBER1, FlowSteps.SELCT_RUBBER2, FlowSteps.SET_PRICE, FlowSteps.CONFIRM];
+  public steps: FlowSteps[] = [FlowSteps.SELECT_BLADE, FlowSteps.SELCT_RUBBER1, FlowSteps.SELCT_RUBBER2, FlowSteps.SET_PRICE, FlowSteps.CONFIRM, FlowSteps.FINAL];
   public currentStepIndex: number = 0;
   public currentStep: FlowSteps;
   public currentStepValid: boolean = false;
@@ -57,7 +61,14 @@ export class SalesSimpleSellRacketFlowComponent {
       this.editForm.get('sellPrice').setValue(this.recommendedPrice);
       if (sale) {
         this.currentStepValid = true;
-      }
+
+        const rubbersOfThisType = this.rubbers.find(r => r.product.id !== sale.product.id)?.amountToSell;
+
+        if (rubbersOfThisType === 1) {
+          //remove the other rubber of this type
+          this.rubbers = this.rubbers.filter(r => r.product.id !== sale.product.id);
+        }
+        }
     });
 
     this.editForm.get('rubber2').valueChanges.subscribe((sale: ProductsAvailableForSaleDto) => {
@@ -69,7 +80,9 @@ export class SalesSimpleSellRacketFlowComponent {
     });
 
     this.editForm.get('sellPrice').valueChanges.subscribe((salePrice: number) => {
-      if (salePrice <= 0) {
+      if (salePrice > 0) {
+        this.currentStepValid = true;
+      } else {
         this.currentStepValid = false;
       }
     });
@@ -96,7 +109,13 @@ export class SalesSimpleSellRacketFlowComponent {
       sellPrice: this.editForm.get('sellPrice').value,
    }
    this.productSaleService.sellRacket(racket)
-     .subscribe()
+     .pipe(finalize(() => {
+       this.nextStep();
+     }))
+     .subscribe(() => {
+       this.success = true;
+     }, er => this.error = true
+     )
   }
 
   productId(t1: TradesProductDto, t2: TradesProductDto): boolean {
@@ -119,8 +138,7 @@ export class SalesSimpleSellRacketFlowComponent {
     }
 
     if (this.currentStep === FlowSteps.SELCT_RUBBER1) {
-      //this.editForm.get('rubber1').addValidators(Validators.required);
-      //this.editForm.updateValueAndValidity();
+
     }
 
     if (this.currentStep === FlowSteps.SELCT_RUBBER2) {
@@ -144,6 +162,10 @@ export class SalesSimpleSellRacketFlowComponent {
   reload() {
     window.location.reload()
   }
+
+  close() {
+    window.close();
+  }
 }
 
 export enum FlowSteps {
@@ -152,4 +174,5 @@ export enum FlowSteps {
  SELCT_RUBBER2 = 'SELCT_RUBBER2',
  SET_PRICE = 'SET_PRICE',
  CONFIRM = 'CONFIRM',
+ FINAL = 'FINAL',
 }

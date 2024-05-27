@@ -13,7 +13,7 @@ export class TradesProductService {
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<TradesProductDto[]> {
-    return this.http.get<TradesProductDto[]>(`${this.apiUrl}/gym-manager/trades/product`);
+    return this.http.get<TradesProductDto[]>(`/gym-manager/trades/product`);
   }
 
    /*getProducts(): Observable<TradesProduct[]> {

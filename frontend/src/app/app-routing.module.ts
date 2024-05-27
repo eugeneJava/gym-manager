@@ -20,6 +20,9 @@ import {
   SalesSimpleSellRacketFlowComponent
 } from "./trades/sales/components/sales-simple-sell-racket-flow/sales-simple-sell-racket-flow.component";
 import {ProductTradeStatisticsComponent} from "./trades/statistics/components/product-trade-statistics.component";
+import {
+  SalesSimpleSellProductFlowComponent
+} from "./trades/sales/components/sales-simple-sell-product-flow/sales-simple-sell-product-flow.component";
 
 const routes : Routes = [
   {
@@ -65,6 +68,11 @@ const routes : Routes = [
         component: ProductTradeStatisticsComponent,
       }
     ]
+  },
+
+  {
+    path: 'simpleSaleProductFlow',
+    component: SalesSimpleSellProductFlowComponent
   },
 
   {

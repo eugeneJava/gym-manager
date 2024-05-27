@@ -1,0 +1,123 @@
+<div class="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" style="display: block;" aria-modal="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Продажа товару</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editForm">
+          <div class="row" *ngIf="currentStep == FlowStepsForProduct.SELECT_CATEGORY">
+            <div class="col">
+              <div class="form-group">
+                <h2>Виберіть Категорію</h2>
+                <div class="row mb-2" *ngFor="let category of categories; let i = index">
+                  <div class="col">
+                    <input type="radio" class="btn-check" [value]="category" formControlName="category"
+                           id="categoryItem_{{i}}">
+                    <label class="btn btn-outline-primary w-100" for="categoryItem_{{i}}"> {{ category.name }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="currentStep == FlowStepsForProduct.SELECT_PRODUCT">
+            <div class="col">
+              <div class="form-group">
+                <h2>Виберіть товар</h2>
+                <div class="row mb-2" *ngFor="let product of productUnitsOfSelectedCategory; let i = index">
+                  <div class="col">
+                    <input type="radio" class="btn-check" [value]="product" formControlName="product"
+                           id="productItem_{{i}}">
+                    <label class="btn btn-outline-primary w-100"
+                           for="productItem_{{i}}"> {{ product.product.name }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <ng-container *ngIf="currentStep == FlowStepsForProduct.SELECT_AMOUNT_AND_PRICE">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <h2>{{editForm.get('product')?.value.product.name}}</h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="sellPrice">Кількість</label>
+                  <input type="number" id="amount" class="form-control" formControlName="amount">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="sellPrice">Ціна за штуку (грн)</label>
+                  <input type="number" id="sellPrice" class="form-control" formControlName="sellPrice">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>Загальна ціна: {{getTotalPrice()}}</label>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+
+          <div class="row" *ngIf="currentStep == FlowStepsForProduct.CONFIRM">
+            <div class="col">
+              <div class="form-group">
+                <label>Підтвердіть дані</label>
+                <ng-container *ngTemplateOutlet="racketInfo"></ng-container>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="currentStep == FlowStepsForProduct.FINAL">
+            <div class="col">
+              <div class="form-group">
+                <h2 *ngIf="success" class="text-success">Товар успішно доданий</h2>
+                <h2 *ngIf="error" class="text-danger">Помилка</h2>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer d-flex">
+        <button *ngIf="currentStep != FlowStepsForProduct.CONFIRM && currentStep != FlowStepsForProduct.FINAL"
+                type="button"
+                class="btn btn-primary"
+                [disabled]="!currentStepValid" (click)="nextStep()">Далі
+        </button>
+
+        <button *ngIf="currentStep == FlowStepsForProduct.CONFIRM"
+                type="button" class="btn btn-danger" [disabled]="!currentStepValid" (click)="reload()">Відмінити та
+          почати заново
+        </button>
+
+        <button *ngIf="currentStep == FlowStepsForProduct.CONFIRM"
+                type="button" class="btn btn-success" [disabled]="!currentStepValid" (click)="save()">Дані правильні -
+          додати товар
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #racketInfo>
+  <div>Товар :{{ editForm.get('product')?.value?.product?.name }}</div>
+  <div>Кількість: {{ editForm.get('amount')?.value }}</div>
+  <div>Ціна: {{ editForm.get('sellPrice')?.value }}</div>
+  <div>Загальна ціна: {{ getTotalPrice()}}</div>
+</ng-template>

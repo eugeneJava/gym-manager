@@ -178,7 +178,7 @@ public class TradesProductSaleWebService {
 
         assertState(!group.getProductSales().isEmpty(), "At least one product sale should be added to the group.");
 
-        throw new RuntimeException("Chamba mambe");
+        //throw new RuntimeException("Chamba mambe");
     }
 
     private void sellProduct(TradesProductSaleGroup group, TradesProduct product, BigDecimal diffForEachProduct) {
