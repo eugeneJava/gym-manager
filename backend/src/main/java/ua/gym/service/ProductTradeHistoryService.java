@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.reverseOrder;
+import static ua.gym.utils.NumberUtils.v;
 
 @Service
 public class ProductTradeHistoryService {
@@ -64,7 +65,7 @@ public class ProductTradeHistoryService {
             productSale.setDirection(TradeDirection.SELL);
             productSale.setDate(sale.getSoldAt());
             productSale.setAmount(sale.getProductUnits().size());
-            productSale.setPrice(sale.getSellPrice());
+            productSale.setPrice(sale.getSellPrice().multiply(v(sale.getProductUnits().size())));
 
             historyItems.add(productSale);
         }
