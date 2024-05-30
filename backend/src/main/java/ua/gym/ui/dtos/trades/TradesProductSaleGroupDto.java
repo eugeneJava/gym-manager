@@ -3,6 +3,7 @@ package ua.gym.ui.dtos.trades;
 import ua.gym.domain.trades.SaleGroupType;
 import ua.gym.domain.trades.TradesProductSaleGroup;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ public class TradesProductSaleGroupDto {
     private LocalDate soldAt;
     private String comments;
     private List<TradesProductSaleDto> productSales = new ArrayList<>();
+    private BigDecimal totalSellPrice;
+    private String username;
 
     public TradesProductSaleGroupDto() {
     }
@@ -23,6 +26,7 @@ public class TradesProductSaleGroupDto {
         this.id = productSaleGroup.getId();
         this.type = productSaleGroup.getType();
         this.productSales = productSaleGroup.getProductSales().stream().map(TradesProductSaleDto::new).collect(Collectors.toList());
+        this.totalSellPrice = productSaleGroup.calculateTotalSellPrice();
     }
 
     public String getId() {
@@ -63,5 +67,21 @@ public class TradesProductSaleGroupDto {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public BigDecimal getTotalSellPrice() {
+        return totalSellPrice;
+    }
+
+    public void setTotalSellPrice(BigDecimal totalSellPrice) {
+        this.totalSellPrice = totalSellPrice;
     }
 }

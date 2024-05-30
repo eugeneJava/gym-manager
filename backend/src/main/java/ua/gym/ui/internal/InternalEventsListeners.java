@@ -16,4 +16,9 @@ public class InternalEventsListeners {
     public void onParcelSent(ParcelSentApplicationEvent parcel) {
         tStreamBotWevClient.updateParcelDelivered(parcel.getParcel());
     }
+
+    @TransactionalEventListener
+    public void onProductGroupSold(ProductGroupSoldApplicationEvent event) {
+        tStreamBotWevClient.updateProductSold(event.getGroup());
+    }
 }

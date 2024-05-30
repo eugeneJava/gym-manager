@@ -1,11 +1,14 @@
 package ua.gym.ui.trades;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ua.gym.app.CurrentUserProvider;
 import ua.gym.domain.trades.*;
 import ua.gym.ui.dtos.trades.*;
+import ua.gym.ui.internal.ProductGroupSoldApplicationEvent;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,15 +28,18 @@ public class TradesProductSaleWebService {
     private final TradesProductUnitRepository tradesProductUnitRepository;
     private final TradesProductSaleGroupRepository tradesProductSaleGroupRepository;
     private final TradesProductRepository tradesProductRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
     public TradesProductSaleWebService(TradesProductSaleRepository tradesProductSaleRepository,
                                        TradesProductUnitRepository tradesProductUnitRepository,
-                                       TradesProductSaleGroupRepository tradesProductSaleGroupRepository, TradesProductRepository tradesProductRepository) {
+                                       TradesProductSaleGroupRepository tradesProductSaleGroupRepository,
+                                       TradesProductRepository tradesProductRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.tradesProductSaleRepository = tradesProductSaleRepository;
         this.tradesProductUnitRepository = tradesProductUnitRepository;
         this.tradesProductSaleGroupRepository = tradesProductSaleGroupRepository;
         this.tradesProductRepository = tradesProductRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Transactional(readOnly = true)
@@ -152,9 +158,9 @@ public class TradesProductSaleWebService {
 
     @PostMapping("/trades/productSale/sellRacket")
     @ResponseStatus(HttpStatus.CREATED)
+    @Transactional
     public void sellRacket(@RequestBody RacketSellDto racketSellDto) {
-        TradesProductSaleGroup group = new TradesProductSaleGroup(RACKET);
-        tradesProductSaleGroupRepository.save(group);
+        TradesProductSaleGroup group = tradesProductSaleGroupRepository.save(new TradesProductSaleGroup(RACKET));
 
         assertGreaterThanZero(racketSellDto.getSellPrice());
 
@@ -178,16 +184,17 @@ public class TradesProductSaleWebService {
 
         assertState(!group.getProductSales().isEmpty(), "At least one product sale should be added to the group.");
 
-        //throw new RuntimeException("Chamba mambe");
+        TradesProductSaleGroupDto groupDto = new TradesProductSaleGroupDto(group);
+        groupDto.setUsername(CurrentUserProvider.getCurrentUserName());
+        applicationEventPublisher.publishEvent(new ProductGroupSoldApplicationEvent(groupDto));
     }
 
     private void sellProduct(TradesProductSaleGroup group, TradesProduct product, BigDecimal diffForEachProduct) {
         TradesProductUnit notSoldBlade = tradesProductUnitRepository.getAvailableForSaleProductUnits(product).stream().findFirst().orElseThrow();
         BigDecimal finalSellPrice = product.getRecommendedPrice().add(diffForEachProduct);
         TradesProductSale sale = new TradesProductSale(group, finalSellPrice, LocalDate.now(), "Sell from bot");
-        TradesProductSale savedSale = tradesProductSaleRepository.save(sale);
-        savedSale.addProductUnit(notSoldBlade);
-        assertState(!savedSale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
+        sale.addProductUnit(notSoldBlade);
+        assertState(!sale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
         tradesProductSaleRepository.flush();
     }
 }

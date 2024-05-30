@@ -15,6 +15,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static ua.gym.utils.Assertions.assertGreaterThanZero;
 import static ua.gym.utils.Assertions.assertState;
+import static ua.gym.utils.NumberUtils.v;
 
 @Entity
 @Table(name = "trades_product_sale")
@@ -23,7 +24,7 @@ public class TradesProductSale extends Identifiable {
     @Column(nullable = false)
     private BigDecimal sellPrice;
 
-    @OneToMany(mappedBy = "productSale", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "productSale", orphanRemoval = true)
     private List<TradesProductUnit> productUnits = new ArrayList<>();
 
     @ManyToOne
@@ -119,8 +120,13 @@ public class TradesProductSale extends Identifiable {
 
 
     public Optional<BigDecimal> calculateTotalProfit() {
-         Optional<BigDecimal> profit = this.getProductUnits().stream().flatMap(unit -> unit.getProfit().stream()).reduce(BigDecimal::add);
+        Optional<BigDecimal> profit = this.getProductUnits().stream().flatMap(unit -> unit.getProfit().stream()).reduce(BigDecimal::add);
         return profit;
+    }
+
+    public BigDecimal calculateTotalSellPrice() {
+        BigDecimal totalSellPrice = sellPrice.multiply(v(productUnits.size()));
+        return totalSellPrice;
     }
 
 }
