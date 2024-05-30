@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.log.LogMessage;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
@@ -62,7 +63,12 @@ public class HttpRequestTokenAuthenticationFilter extends GenericFilterBean
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = request.getParameter("token");
         if (token != null && tokenStorage.isValid(token)) {
-            UserDetails user = userDetailsService.loadUserByUsername("user");
+            String userParam = request.getParameter("user");
+            if (userParam == null || userParam.isEmpty()) {
+               throw new BadCredentialsException("Invalid request params");
+            }
+
+            UserDetails user = userDetailsService.loadUserByUsername(userParam);
             Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), emptyList());
             successfulAuthentication((HttpServletRequest) request, (HttpServletResponse) response, chain, authentication);
         }

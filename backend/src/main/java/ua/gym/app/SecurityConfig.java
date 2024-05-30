@@ -77,8 +77,13 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailService(Secrets secrets) {
-        UserDetails webUser = User.builder()
-                .username("user")
+        UserDetails webUser1 = User.builder()
+                .username("Evgeniy")
+                .password(secrets.getFormLoginPassword())
+                .build();
+
+        UserDetails webUser2 = User.builder()
+                .username("Alina")
                 .password(secrets.getFormLoginPassword())
                 .build();
 
@@ -88,7 +93,7 @@ public class SecurityConfig {
                 .roles("USER")
                 .build();
 
-        return new InMemoryUserDetailsManager(webUser, internalHttpCommunicationUser);
+        return new InMemoryUserDetailsManager(webUser1, webUser2, internalHttpCommunicationUser);
     }
 
     @Bean
