@@ -23,7 +23,7 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
     @ManyToOne(fetch = LAZY, optional = false)
     private TradesParcelGroup parcelGroup;
 
-    @Column(nullable = false)
+    @Column
     private BigDecimal totalBuyPriceInYuan;
 
     @Column(nullable = false)
