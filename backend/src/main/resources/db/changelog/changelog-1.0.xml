@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="added notAvaliabilityReason" author="etu">
+        <addColumn tableName="trades_product_unit">
+            <column name="notAvailabityReason" type="varchar(50)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="added trades_product_unit.commant" author="etu">
+        <addColumn tableName="trades_product_unit">
+            <column name="comment" type="varchar(255)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
