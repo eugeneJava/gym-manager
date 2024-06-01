@@ -13,6 +13,10 @@ public class NumberUtils {
         return new BigDecimal(value);
     }
 
+    public static BigDecimal v(double value) {
+        return new BigDecimal(value);
+    }
+
     public static BigDecimal HUNDRED = BigDecimal.valueOf(100);
 
     public static BigDecimal multiply(BigDecimal multiplicand1, BigDecimal multiplicand2) {
@@ -61,5 +65,13 @@ public class NumberUtils {
         BigDecimal divide = value.divide(valueFrom, 10, RoundingMode.HALF_UP);
         BigDecimal diffInPercent = HUNDRED.subtract(divide.multiply(HUNDRED));
         return diffInPercent;
+    }
+
+    public static boolean isBetween(double from, BigDecimal value, double to) {
+        return value.compareTo(v(from)) >= 0 && value.compareTo(v(to)) <= 0;
+    }
+
+    public static boolean isBetween(int from, BigDecimal value, int to) {
+        return value.compareTo(v(from)) >= 0 && value.compareTo(v(to)) <= 0;
     }
 }

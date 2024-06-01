@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static ua.gym.utils.Assertions.assertState;
+import static ua.gym.utils.NumberUtils.isBetween;
+import static ua.gym.utils.NumberUtils.v;
+
 @Entity
 @Table(name = "trades_parcel_group")
 public class TradesParcelGroup extends Identifiable {
@@ -63,7 +67,7 @@ public class TradesParcelGroup extends Identifiable {
     }
 
     public void setParcel(TradesParcel parcel) {
-        Assertions.assertState(Objects.isNull(this.parcel), "You cannot reassign parcel");
+        assertState(Objects.isNull(this.parcel), "You cannot reassign parcel");
         if (Objects.nonNull(this.parcel) &&  (!this.parcel.equals(parcel))) {
             throw new IllegalArgumentException("You cannot change parcel on a parcel group");
         }
@@ -75,8 +79,8 @@ public class TradesParcelGroup extends Identifiable {
     }
 
     public void setWeight(BigDecimal weight) {
-        Assertions.assertState(Objects.isNull(this.weight), "You cannot reassign weight");
-        Assertions.assertState(NumberUtils.greaterOrEqualZero(weight), "Weight cannot be null");
+        assertState(Objects.isNull(this.weight), "You cannot reassign weight");
+        assertState(NumberUtils.greaterOrEqualZero(weight), "Weight cannot be null");
         this.weight = weight;
     }
 
@@ -89,7 +93,7 @@ public class TradesParcelGroup extends Identifiable {
             return;
         }
 
-        Assertions.assertState(Objects.isNull(this.trackId), "You cannot reassign track id");
+        assertState(Objects.isNull(this.trackId), "You cannot reassign track id");
         this.trackId = trackId;
     }
 
@@ -130,19 +134,19 @@ public class TradesParcelGroup extends Identifiable {
     }
 
     public void performIntegrityCheck() {
-        Assertions.assertState(!productBuys.isEmpty(), "Parcel group should have at least one product buy");
+        assertState(!productBuys.isEmpty(), "Parcel group should have at least one product buy");
 
         BigDecimal totalWeight = productBuys.stream()
                 .map(TradesProductBuy::getWeightFraction)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        Assertions.assertState(totalWeight.compareTo(BigDecimal.ONE) == 0, "Total weight should be 1");
+        assertState(isBetween(0.99,  totalWeight, 1.01), "Total weight should be 1");
 
         BigDecimal totalBuyPriceInUah = productBuys.stream()
                 .map(TradesProductBuy::getTotalBuyPriceInUah)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        Assertions.assertState(totalBuyPriceInUah.compareTo(this.totalBuyPriceInUah) == 0, "Total buy price should be greater than 0");
+        assertState(totalBuyPriceInUah.compareTo(this.totalBuyPriceInUah) == 0, "Total buy price should be greater than 0");
     }
 
     public BigDecimal getTotalBuyPriceInYuan() {
