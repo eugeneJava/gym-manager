@@ -79,6 +79,7 @@ import { SalesSimpleSellRacketFlowComponent } from './trades/sales/components/sa
 import {
   SalesSimpleSellProductFlowComponent
 } from "./trades/sales/components/sales-simple-sell-product-flow/sales-simple-sell-product-flow.component";
+import {PurchaseEditComponent} from "./trades/purchase/components/purchase-edit/purchase-edit.component";
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import {
     ProductsEditComponent,
     PurchaseWithParcelEdit,
     PurchaseCreateComponent,
+    PurchaseEditComponent,
     ProcurementListComponent,
     ProcurementContainerComponent,
     TradesParcelEditComponent,

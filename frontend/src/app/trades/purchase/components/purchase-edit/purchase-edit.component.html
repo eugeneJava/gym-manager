@@ -1,0 +1,30 @@
+<div class="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" style="display: block;" aria-modal="true">
+  <div class="modal-dialog wide-modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Редагування закупки {{ productBuy.name }}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="edit-form">
+          <form [formGroup]="productForm">
+            <div class="form-group">
+              <label for="purchaseDate">Дата закупки</label>
+              <input type="date" id="purchaseDate" class="form-control" formControlName="purchaseDate">
+            </div>
+
+            <div class="form-group">
+              <label for="trackId">Поштовий трек-номер</label>
+              <input formControlName="trackId" type="text" id="trackId" class="form-control">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close click')">Відміна</button>
+          <button type="button" class="btn btn-success" (click)="saveProductBuy()" [disabled]="!productForm.valid">
+            Зберегти
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

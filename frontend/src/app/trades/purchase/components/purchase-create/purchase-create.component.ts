@@ -22,7 +22,7 @@ interface ProductFormValue {
 }
 
 @Component({
-  selector: 'app-edit',
+  selector: 'app-create',
   templateUrl: './purchase-create.component.html',
   styleUrls: ['./purchase-create.component.scss']
 })
