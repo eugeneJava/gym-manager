@@ -27,8 +27,8 @@ interface ProductFormValue {
   styleUrls: ['./purchase-with-parcel-edit.component.scss']
 })
 export class PurchaseWithParcelEdit implements OnInit {
-  @Input() productBuy: TradesProductBuyDto;
-  productForm: UntypedFormGroup;
+  @Input() productBuy: TradesParcelGroupDto;
+  productBuyForm: UntypedFormGroup;
   products: TradesProductDto[] = [];
   moreThanOneProduct: boolean = false;
   totalCalculatedForVerification: number = 0;
@@ -43,7 +43,7 @@ export class PurchaseWithParcelEdit implements OnInit {
   }
 
   ngOnInit(): void {
-    this.productForm = this.fb.group({
+    this.productBuyForm = this.fb.group({
       id: new FormControl<string>(null),
       totalBuyPriceInUah: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       totalBuyPriceInYuan: new FormControl<number>(0,[Validators.required, Validators.min(1)]),
@@ -91,7 +91,7 @@ export class PurchaseWithParcelEdit implements OnInit {
 
 
     if (this.productBuy) {
-      this.productForm.setValue({...this.productBuy});
+      this.productBuyForm.setValue({...this.productBuy});
     }
   }
 
@@ -136,7 +136,7 @@ export class PurchaseWithParcelEdit implements OnInit {
   }
 
   saveProduct(): void {
-      const formValue = this.productForm.getRawValue(); // Use getRawValue() if you need to include disabled controls, else use value.
+      const formValue = this.productBuyForm.getRawValue(); // Use getRawValue() if you need to include disabled controls, else use value.
       this.activeModal.close(formValue);
   }
 
@@ -145,55 +145,55 @@ export class PurchaseWithParcelEdit implements OnInit {
   }
 
   get id(): FormControl {
-    return this.productForm.get('id') as FormControl;
+    return this.productBuyForm.get('id') as FormControl;
   }
 
   get product(): FormControl {
-    return this.productForm.get('product') as FormControl;
+    return this.productBuyForm.get('product') as FormControl;
   }
 
   get parcelGroup(): FormControl {
-    return this.productForm.get('parcelGroup') as FormControl;
+    return this.productBuyForm.get('parcelGroup') as FormControl;
   }
 
   get totalBuyPriceInYuan(): FormControl {
-    return this.productForm.get('totalBuyPriceInYuan') as FormControl;
+    return this.productBuyForm.get('totalBuyPriceInYuan') as FormControl;
   }
 
   get totalBuyPriceInUah(): FormControl {
-    return this.productForm.get('totalBuyPriceInUah') as FormControl;
+    return this.productBuyForm.get('totalBuyPriceInUah') as FormControl;
   }
 
   get amount(): FormControl {
-    return this.productForm.get('amount') as FormControl;
+    return this.productBuyForm.get('amount') as FormControl;
   }
 
   get unitPrice(): FormControl {
-    return this.productForm.get('unitPrice') as FormControl;
+    return this.productBuyForm.get('unitPrice') as FormControl;
   }
 
   get weight(): FormControl {
-    return this.productForm.get('weight') as FormControl;
+    return this.productBuyForm.get('weight') as FormControl;
   }
 
   get trackId(): FormControl {
-    return this.productForm.get('trackId') as FormControl;
+    return this.productBuyForm.get('trackId') as FormControl;
   }
 
   get name(): FormControl {
-    return this.productForm.get('name') as FormControl;
+    return this.productBuyForm.get('name') as FormControl;
   }
 
   get comments(): FormControl {
-    return this.productForm.get('comments') as FormControl;
+    return this.productBuyForm.get('comments') as FormControl;
   }
 
   get purchaseDate(): FormControl {
-    return this.productForm.get('purchaseDate') as FormControl;
+    return this.productBuyForm.get('purchaseDate') as FormControl;
   }
 
   get productBuys(): FormArray {
-    return this.productForm.get('productBuys') as FormArray;
+    return this.productBuyForm.get('productBuys') as FormArray;
   }
 
   get productBuysGroups(): FormGroup[] {

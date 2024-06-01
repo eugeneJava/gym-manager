@@ -56,7 +56,7 @@ public class TradesProductBuyWebService {
         return new TradesProductBuyDto(productBuy);
     }
 
-    @PostMapping("/trades/productBuy/withParcel")
+    @PostMapping("/trades/productBuy/group")
     @Transactional
     public TradesParcelGroupDto createTradesProductBuyWithParcel(@RequestBody TradesParcelGroupDto parcelGroupDto) {
         TradesParcelGroup parcelGroup = new TradesParcelGroup(

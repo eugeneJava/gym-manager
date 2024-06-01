@@ -11,26 +11,26 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let product of products">
+  <tr *ngFor="let productBuy of productBuys">
     <td>
-      <button class="btn btn-light" (click)="onEdit(product)">
+      <button class="btn btn-light" (click)="onEdit(productBuy)">
         <fa-icon [icon]="['fas', 'pencil']"></fa-icon>
       </button>
     </td>
-    <td>{{ product.product.name }} ({{product.amount}})</td>
-    <td>{{ product.totalBuyPriceInUah }}</td>
-    <td>{{ product.amount }}</td>
-    <td>{{ product.unitPrice }}</td>
-    <td>{{ product.purchaseDate }}</td>
+    <td>{{ productBuy.product.name }} ({{productBuy.amount}})</td>
+    <td>{{ productBuy.totalBuyPriceInUah }}</td>
+    <td>{{ productBuy.amount }}</td>
+    <td>{{ productBuy.unitPrice }}</td>
+    <td>{{ productBuy.purchaseDate }}</td>
     <td>
-      <ng-container *ngIf="product.parcelGroupId">
-        <div><small>Трек: {{ product.trackId }}</small></div>
-        <div [ngClass]="{'text-success': product.parcelId, 'text-info': !product.parcelId}">
-          <small>Відправлено: {{ !product.parcelId ? 'Ні' : 'Так' }}</small>
+      <ng-container *ngIf="productBuy.parcelGroupId">
+        <div><small>Трек: {{ productBuy.trackId }}</small></div>
+        <div [ngClass]="{'text-success': productBuy.parcelId, 'text-info': !productBuy.parcelId}">
+          <small>Відправлено: {{ !productBuy.parcelId ? 'Ні' : 'Так' }}</small>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="!product.parcelGroupId">
+      <ng-container *ngIf="!productBuy.parcelGroupId">
         <small class="text-warning">Окрема закупка</small>
       </ng-container>
     </td>

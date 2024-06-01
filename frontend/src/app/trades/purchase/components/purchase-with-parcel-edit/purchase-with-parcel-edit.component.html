@@ -5,7 +5,7 @@
         <h5 class="modal-title" id="modalLabel">Закупка</h5>
       </div>
       <div class="modal-body">
-        <form [formGroup]="productForm">
+        <form [formGroup]="productBuyForm">
           <div class="row">
             <div class="col">
               <div class="row">
@@ -104,7 +104,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close click')">Відміна</button>
-          <button type="button" class="btn btn-success" (click)="saveProduct()" [disabled]="!productForm.valid">Зберегти
+          <button type="button" class="btn btn-success" (click)="saveProduct()" [disabled]="!productBuyForm.valid">Зберегти
           </button>
         </div>
       </div>

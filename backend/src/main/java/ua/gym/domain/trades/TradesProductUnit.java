@@ -2,11 +2,12 @@ package ua.gym.domain.trades;
 
 import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
-import ua.gym.utils.NumberUtils;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Optional;
+
+import static jakarta.persistence.EnumType.STRING;
 
 @Entity
 @Table(name = "trades_product_unit")
@@ -21,6 +22,9 @@ public class TradesProductUnit extends Identifiable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private TradesProductSale productSale;
+
+    @Enumerated(STRING)
+    public ProductUnitNotAvailabilityReason notAvailabityReason;
 
     TradesProductUnit() {
     }
@@ -51,5 +55,13 @@ public class TradesProductUnit extends Identifiable {
     public Optional<BigDecimal> getProfit() {
         return getProductSale()
                 .map(sale -> sale.getSellPrice().subtract(productBuy.getUnitBuyPriceWithDelivery()));
+    }
+
+    public ProductUnitNotAvailabilityReason getNotAvailabityReason() {
+        return notAvailabityReason;
+    }
+
+    public void setNotAvailabityReason(ProductUnitNotAvailabilityReason notAvailabityReason) {
+        this.notAvailabityReason = notAvailabityReason;
     }
 }

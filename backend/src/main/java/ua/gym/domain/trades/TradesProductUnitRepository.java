@@ -14,7 +14,7 @@ public interface TradesProductUnitRepository extends JpaRepository<TradesProduct
             " LEFT JOIN buy.parcelGroup parcelGroup" +
             " LEFT JOIN parcelGroup.parcel parcel " +
 
-            "WHERE (parcelGroup IS NULL OR (parcel IS NOT NULL AND parcel.deliveredAt IS NOT NULL)) AND unit.productSale IS NULL")
+            "WHERE (parcelGroup IS NULL OR (parcel IS NOT NULL AND parcel.deliveredAt IS NOT NULL)) AND unit.productSale IS NULL and unit.notAvailabityReason IS NULL")
     List<TradesProductUnit> getAvailableForSaleProductUnits();
 
 
@@ -24,7 +24,7 @@ public interface TradesProductUnitRepository extends JpaRepository<TradesProduct
             " LEFT JOIN parcelGroup.parcel parcel " +
 
             "WHERE (parcelGroup IS NULL OR (parcel IS NOT NULL AND parcel.deliveredAt IS NOT NULL)) " +
-            " AND unit.productSale IS NULL AND unit.product = :product")
+            " AND unit.productSale IS NULL AND unit.notAvailabityReason IS NULL AND unit.product = :product")
     List<TradesProductUnit> getAvailableForSaleProductUnits(TradesProduct product);
 
 }

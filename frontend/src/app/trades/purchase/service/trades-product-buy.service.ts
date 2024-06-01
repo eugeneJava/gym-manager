@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {ProductBuyStatisticsDto, TradesProductBuyDto} from "../../../model/trades-product.model";
+import {ProductBuyStatisticsDto, TradesParcelGroupDto, TradesProductBuyDto} from "../../../model/trades-product.model";
 import {environment} from "../../../../environments/environment";
 
 @Injectable({
@@ -18,8 +18,8 @@ export class TradesProductBuyService {
     return this.http.get<TradesProductBuyDto>(`${environment.baseUrl}/gym-manager/trades/productBuy/${id}`);
   }
 
-  createProductBuyWithParcel(dto: TradesProductBuyDto): Observable<TradesProductBuyDto> {
-    return this.http.post<TradesProductBuyDto>(`${environment.baseUrl}/gym-manager/trades/productBuy/withParcel`, dto);
+  createProductBuyWithParcel(parcelGroupDto: TradesParcelGroupDto): Observable<TradesProductBuyDto> {
+    return this.http.post<TradesProductBuyDto>(`${environment.baseUrl}/gym-manager/trades/productBuy/group`, parcelGroupDto);
   }
 
   createProductBuy(dto: TradesProductBuyDto): Observable<TradesProductBuyDto> {

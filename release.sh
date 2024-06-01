@@ -1,5 +1,8 @@
 #!/bin/bash
 
+cd ~/IdeaProjects/gym-manager/backend/
+mvn clean package
+
 cd ~/IdeaProjects/gym-manager/backend/target
 cp backend-1.0.jar $RELEASE_HOME
 

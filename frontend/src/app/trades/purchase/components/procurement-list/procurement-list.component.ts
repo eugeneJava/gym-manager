@@ -7,7 +7,7 @@ import {TradesProductBuyDto} from "../../../../model/trades-product.model";
   styleUrls: ['./procurement-list.component.scss']
 })
 export class ProcurementListComponent {
-  @Input() products: TradesProductBuyDto[] = [];
+  @Input() productBuys: TradesProductBuyDto[] = [];
   @Output() edit: EventEmitter<TradesProductBuyDto> = new EventEmitter();
 
   constructor() { }
