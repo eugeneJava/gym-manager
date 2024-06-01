@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {TradesProductBuyDto} from "../../../../model/trades-product.model";
 import {TradesProductBuyService} from "../../service/trades-product-buy.service";
 import {PurchaseWithParcelEdit} from "../../components/purchase-with-parcel-edit/purchase-with-parcel-edit.component";
-import {PurchaseEdit} from "../../components/purchase-edit/purchase-edit.component";
+import {PurchaseCreateComponent} from "../../components/purchase-create/purchase-edit.component";
 
 @Component({
   selector: 'app-container',
@@ -51,7 +51,7 @@ export class ProcurementContainerComponent implements OnInit {
   }
 
   addPurchase() {
-    const modalRef = this.modalService.open(PurchaseEdit);
+    const modalRef = this.modalService.open(PurchaseCreateComponent);
     modalRef.result.then((result) => {
       if (result) {
         this.productService.createProductBuy(result).subscribe(

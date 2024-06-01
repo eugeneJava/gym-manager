@@ -66,7 +66,7 @@ import {TradesMainViewComponent} from './trades/main/trades-main-view/trades-mai
 import {
   PurchaseStatisticsListComponent
 } from './trades/purchase/components/purchase-statistics-list/purchase-statistics-list.component';
-import {PurchaseEdit} from "./trades/purchase/components/purchase-edit/purchase-edit.component";
+import {PurchaseCreateComponent} from "./trades/purchase/components/purchase-create/purchase-create.component";
 import {
   TradesProductSaleGroupEditComponent
 } from "./trades/sales/components/sales-group-edit/tradesProductSale-group-edit.component";
@@ -109,7 +109,7 @@ import {
     ProductsListComponent,
     ProductsEditComponent,
     PurchaseWithParcelEdit,
-    PurchaseEdit,
+    PurchaseCreateComponent,
     ProcurementListComponent,
     ProcurementContainerComponent,
     TradesParcelEditComponent,

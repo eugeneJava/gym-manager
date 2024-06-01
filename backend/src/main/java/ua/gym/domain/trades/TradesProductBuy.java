@@ -20,7 +20,7 @@ import static ua.gym.utils.NumberUtils.v;
 @Table(name = "trades_product_buy")
 public class TradesProductBuy extends Identifiable implements TradeOperation {
 
-    @ManyToOne(fetch = LAZY, optional = false)
+    @ManyToOne(fetch = LAZY)
     private TradesParcelGroup parcelGroup;
 
     @Column

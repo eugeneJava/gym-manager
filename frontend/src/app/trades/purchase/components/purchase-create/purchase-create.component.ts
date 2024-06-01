@@ -23,10 +23,10 @@ interface ProductFormValue {
 
 @Component({
   selector: 'app-edit',
-  templateUrl: './purchase-edit.component.html',
-  styleUrls: ['./purchase-edit.component.scss']
+  templateUrl: './purchase-create.component.html',
+  styleUrls: ['./purchase-create.component.scss']
 })
-export class PurchaseEdit implements OnInit {
+export class PurchaseCreateComponent implements OnInit {
   @Input() productBuy: TradesProductBuyDto;
   productForm: UntypedFormGroup;
   products: TradesProductDto[] = [];
