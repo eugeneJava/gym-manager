@@ -9,6 +9,7 @@ import ua.gym.app.CurrentUserProvider;
 import ua.gym.domain.trades.*;
 import ua.gym.ui.dtos.trades.*;
 import ua.gym.ui.internal.ProductGroupSoldApplicationEvent;
+import ua.gym.ui.internal.ProductSaleApplicationEvent;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -69,10 +70,13 @@ public class TradesProductSaleWebService {
         List<TradesProductUnit> unitsToSell = notSoldUnits.subList(0, dto.getAmountToSell());
 
         TradesProductSale sale = new TradesProductSale(dto.getSellPrice(), dto.getSoldAt(), dto.getComments());
-        unitsToSell.forEach(unit -> sale.addProductUnit(unit));
+        TradesProductSale savedDale = tradesProductSaleRepository.save(sale);
+        unitsToSell.forEach(unit -> savedDale.addProductUnit(unit));
+        assertState(!savedDale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
 
-        assertState(!sale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
-        tradesProductSaleRepository.save(sale);
+        TradesProductSaleDto saleDto = new TradesProductSaleDto(savedDale);
+        saleDto.setUsername(CurrentUserProvider.getCurrentUserName());
+        applicationEventPublisher.publishEvent(new ProductSaleApplicationEvent(saleDto));
     }
 
 
@@ -81,10 +85,6 @@ public class TradesProductSaleWebService {
     public TradesProductSaleDto updateTradesProductSale(@PathVariable String id, @RequestBody TradesProductSaleDto dto) {
         TradesProductSale sale = tradesProductSaleRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Sale not found"));
-
-
-        //sale.setSellPrice(dto.getSellPrice());
-        //sale.setSoldAt(dto.getSoldAt());
 
         return new TradesProductSaleDto(sale);
     }

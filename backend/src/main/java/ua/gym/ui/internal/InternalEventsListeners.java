@@ -19,6 +19,11 @@ public class InternalEventsListeners {
 
     @TransactionalEventListener
     public void onProductGroupSold(ProductGroupSoldApplicationEvent event) {
-        tStreamBotWevClient.updateProductSold(event.getGroup());
+        tStreamBotWevClient.updateGroupSold(event.getGroup());
+    }
+
+    @TransactionalEventListener
+    public void onProductSale(ProductSaleApplicationEvent event) {
+        tStreamBotWevClient.updateProductSold(event.getSale());
     }
 }

@@ -2,6 +2,7 @@ package ua.gym.service;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import ua.gym.ui.dtos.trades.TradesProductSaleDto;
 import ua.gym.ui.dtos.trades.TradesProductSaleGroupDto;
 import ua.gym.ui.internal.ParcelDeliveryInfoDto;
 
@@ -14,9 +15,14 @@ public class TStreamBotWevClient {
         getRestTemplate().postForObject(url, parcel, ParcelDeliveryInfoDto.class);
     }
 
-    public void updateProductSold(TradesProductSaleGroupDto parcel) {
+    public void updateGroupSold(TradesProductSaleGroupDto parcel) {
         String url = botUrl + "/group/sold";
         getRestTemplate().postForObject(url, parcel, ParcelDeliveryInfoDto.class);
+    }
+
+    public void updateProductSold(TradesProductSaleDto sale) {
+        String url = botUrl + "/product/sold";
+        getRestTemplate().postForObject(url, sale, TradesProductSaleDto.class);
     }
 
     private RestTemplate getRestTemplate() {

@@ -69,7 +69,7 @@ public class HttpRequestTokenAuthenticationFilter extends GenericFilterBean
             }
 
             UserDetails user = userDetailsService.loadUserByUsername(userParam);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), emptyList());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), emptyList());
             successfulAuthentication((HttpServletRequest) request, (HttpServletResponse) response, chain, authentication);
         }
 

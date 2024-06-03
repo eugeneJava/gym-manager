@@ -6,6 +6,7 @@ import ua.gym.utils.NumberUtils;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -93,7 +94,6 @@ public class TradesParcelGroup extends Identifiable {
             return;
         }
 
-        assertState(Objects.isNull(this.trackId), "You cannot reassign track id");
         this.trackId = trackId;
     }
 
@@ -156,5 +156,9 @@ public class TradesParcelGroup extends Identifiable {
 
     public BigDecimal getTotalBuyPriceInUah() {
         return totalBuyPriceInUah;
+    }
+
+    public void updatePurchaseDate(LocalDate purchaseDate) {
+        productBuys.forEach(productBuy -> productBuy.setPurchaseDate(purchaseDate));
     }
 }

@@ -117,9 +117,11 @@ public class TradesProductBuyWebService {
     @Transactional
     public TradesProductBuyDto updateTradesProductBuy(@PathVariable String id, @RequestBody TradesProductBuyDto productBuyDto) {
         TradesProductBuy productBuy = productBuyRepository.findById(id).orElseThrow();
-        //productBuy.getParcelGroup().setName(productBuyDto.getName());
-        //productBuy.getParcelGroup().setComments(productBuyDto.getComments());
-        //productBuy.getParcelGroup().setTrackId(productBuyDto.getTrackId());
+        productBuy.getParcelGroup().ifPresent(parcelGroup -> {
+            parcelGroup.setTrackId(productBuyDto.getTrackId());
+            parcelGroup.updatePurchaseDate(productBuyDto.getPurchaseDate());
+        });
+
         return new TradesProductBuyDto(productBuy);
     }
 

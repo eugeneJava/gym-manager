@@ -16,8 +16,8 @@ public class TradesProductSaleDto {
     private String parcelGroupId;
     private LocalDate soldAt;
     private int amountToSell;
-    private int soldAmount;
     private String comments;
+    private String username;
 
     public TradesProductSaleDto() {
     }
@@ -28,16 +28,13 @@ public class TradesProductSaleDto {
 
         TradesProductUnit firstProductUnit = tradesProductSale.getProductUnits().get(0);
         this.productUnit = new TradesProductUnitDto(firstProductUnit);
-        this.soldAmount = tradesProductSale.getProductUnits().size();
+        this.amountToSell = tradesProductSale.getProductUnits().size();
         this.product = new TradesProductDto(firstProductUnit.getProduct());
         this.parcelGroupId = tradesProductSale.getProductSaleGroup().map(group -> group.getId()).orElse(null);
         this.soldAt = tradesProductSale.getSoldAt();
         this.comments = tradesProductSale.getComments();
     }
 
-    public int getSoldAmount() {
-        return soldAmount;
-    }
 
     public String getId() {
         return id;
@@ -109,5 +106,13 @@ public class TradesProductSaleDto {
 
     public void setParcelGroupId(String parcelGroupId) {
         this.parcelGroupId = parcelGroupId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

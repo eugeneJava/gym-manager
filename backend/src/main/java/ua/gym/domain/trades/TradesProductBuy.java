@@ -164,4 +164,8 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
     public LocalDate getDate() {
         return getPurchaseDate();
     }
+
+    void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
 }
