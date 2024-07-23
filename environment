@@ -1,2 +1,0 @@
-export RELEASE_HOME=~/release
-export PATH=$PATH:$RELEASE_HOME

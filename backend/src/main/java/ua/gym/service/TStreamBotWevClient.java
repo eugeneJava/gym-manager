@@ -8,7 +8,7 @@ import ua.gym.ui.internal.ParcelDeliveryInfoDto;
 
 @Component
 public class TStreamBotWevClient {
-    private String botUrl = "http://localhost:8081/internal-api";
+    private String botUrl = "http://bot:8081/internal-api";
 
     public void updateParcelDelivered(ParcelDeliveryInfoDto parcel) {
         String url = botUrl + "/parcel/sent";

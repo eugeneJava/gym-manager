@@ -1,0 +1,37 @@
+services:
+
+  gym-manager:
+    container_name: gym-manager-app
+    image: ${DOCKER_HUB_ID}/gym-manager:1.0.5
+    env_file:
+      - env.prod
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+
+  bot:
+    container_name: bot-app
+    image: ${DOCKER_HUB_ID}/bot:1.0.5
+    env_file:
+      - env.prod
+    depends_on:
+      - gym-manager
+
+  mysql-db:
+    container_name: mysql-db-app
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+    mysql-data:

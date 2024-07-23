@@ -1,0 +1,51 @@
+services:
+
+  gym-manager:
+    container_name: gym-manager-app
+    env_file:
+      - env.dev
+    build:
+      context: ./backend
+      args:
+        DOCKER_HUB_ID: ${DOCKER_HUB_ID}
+    image: ${DOCKER_HUB_ID}/gym-manager
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    volumes:
+      - ./backend/target:/app
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+
+  bot:
+    container_name: bot-app
+    env_file:
+      - env.dev
+    build:
+      context: ../tstream-bot
+      args:
+        DOCKER_HUB_ID: ${DOCKER_HUB_ID}
+    image: ${DOCKER_HUB_ID}/bot
+    volumes:
+      - ../tstream-bot/target:/app
+    depends_on:
+      - gym-manager
+
+  mysql-db:
+    container_name: mysql-db-app
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 6s
+      retries: 10
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+    mysql-data:
+      external: true

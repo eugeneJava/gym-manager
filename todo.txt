@@ -1,0 +1,4 @@
+1. Add racket to the history not the separate products
+2. Add amount of products to the mobile view
+3. Add new Bot item - Available
+add a comment to the product sale group
