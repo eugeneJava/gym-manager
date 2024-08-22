@@ -19,4 +19,28 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="added user table" author="etu">
+       <createTable tableName="user">
+           <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+           </column>
+
+           <column name="username" type="varchar(50)">
+                 <constraints nullable="false" unique="true"/>
+           </column>
+
+           <column name="password" type="varchar(255)">
+               <constraints nullable="false"/>
+           </column>
+
+           <column name="email" type="varchar(255)">
+               <constraints nullable="true"/>
+           </column>
+
+           <column name="authenticationType" type="varchar(50)">
+               <constraints nullable="false"/>
+           </column>
+       </createTable>
+    </changeSet>
+
 </databaseChangeLog>
