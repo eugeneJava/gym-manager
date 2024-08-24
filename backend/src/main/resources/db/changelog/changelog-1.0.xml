@@ -43,4 +43,11 @@
        </createTable>
     </changeSet>
 
+<!--    <changeSet id="added user_role table" author="etu">
+        <sql>
+            insert into trades_product_sale_group (id, type) values (uuid(), 'NONE');
+
+            insert
+        </sql>
+    </changeSet>-->
 </databaseChangeLog>

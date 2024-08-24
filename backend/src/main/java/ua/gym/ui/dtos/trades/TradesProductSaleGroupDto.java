@@ -5,6 +5,7 @@ import ua.gym.domain.trades.TradesProductSaleGroup;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 public class TradesProductSaleGroupDto {
     private String id;
     private SaleGroupType type;
-    private LocalDate soldAt;
+    private LocalDateTime soldAt;
     private String comments;
     private List<TradesProductSaleDto> productSales = new ArrayList<>();
     private BigDecimal totalSellPrice;
@@ -53,11 +54,11 @@ public class TradesProductSaleGroupDto {
         this.productSales = productSales;
     }
 
-    public LocalDate getSoldAt() {
+    public LocalDateTime getSoldAt() {
         return soldAt;
     }
 
-    public void setSoldAt(LocalDate soldAt) {
+    public void setSoldAt(LocalDateTime soldAt) {
         this.soldAt = soldAt;
     }
 

@@ -14,7 +14,7 @@ public class TradesProductSaleDto {
     private TradesProductDto product;
     private TradesProductSaleGroupDto productSaleGroup;
     private String parcelGroupId;
-    private LocalDate soldAt;
+    private LocalDateTime soldAt;
     private int amountToSell;
     private String comments;
     private String username;
@@ -76,11 +76,11 @@ public class TradesProductSaleDto {
         this.productSaleGroup = productSaleGroup;
     }
 
-    public LocalDate getSoldAt() {
+    public LocalDateTime getSoldAt() {
         return soldAt;
     }
 
-    public void setSoldAt(LocalDate soldAt) {
+    public void setSoldAt(LocalDateTime soldAt) {
         this.soldAt = soldAt;
     }
 

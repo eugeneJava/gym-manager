@@ -3,14 +3,18 @@ package ua.gym.ui.dtos.trades;
 import ua.gym.domain.trades.TradeDirection;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class ProductTradeHistoryItemDto {
     private String productName;
+    private List<String> productNames;
     private TradeDirection direction;
-    private LocalDate date;
+    private LocalDateTime date;
     private int amount;
     private BigDecimal price;
+    private BigDecimal currentAmountOfMoney = BigDecimal.ZERO;
+    private String comments;
 
     public String getProductName() {
         return productName;
@@ -18,6 +22,14 @@ public class ProductTradeHistoryItemDto {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public List<String> getProductNames() {
+        return productNames;
+    }
+
+    public void setProductNames(List<String> productNames) {
+        this.productNames = productNames;
     }
 
     public TradeDirection getDirection() {
@@ -28,11 +40,11 @@ public class ProductTradeHistoryItemDto {
         this.direction = direction;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -50,5 +62,21 @@ public class ProductTradeHistoryItemDto {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public BigDecimal getCurrentAmountOfMoney() {
+        return currentAmountOfMoney;
+    }
+
+    public void setCurrentAmountOfMoney(BigDecimal currentAmountOfMoney) {
+        this.currentAmountOfMoney = currentAmountOfMoney;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

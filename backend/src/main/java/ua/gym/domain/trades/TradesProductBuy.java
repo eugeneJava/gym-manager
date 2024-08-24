@@ -5,7 +5,7 @@ import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +41,7 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
     @JoinColumn
     private TradesProduct product;
 
-    private LocalDate purchaseDate;
+    private LocalDateTime purchaseDate;
 
     private Integer amount;
 
@@ -52,7 +52,7 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
                             BigDecimal totalBuyPriceInYuan,
                             BigDecimal totalBuyPriceInUah,
                             TradesProduct product,
-                            LocalDate purchaseDate, int amount) {
+                            LocalDateTime purchaseDate, int amount) {
         assertPresent(parcelGroup, product, purchaseDate);
         assertGreaterThanZero(totalBuyPriceInUah);
         assertGreaterThan(amount, 0);
@@ -71,7 +71,7 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
     }
 
     public TradesProductBuy(TradesProduct product,
-                            LocalDate purchaseDate, int amount, BigDecimal unitBuyPrice) {
+                            LocalDateTime purchaseDate, int amount, BigDecimal unitBuyPrice) {
         assertPresent(product, purchaseDate);
         assertGreaterThanZero(unitBuyPrice);
         assertGreaterThan(amount, 0);
@@ -118,7 +118,7 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
         return Optional.ofNullable(parcelGroup);
     }
 
-    public LocalDate getPurchaseDate() {
+    public LocalDateTime getPurchaseDate() {
         return purchaseDate;
     }
 
@@ -161,11 +161,11 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
     }
 
     @Override
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return getPurchaseDate();
     }
 
-    void setPurchaseDate(LocalDate purchaseDate) {
+    void setPurchaseDate(LocalDateTime purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 }

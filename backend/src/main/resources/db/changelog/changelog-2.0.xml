@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="modify trades_product_buy.purchaseDate" author="etu">
+      <modifyDataType tableName="trades_product_buy" columnName="purchaseDate" newDataType="datetime"/>
+    </changeSet>
+
+    <changeSet id="modify trades_product_sale.soldAt" author="etu">
+        <modifyDataType tableName="trades_product_sale" columnName="soldAt" newDataType="datetime"/>
+    </changeSet>
+
+    <changeSet id="modify trades_parcel.startedDeliveryAt" author="etu">
+        <modifyDataType tableName="trades_parcel" columnName="startedDeliveryAt" newDataType="datetime"/>
+    </changeSet>
+
+    <changeSet id="trades_product_buy.purchaseDate unique" author="etu">
+        <addUniqueConstraint tableName="trades_product_buy" columnNames="purchaseDate"></addUniqueConstraint>
+    </changeSet>
+
+    <changeSet id="trades_product_buy.soldAt unique" author="etu">
+        <addUniqueConstraint tableName="trades_product_sale" columnNames="soldAt"></addUniqueConstraint>
+    </changeSet>
+
+    <changeSet id="trades_parcel.startedDeliveryAt unique" author="etu">
+        <addUniqueConstraint tableName="trades_parcel" columnNames="startedDeliveryAt"></addUniqueConstraint>
+    </changeSet>
+</databaseChangeLog>

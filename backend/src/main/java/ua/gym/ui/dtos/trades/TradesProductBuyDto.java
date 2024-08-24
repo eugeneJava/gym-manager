@@ -20,7 +20,7 @@ public class TradesProductBuyDto {
     private String parcelId;
     private String name;
     private String comments;
-    private LocalDate purchaseDate;
+    private LocalDateTime purchaseDate;
 
     public TradesProductBuyDto() {}
 
@@ -131,7 +131,7 @@ public class TradesProductBuyDto {
         this.comments = comments;
     }
 
-    public LocalDate getPurchaseDate() {
+    public LocalDateTime getPurchaseDate() {
         return purchaseDate;
     }
 

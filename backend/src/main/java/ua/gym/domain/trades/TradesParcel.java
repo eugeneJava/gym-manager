@@ -6,6 +6,7 @@ import ua.gym.utils.Assertions;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +29,7 @@ public class TradesParcel extends Identifiable {
     private BigDecimal deliveryPrice;
 
     @Column(nullable = false)
-    private LocalDate startedDeliveryAt;
+    private LocalDateTime startedDeliveryAt;
 
     private LocalDate deliveredAt;
 
@@ -42,7 +43,7 @@ public class TradesParcel extends Identifiable {
     private List<TradesParcelGroup> parcelGroups = new ArrayList<>();
 
 
-    public TradesParcel(BigDecimal weight, BigDecimal deliveryPrice, LocalDate startedDeliveryAt, DeliveryType deliveryType) {
+    public TradesParcel(BigDecimal weight, BigDecimal deliveryPrice, LocalDateTime startedDeliveryAt, DeliveryType deliveryType) {
         this.weight = weight;
         this.deliveryPrice = deliveryPrice;
         this.startedDeliveryAt = startedDeliveryAt;
@@ -65,11 +66,11 @@ public class TradesParcel extends Identifiable {
         this.deliveryPrice = deliveryPrice;
     }
 
-    public LocalDate getStartedDeliveryAt() {
+    public LocalDateTime getStartedDeliveryAt() {
         return startedDeliveryAt;
     }
 
-    public void setStartedDeliveryAt(LocalDate startedDeliveryAt) {
+    public void setStartedDeliveryAt(LocalDateTime startedDeliveryAt) {
         this.startedDeliveryAt = startedDeliveryAt;
     }
 
@@ -146,7 +147,7 @@ public class TradesParcel extends Identifiable {
 
     public String getDeliveryDurationFormatted() {
         LocalDate deliveryTo = Optional.ofNullable(getDeliveredAt()).orElse(LocalDate.now());
-        Period period = Period.between(getStartedDeliveryAt(), deliveryTo);
+        Period period = Period.between(getStartedDeliveryAt().toLocalDate(), deliveryTo);
         String month = period.getMonths() > 0 ? period.getMonths() + " міс " : "";
         return month +  " " + period.getDays() + " днів";
     }

@@ -5,6 +5,7 @@ import ua.gym.domain.trades.TradesProductUnit;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TradesProductSaleStatisticsDto {
     private String id;
@@ -16,7 +17,7 @@ public class TradesProductSaleStatisticsDto {
     private TradesProductDto product;
     private TradesProductSaleGroupDto productSaleGroup;
     private String parcelGroupId;
-    private LocalDate soldAt;
+    private LocalDateTime soldAt;
     private int amountToSell;
     private int soldAmount;
     private String comments;
@@ -86,11 +87,11 @@ public class TradesProductSaleStatisticsDto {
         this.productSaleGroup = productSaleGroup;
     }
 
-    public LocalDate getSoldAt() {
+    public LocalDateTime getSoldAt() {
         return soldAt;
     }
 
-    public void setSoldAt(LocalDate soldAt) {
+    public void setSoldAt(LocalDateTime soldAt) {
         this.soldAt = soldAt;
     }
 

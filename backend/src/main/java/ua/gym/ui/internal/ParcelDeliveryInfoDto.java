@@ -4,6 +4,7 @@ import ua.gym.domain.trades.TradesParcel;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 public class ParcelDeliveryInfoDto {
     private String deliveryType;
     private BigDecimal totalCost;
-    private LocalDate sendAt;
+    private LocalDateTime sendAt;
     private LocalDate expectedDeliveryDate ;
     private String deliveryDurationInDays;
     private List<ParcelContentItemDto> content = new ArrayList<>();
@@ -48,11 +49,11 @@ public class ParcelDeliveryInfoDto {
         this.totalCost = totalCost;
     }
 
-    public LocalDate getSendAt() {
+    public LocalDateTime getSendAt() {
         return sendAt;
     }
 
-    public void setSendAt(LocalDate sendAt) {
+    public void setSendAt(LocalDateTime sendAt) {
         this.sendAt = sendAt;
     }
 

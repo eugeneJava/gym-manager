@@ -15,7 +15,7 @@ public class TradesParcelDto {
     private BigDecimal weight;
     private BigDecimal deliveryPrice;
     private String deliveryDurationInDays;
-    private LocalDate startedDeliveryAt;
+    private LocalDateTime startedDeliveryAt;
     private LocalDate deliveredAt;
     private DeliveryType deliveryType;
     private String comments;
@@ -68,11 +68,11 @@ public class TradesParcelDto {
         this.deliveryPrice = deliveryPrice;
     }
 
-    public LocalDate getStartedDeliveryAt() {
+    public LocalDateTime getStartedDeliveryAt() {
         return startedDeliveryAt;
     }
 
-    public void setStartedDeliveryAt(LocalDate startedDeliveryAt) {
+    public void setStartedDeliveryAt(LocalDateTime startedDeliveryAt) {
         this.startedDeliveryAt = startedDeliveryAt;
     }
 

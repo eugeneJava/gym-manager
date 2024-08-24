@@ -34,9 +34,11 @@ services:
 
   mysql-db:
     container_name: mysql-db-app
-    image: mysql:latest
+    image: mysql:9.0.1
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      TZ: "Europe/Sofia"
+    #command: [ 'mysqld', '--default-time-zone=+03:00' ]
     ports:
       - "3307:3306"
     healthcheck:

@@ -1,32 +1,43 @@
 <div *ngIf="statistics">
-  <h2>Trade Statistics for {{ statistics.productName }}</h2>
-  <p>Total Bought: {{ statistics.totalBought }}</p>
-  <p>Total Sold: {{ statistics.totalSold }}</p>
-  <p>Total Profit: {{ statistics.totalProfit }}</p>
+  <p>Куплено на: {{ statistics.totalBought }}</p>
+  <p>Продано на: {{ statistics.totalSold }}</p>
+  <p>Зароблено: {{ statistics.totalProfit }}</p>
+  <p>Сумма у касі: {{ statistics.currentTotalAmountOfMoney }}</p>
 
   <table class="table">
     <thead>
-      <tr>
-        <th></th>
-        <th>Продукт</th>
-        <th>Кількість</th>
-        <th>Дата</th>
-        <th>Ціна</th>
-      </tr>
+    <tr>
+      <th></th>
+      <th>Продукт</th>
+      <th>Кількість</th>
+      <th>Дата</th>
+      <th>Ціна</th>
+      <th>У касі</th>
+      <th>Коментарі</th>
+    </tr>
     </thead>
     <tbody>
-<tr *ngFor="let item of statistics.history" [ngClass]="{'text-success': item.direction === 'BUY', 'text-danger': item.direction === 'SELL'}">
-  <td>{{ item.direction }}</td>
-  <td>{{ item.productName }}</td>
-  <td>{{ item.amount }}</td>
-  <td>{{ item.date }}</td>
-  <td>
-    <ng-container *ngIf="item.direction === 'BUY'">
-      -
-    </ng-container>
-    {{ item.price }}
-  </td>
-</tr>
+    <tr *ngFor="let item of statistics.history">
+      <td class="small" [ngClass]="{'text-info': item.direction === 'BUY', 'text-success': item.direction === 'SELL'}">
+        {{ item.direction === 'BUY'? 'Покупка' : 'Продажа' }}
+      </td>
+      <td>
+        <div *ngFor="let name of item.productNames; let i = index" [ngClass]="{'small' : item.productNames.length > 1}">
+          {{ name }}
+        </div>
+      </td>
+      <td>{{ item.amount }}</td>
+      <td>{{ item.date | date:'yyyy-mm-dd'}}</td>
+      <td>
+        <ng-container *ngIf="item.direction === 'BUY'">
+          -
+        </ng-container>
+        {{ item.price }}
+      </td>
+
+      <td> {{item.currentAmountOfMoney}}</td>
+      <td class="small"> {{item.comments}}</td>
+    </tr>
     </tbody>
   </table>
 </div>

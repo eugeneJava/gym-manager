@@ -2,11 +2,12 @@ package ua.gym.ui.dtos.trades;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TradesProductSaleTotalStatisticsDto {
-    private LocalDate from;
+    private LocalDateTime from;
     private LocalDate to;
     private BigDecimal totalProfit = BigDecimal.ZERO;
     private BigDecimal totalSold = BigDecimal.ZERO;
@@ -15,7 +16,7 @@ public class TradesProductSaleTotalStatisticsDto {
     public TradesProductSaleTotalStatisticsDto() {
     }
 
-    public TradesProductSaleTotalStatisticsDto(LocalDate from, LocalDate to) {
+    public TradesProductSaleTotalStatisticsDto(LocalDateTime from, LocalDate to) {
         this.from = from;
         this.to = to;
     }
@@ -44,7 +45,7 @@ public class TradesProductSaleTotalStatisticsDto {
         this.productStat = productStat;
     }
 
-    public LocalDate getFrom() {
+    public LocalDateTime getFrom() {
         return from;
     }
 

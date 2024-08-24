@@ -7,6 +7,7 @@ import ua.gym.utils.NumberUtils;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -158,7 +159,7 @@ public class TradesParcelGroup extends Identifiable {
         return totalBuyPriceInUah;
     }
 
-    public void updatePurchaseDate(LocalDate purchaseDate) {
+    public void updatePurchaseDate(LocalDateTime purchaseDate) {
         productBuys.forEach(productBuy -> productBuy.setPurchaseDate(purchaseDate));
     }
 }

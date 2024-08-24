@@ -7,12 +7,15 @@ import ua.gym.ui.dtos.trades.ProductTradeStatisticsDto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.reverseOrder;
-import static ua.gym.utils.NumberUtils.v;
+import static java.util.stream.Collectors.toList;
+import static ua.gym.domain.trades.TradeDirection.BUY;
+import static ua.gym.domain.trades.TradesProductSaleGroup.createEmptyGroup;
 
 @Service
 public class ProductTradeHistoryService {
@@ -38,8 +41,8 @@ public class ProductTradeHistoryService {
         List<TradesProductBuy> allBuys = productBuyRepository.findAllByOrderByPurchaseDateDesc();
         for (TradesProductBuy buy : allBuys) {
             ProductTradeHistoryItemDto productBuy = new ProductTradeHistoryItemDto();
-            productBuy.setProductName(buy.getProduct().getName());
-            productBuy.setDirection(TradeDirection.BUY);
+            productBuy.setProductNames(List.of(buy.getProduct().getName()));
+            productBuy.setDirection(BUY);
             productBuy.setDate(buy.getPurchaseDate());
             productBuy.setAmount(buy.getProductUnits().size());
             productBuy.setPrice(buy.getTotalBuyPriceInUah());
@@ -50,46 +53,66 @@ public class ProductTradeHistoryService {
         List<TradesParcel> allParcels = parcelRepository.findAllByOrderByStartedDeliveryAtDesc();
         for (TradesParcel parcel : allParcels) {
             ProductTradeHistoryItemDto delivery = new ProductTradeHistoryItemDto();
-            delivery.setProductName("Оплата доставки");
+            delivery.setProductNames(List.of("Оплата доставки"));
             delivery.setDate(parcel.getStartedDeliveryAt());
-            delivery.setDirection(TradeDirection.BUY);
+            delivery.setDirection(BUY);
             delivery.setPrice(parcel.getDeliveryPrice());
 
             historyItems.add(delivery);
         }
 
         List<TradesProductSale> allSales = tradesProductSaleRepository.findAllByOrderBySoldAtDesc();
+        Map<TradesProductSaleGroup, List<TradesProductSale>> salesByGroup = new HashMap<>();
+
         for (TradesProductSale sale : allSales) {
+            TradesProductSaleGroup group = sale.getProductSaleGroup().orElseGet(() -> {
+                TradesProductSaleGroup emptyGroup = createEmptyGroup();
+                sale.setProductSaleGroup(emptyGroup);
+                return emptyGroup;
+            });
+
+            salesByGroup.computeIfAbsent(group, k -> new ArrayList<>()).add(sale);
+        }
+
+        for (Map.Entry<TradesProductSaleGroup, List<TradesProductSale>> entry : salesByGroup.entrySet()) {
+            TradesProductSaleGroup group = entry.getKey();
             ProductTradeHistoryItemDto productSale = new ProductTradeHistoryItemDto();
-            productSale.setProductName(sale.getProduct().getName());
+            productSale.setProductNames(group.getNames());
             productSale.setDirection(TradeDirection.SELL);
-            productSale.setDate(sale.getSoldAt());
-            productSale.setAmount(sale.getProductUnits().size());
-            productSale.setPrice(sale.getSellPrice().multiply(v(sale.getProductUnits().size())));
+            productSale.setDate(group.getSoldAt());
+            productSale.setAmount(group.getTotalItems());
+            productSale.setPrice(group.calculateTotalSellPrice());
+            productSale.setComments(group.getComments());
 
             historyItems.add(productSale);
         }
 
-        List<ProductTradeHistoryItemDto> orderedHistory = historyItems.stream().sorted(comparing(ProductTradeHistoryItemDto::getDate, reverseOrder())).collect(Collectors.toList());
+
+        List<ProductTradeHistoryItemDto> orderedHistory = historyItems.stream().sorted(comparing(ProductTradeHistoryItemDto::getDate)).collect(toList());
         BigDecimal totalBought = BigDecimal.ZERO;
         BigDecimal totalSold = BigDecimal.ZERO;
         BigDecimal totalProfit = BigDecimal.ZERO;
 
-        //TODO: add collector
+        BigDecimal currentAmount = INITIAL_SUM;
         for (ProductTradeHistoryItemDto item : orderedHistory) {
-            if (item.getDirection() == TradeDirection.BUY) {
+            if (item.getDirection() == BUY) {
                 totalBought = totalBought.add(item.getPrice());
+                currentAmount = currentAmount.subtract(item.getPrice());
             } else {
                 totalSold = totalSold.add(item.getPrice());
+                currentAmount = currentAmount.add(item.getPrice());
             }
+
+            item.setCurrentAmountOfMoney(currentAmount);
         }
 
         totalProfit = totalSold.subtract(totalBought);
 
-        tradeStatistics.setHistory(orderedHistory);
+        tradeStatistics.setHistory(orderedHistory.stream().sorted(comparing(ProductTradeHistoryItemDto::getDate, reverseOrder())).collect(toList()));
         tradeStatistics.setTotalBought(totalBought);
         tradeStatistics.setTotalSold(totalSold);
-        tradeStatistics.setTotalProfit(INITIAL_SUM.add(totalProfit));
+        tradeStatistics.setCurrentTotalAmountOfMoney(INITIAL_SUM.add(totalProfit));
+        tradeStatistics.setTotalProfit(totalProfit);
 
         return tradeStatistics;
     }

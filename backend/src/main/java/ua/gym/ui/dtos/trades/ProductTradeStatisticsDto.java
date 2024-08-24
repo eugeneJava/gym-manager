@@ -9,6 +9,7 @@ public class ProductTradeStatisticsDto {
     private BigDecimal totalBought = BigDecimal.ZERO;
     private BigDecimal totalSold = BigDecimal.ZERO;
     private BigDecimal totalProfit = BigDecimal.ZERO;
+    private BigDecimal currentTotalAmountOfMoney = BigDecimal.ZERO;
 
     public List<ProductTradeHistoryItemDto> getHistory() {
         return history;
@@ -40,5 +41,13 @@ public class ProductTradeStatisticsDto {
 
     public void setTotalProfit(BigDecimal totalProfit) {
         this.totalProfit = totalProfit;
+    }
+
+    public BigDecimal getCurrentTotalAmountOfMoney() {
+        return currentTotalAmountOfMoney;
+    }
+
+    public void setCurrentTotalAmountOfMoney(BigDecimal currentTotalAmountOfMoney) {
+        this.currentTotalAmountOfMoney = currentTotalAmountOfMoney;
     }
 }

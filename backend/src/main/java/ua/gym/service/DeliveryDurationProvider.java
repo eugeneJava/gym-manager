@@ -15,11 +15,11 @@ public class DeliveryDurationProvider {
         }
 
         if (parcel.getDeliveryType().equals(DeliveryType.SEA)) {
-            return parcel.getStartedDeliveryAt().plusDays(65);
+            return parcel.getStartedDeliveryAt().plusDays(65).toLocalDate();
         }
 
         if (parcel.getDeliveryType().equals(DeliveryType.AVIA)) {
-            return parcel.getStartedDeliveryAt().plusDays(16);
+            return parcel.getStartedDeliveryAt().plusDays(16).toLocalDate();
         }
 
         throw new IllegalArgumentException("Unknown delivery type");

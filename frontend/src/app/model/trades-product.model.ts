@@ -146,6 +146,7 @@ export class ProductTradeStatisticsDto {
   totalBought: number;
   totalSold: number;
   totalProfit: number;
+  currentTotalAmountOfMoney: number;
   history: ProductTradeHistoryItemDto[];
 }
 
@@ -155,11 +156,13 @@ export enum TradeDirection {
 }
 
 export class ProductTradeHistoryItemDto {
-  productName: string;
+  productNames: string[];
   direction: TradeDirection;
   date: string;
+  comments: string;
   amount: number;
   price: number;
+  currentAmountOfMoney: number;
 }
 
 export class RacketSellDto {

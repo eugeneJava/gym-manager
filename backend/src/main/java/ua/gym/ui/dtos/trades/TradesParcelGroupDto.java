@@ -21,7 +21,7 @@ public class TradesParcelGroupDto {
     private int productAmount;
     private boolean allProductsSameWeight;
     private String parcelId;
-    private LocalDate purchaseDate;
+    private LocalDateTime purchaseDate;
     private BigDecimal totalBuyPriceInYuan;
     private BigDecimal totalBuyPriceInUah;
 
@@ -106,11 +106,11 @@ public class TradesParcelGroupDto {
         return allProductsSameWeight;
     }
 
-    public LocalDate getPurchaseDate() {
+    public LocalDateTime getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
+    public void setPurchaseDate(LocalDateTime purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 

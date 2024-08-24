@@ -6,6 +6,7 @@ import ua.gym.utils.Assertions;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,7 @@ public class TradesProductSale extends Identifiable {
     private TradesProductSaleGroup productSaleGroup;
 
     @Column(nullable = false)
-    private LocalDate soldAt;
+    private LocalDateTime soldAt;
 
     private String comments;
 
@@ -40,7 +41,7 @@ public class TradesProductSale extends Identifiable {
     TradesProductSale() {
     }
 
-    public TradesProductSale(BigDecimal sellPrice, LocalDate soldAt, String comments) {
+    public TradesProductSale(BigDecimal sellPrice, LocalDateTime soldAt, String comments) {
         Assertions.assertPresent(sellPrice, soldAt);
         assertGreaterThanZero(sellPrice);
         this.sellPrice = sellPrice;
@@ -48,7 +49,7 @@ public class TradesProductSale extends Identifiable {
         this.comments = comments;
     }
 
-    public TradesProductSale(TradesProductSaleGroup group, BigDecimal sellPrice, LocalDate soldAt, String comments) {
+    public TradesProductSale(TradesProductSaleGroup group, BigDecimal sellPrice, LocalDateTime soldAt, String comments) {
         this(sellPrice, soldAt, comments);
         this.setProductSaleGroup(group);
     }
@@ -99,11 +100,11 @@ public class TradesProductSale extends Identifiable {
     }
 
 
-    public LocalDate getSoldAt() {
+    public LocalDateTime getSoldAt() {
         return soldAt;
     }
 
-    private void setProductSaleGroup(TradesProductSaleGroup productSaleGroup) {
+    public void setProductSaleGroup(TradesProductSaleGroup productSaleGroup) {
         Assertions.assertPresent(productSaleGroup);
         assertState(isNull(this.productSaleGroup), "You cannot reassign a sale group");
         this.productSaleGroup = productSaleGroup;

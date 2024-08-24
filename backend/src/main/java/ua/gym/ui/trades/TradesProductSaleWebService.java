@@ -13,6 +13,8 @@ import ua.gym.ui.internal.ProductSaleApplicationEvent;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -97,18 +99,20 @@ public class TradesProductSaleWebService {
         TradesProductSaleGroup group = new TradesProductSaleGroup(dto.getType());
         tradesProductSaleGroupRepository.save(group);
 
-        dto.getProductSales().forEach(saleDto -> {
+        int count = 0;
+        for (TradesProductSaleDto saleDto : dto.getProductSales()) {
             TradesProduct product = tradesProductRepository.findById(saleDto.getProduct().getId()).orElseThrow();
             List<TradesProductUnit> notSoldUnits = tradesProductUnitRepository.getAvailableForSaleProductUnits(product);
             List<TradesProductUnit> unitsToSell = notSoldUnits.subList(0, saleDto.getAmountToSell());
 
-            TradesProductSale sale = new TradesProductSale(group, saleDto.getSellPrice(), dto.getSoldAt(), dto.getComments());
+            LocalDateTime soldAt = dto.getSoldAt().with(LocalTime.now()).plusSeconds(count++);
+            TradesProductSale sale = new TradesProductSale(group, saleDto.getSellPrice(), soldAt, dto.getComments());
             TradesProductSale savedSale = tradesProductSaleRepository.save(sale);
             unitsToSell.forEach(unit -> savedSale.addProductUnit(unit));
             tradesProductSaleRepository.flush();
 
             assertState(!savedSale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
-        });
+        }
 
         assertState(!group.getProductSales().isEmpty(), "At least one product sale should be added to the group.");
     }
@@ -192,7 +196,7 @@ public class TradesProductSaleWebService {
     private void sellProduct(TradesProductSaleGroup group, TradesProduct product, BigDecimal diffForEachProduct) {
         TradesProductUnit notSoldBlade = tradesProductUnitRepository.getAvailableForSaleProductUnits(product).stream().findFirst().orElseThrow();
         BigDecimal finalSellPrice = product.getRecommendedPrice().add(diffForEachProduct);
-        TradesProductSale sale = new TradesProductSale(group, finalSellPrice, LocalDate.now(), "Sell from bot");
+        TradesProductSale sale = new TradesProductSale(group, finalSellPrice, LocalDateTime.now(), "Sell from bot");
         sale.addProductUnit(notSoldBlade);
         assertState(!sale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
         tradesProductSaleRepository.flush();
