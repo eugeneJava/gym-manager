@@ -1,6 +1,8 @@
 package ua.gym.domain.trades;
 
 import jakarta.persistence.*;
+import ua.gym.domain.budget.BudgetTransaction;
+import ua.gym.domain.budget.BudgetTransactionType;
 import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 
@@ -18,7 +20,7 @@ import static ua.gym.utils.NumberUtils.v;
 
 @Entity
 @Table(name = "trades_product_buy")
-public class TradesProductBuy extends Identifiable implements TradeOperation {
+public class TradesProductBuy extends Identifiable implements BudgetTransaction {
 
     @ManyToOne(fetch = LAZY)
     private TradesParcelGroup parcelGroup;
@@ -151,8 +153,8 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
     }
 
     @Override
-    public TradeDirection getDirection() {
-        return TradeDirection.BUY;
+    public BudgetTransactionType getTransactionType() {
+        return BudgetTransactionType.EXPENSE;
     }
 
     @Override
@@ -163,6 +165,21 @@ public class TradesProductBuy extends Identifiable implements TradeOperation {
     @Override
     public LocalDateTime getDate() {
         return getPurchaseDate();
+    }
+
+    @Override
+    public List<String> getNames() {
+        return List.of(getProduct().getName());
+    }
+
+    @Override
+    public String comments() {
+        return getParcelGroup().map(pg -> pg.getComments()).orElse("");
+    }
+
+    @Override
+    public long amount() {
+        return getProductUnits().size();
     }
 
     void setPurchaseDate(LocalDateTime purchaseDate) {

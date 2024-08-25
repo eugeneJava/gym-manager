@@ -11,7 +11,7 @@
       <th>Продукт</th>
       <th>Кількість</th>
       <th>Дата</th>
-      <th>Ціна</th>
+      <th>Сума, грн</th>
       <th>У касі</th>
       <th>Коментарі</th>
     </tr>
@@ -27,7 +27,7 @@
         </div>
       </td>
       <td>{{ item.amount }}</td>
-      <td>{{ item.date | date:'yyyy-mm-dd'}}</td>
+      <td>{{ item.date | slice:0 : 10}}</td>
       <td>
         <ng-container *ngIf="item.direction === 'BUY'">
           -

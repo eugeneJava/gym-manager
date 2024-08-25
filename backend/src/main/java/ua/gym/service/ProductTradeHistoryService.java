@@ -46,6 +46,7 @@ public class ProductTradeHistoryService {
             productBuy.setDate(buy.getPurchaseDate());
             productBuy.setAmount(buy.getProductUnits().size());
             productBuy.setPrice(buy.getTotalBuyPriceInUah());
+            productBuy.setComments(buy.comments());
 
             historyItems.add(productBuy);
         }

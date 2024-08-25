@@ -1,5 +1,7 @@
 package ua.gym.domain.trades;
 
+import ua.gym.domain.budget.BudgetTransaction;
+import ua.gym.domain.budget.BudgetTransactionType;
 import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 
@@ -21,7 +23,7 @@ import static ua.gym.utils.NumberUtils.*;
 
 @Entity
 @Table(name = "trades_parcel")
-public class TradesParcel extends Identifiable {
+public class TradesParcel extends Identifiable implements BudgetTransaction {
     @Column(nullable = false)
     private BigDecimal weight;
 
@@ -150,5 +152,35 @@ public class TradesParcel extends Identifiable {
         Period period = Period.between(getStartedDeliveryAt().toLocalDate(), deliveryTo);
         String month = period.getMonths() > 0 ? period.getMonths() + " міс " : "";
         return month +  " " + period.getDays() + " днів";
+    }
+
+    @Override
+    public BudgetTransactionType getTransactionType() {
+        return BudgetTransactionType.EXPENSE;
+    }
+
+    @Override
+    public BigDecimal spentAmount() {
+        return getDeliveryPrice();
+    }
+
+    @Override
+    public LocalDateTime getDate() {
+        return getStartedDeliveryAt();
+    }
+
+    @Override
+    public List<String> getNames() {
+        return List.of("Оплата доставки");
+    }
+
+    @Override
+    public String comments() {
+        return getComments();
+    }
+
+    @Override
+    public long amount() {
+        return getParcelGroups().stream().flatMap(pg -> pg.getProductBuy().stream()).flatMap(pb -> pb.getProductUnits().stream()).count();
     }
 }

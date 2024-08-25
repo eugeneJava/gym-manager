@@ -1,11 +1,12 @@
 package ua.gym.domain.trades;
 
+import ua.gym.domain.budget.BudgetTransaction;
+import ua.gym.domain.budget.BudgetTransactionType;
 import ua.gym.persistense.Identifiable;
 import ua.gym.utils.Assertions;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static ua.gym.domain.budget.BudgetTransactionType.INCOME;
 import static ua.gym.utils.Assertions.assertGreaterThanZero;
 import static ua.gym.utils.Assertions.assertState;
 import static ua.gym.utils.NumberUtils.v;

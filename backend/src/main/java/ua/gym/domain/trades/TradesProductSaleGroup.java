@@ -1,12 +1,13 @@
 package ua.gym.domain.trades;
 
+import ua.gym.domain.budget.BudgetTransaction;
+import ua.gym.domain.budget.BudgetTransactionType;
 import ua.gym.persistense.Identifiable;
 
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,7 @@ import static ua.gym.utils.NumberUtils.v;
 
 @Entity
 @Table(name = "trades_product_sale_group")
-public class TradesProductSaleGroup extends Identifiable {
+public class TradesProductSaleGroup extends Identifiable implements BudgetTransaction {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SaleGroupType type;
@@ -42,6 +43,21 @@ public class TradesProductSaleGroup extends Identifiable {
 
     public SaleGroupType getType() {
         return type;
+    }
+
+    @Override
+    public BudgetTransactionType getTransactionType() {
+        return BudgetTransactionType.INCOME;
+    }
+
+    @Override
+    public BigDecimal spentAmount() {
+        return calculateTotalSellPrice();
+    }
+
+    @Override
+    public LocalDateTime getDate() {
+        return getSoldAt();
     }
 
     void addProductSale(TradesProductSale tradesProductSale) {
@@ -102,5 +118,15 @@ public class TradesProductSaleGroup extends Identifiable {
 
     public static TradesProductSaleGroup createEmptyGroup() {
         return new TradesProductSaleGroup(NONE);
+    }
+
+    @Override
+    public String comments() {
+        return getComments();
+    }
+
+    @Override
+    public long amount() {
+        return getTotalItems();
     }
 }
