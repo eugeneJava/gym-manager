@@ -65,7 +65,9 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                          .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()))
                 .authorizeRequests(auth -> auth.anyRequest().authenticated())
                 .addFilterBefore(
@@ -123,18 +125,18 @@ public class SecurityConfig {
         }
     }
 
-   /* @Bean
-    @Profile("dev")
+    //@Bean
+    //@Profile("dev")
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST","PATCH", "PUT", "DELETE", "OPTIONS", "HEAD"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
-    }*/
+    }
 
     private HttpRequestTokenAuthenticationFilter createHttpRequestTokenFilter() {
         HttpRequestTokenAuthenticationFilter httpRequestTokenAuthenticationFilter =

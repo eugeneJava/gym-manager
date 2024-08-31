@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: '', //TODO:remove completely
+  baseUrl: 'http://localhost:8080',
 };
 
 /*
