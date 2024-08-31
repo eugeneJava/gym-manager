@@ -9,14 +9,13 @@ services:
       args:
         DOCKER_HUB_ID: ${DOCKER_HUB_ID}
     image: ${DOCKER_HUB_ID}/gym-manager
-    ports:
-      - "8080:8080"
-      - "8000:8000"
     volumes:
       - ./backend/target:/app
     depends_on:
       mysql-db:
         condition: service_healthy
+    networks:
+      - gym-manager-network
 
   bot:
     container_name: bot-app
@@ -31,6 +30,20 @@ services:
       - ../tstream-bot/target:/app
     depends_on:
       - gym-manager
+    networks:
+      - gym-manager-network
+
+  nginx:
+    image: nginx:1.27.1-alpine
+    ports:
+      - "80:80"
+    depends_on:
+      - gym-manager
+      - bot
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - gym-manager-network
 
   mysql-db:
     container_name: mysql-db-app
@@ -45,7 +58,11 @@ services:
       retries: 10
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - gym-manager-network
 
 volumes:
     mysql-data:
       external: true
+networks:
+  gym-manager-network:
