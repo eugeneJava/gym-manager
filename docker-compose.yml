@@ -1,7 +1,7 @@
 services:
 
   gym-manager:
-    container_name: gym-manager-app
+    container_name: gym-manager-service
     env_file:
       - env.dev
     build:
@@ -18,7 +18,7 @@ services:
       - gym-manager-network
 
   bot:
-    container_name: bot-app
+    container_name: bot-service
     env_file:
       - env.dev
     build:
@@ -34,6 +34,7 @@ services:
       - gym-manager-network
 
   nginx:
+    container_name: nginx-service
     image: nginx:1.27.1-alpine
     ports:
       - "80:80"
@@ -46,7 +47,7 @@ services:
       - gym-manager-network
 
   mysql-db:
-    container_name: mysql-db-app
+    container_name: mysql-db-service
     image: mysql:9.0.1
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
