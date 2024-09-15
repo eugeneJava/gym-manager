@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormArray, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {
-  ProductsAvailableForSaleDto, TradesProductCategory,
+  ProductsAvailableForSaleDto, TradesProductBuyDto, TradesProductCategory,
   TradesProductDto,
   TradesProductSaleGroupDto
 } from "../../../../model/trades-product.model";
@@ -18,6 +18,8 @@ export class SaleGroupComponent implements OnInit {
   @Input() amountToSell: number;
   @Input() productUnits: ProductsAvailableForSaleDto[];
   @Input() category: TradesProductCategory;
+
+  @Output() productSelected: EventEmitter<TradesProductBuyDto> = new EventEmitter();
 
   constructor(
     public activeModal: NgbActiveModal,

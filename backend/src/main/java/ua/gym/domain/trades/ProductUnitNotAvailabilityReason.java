@@ -2,5 +2,7 @@ package ua.gym.domain.trades;
 
 public enum ProductUnitNotAvailabilityReason {
     GIFT,
-    RESERVED
+    RESERVED,
+    WRITTEN_OFF
+
 }
