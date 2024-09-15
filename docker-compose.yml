@@ -9,6 +9,8 @@ services:
       args:
         DOCKER_HUB_ID: ${DOCKER_HUB_ID}
     image: ${DOCKER_HUB_ID}/gym-manager
+    ports:
+      - "8000:8000" #for debug
     volumes:
       - ./backend/target:/app
     depends_on:

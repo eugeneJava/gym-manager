@@ -5,6 +5,11 @@ import ua.gym.utils.Assertions;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "trades_product")
@@ -21,6 +26,12 @@ public class TradesProduct extends Identifiable {
     @Column
     @Enumerated(EnumType.STRING)
     private TradesProductCategory category;
+
+    @ManyToOne(fetch = LAZY)
+    private TradesProduct parent;
+
+    @OneToMany(fetch = LAZY, mappedBy = "parent")
+    private Set<TradesProduct> childProducts = new HashSet<>();
 
 
     public BigDecimal getRecommendedPrice() {
@@ -58,5 +69,9 @@ public class TradesProduct extends Identifiable {
 
     public TradesProductCategory getCategory() {
         return category;
+    }
+
+    public Set<TradesProduct> getChildProducts() {
+        return Collections.unmodifiableSet(childProducts);
     }
 }

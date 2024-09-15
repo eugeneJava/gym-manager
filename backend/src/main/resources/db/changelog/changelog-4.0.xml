@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+
+    <changeSet id="added trades_product.parent_id" author="etu">
+        <addColumn tableName="trades_product">
+            <column name="parent_id" type="varchar(36)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="added trades_product.parent_id constraint" author="etu">
+        <addForeignKeyConstraint baseTableName="trades_product" baseColumnNames="parent_id"
+                                 constraintName="fk_trades_product_parent"
+                                 referencedTableName="trades_product"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+    </changeSet>
+
+    <changeSet id="added trades_product_unit.parent_id" author="etu">
+        <addColumn tableName="trades_product_unit">
+            <column name="parent_id" type="varchar(36)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="added trades_product_unit.parent_id constraint" author="etu">
+        <addForeignKeyConstraint baseTableName="trades_product_unit" baseColumnNames="parent_id"
+                                 constraintName="fk_trades_product_unit_parent"
+                                 referencedTableName="trades_product_unit"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+    </changeSet>
+
+</databaseChangeLog>
