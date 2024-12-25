@@ -96,8 +96,7 @@ public class TradesProductSaleWebService {
     @PostMapping("/trades/productSale/group")
     @ResponseStatus(HttpStatus.CREATED)
     public void createTradesProductSaleGroup(@RequestBody TradesProductSaleGroupDto dto) {
-        TradesProductSaleGroup group = new TradesProductSaleGroup(dto.getType());
-        tradesProductSaleGroupRepository.save(group);
+        TradesProductSaleGroup group = tradesProductSaleGroupRepository.save(new TradesProductSaleGroup(dto.getType()));
 
         int count = 0;
         for (TradesProductSaleDto saleDto : dto.getProductSales()) {
@@ -107,14 +106,17 @@ public class TradesProductSaleWebService {
 
             LocalDateTime soldAt = dto.getSoldAt().with(LocalTime.now()).plusSeconds(count++);
             TradesProductSale sale = new TradesProductSale(group, saleDto.getSellPrice(), soldAt, dto.getComments());
-            TradesProductSale savedSale = tradesProductSaleRepository.save(sale);
-            unitsToSell.forEach(unit -> savedSale.addProductUnit(unit));
+            unitsToSell.forEach(unit -> sale.addProductUnit(unit));
             tradesProductSaleRepository.flush();
 
-            assertState(!savedSale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
+            assertState(!sale.getProductUnits().isEmpty(), "At least one product unit should be sold.");
         }
 
         assertState(!group.getProductSales().isEmpty(), "At least one product sale should be added to the group.");
+
+        TradesProductSaleGroupDto savedDto = new TradesProductSaleGroupDto(group);
+        savedDto.setUsername(CurrentUserProvider.getCurrentUserName());
+        applicationEventPublisher.publishEvent(new ProductGroupSoldApplicationEvent(savedDto));
     }
 
 

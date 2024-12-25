@@ -1,0 +1,2 @@
+1. create mysql-data volume
+2. setup env variable db password

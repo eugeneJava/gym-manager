@@ -53,7 +53,7 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain filterChainForInternalRequests(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.disable())
+        http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
                 .securityMatcher("/internal-api/**")
                 .authorizeRequests(auth -> auth.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

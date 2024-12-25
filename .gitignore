@@ -15,4 +15,4 @@
 #deploy
 deploy.sh
 env.dev
-env.prod
+prod/.env
